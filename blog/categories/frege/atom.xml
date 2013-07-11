@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[mmhelloworld]]></title>
-  <link href="http://mmhelloworld.github.io/atom.xml" rel="self"/>
+  <title><![CDATA[Category: Frege | mmhelloworld]]></title>
+  <link href="http://mmhelloworld.github.io/blog/categories/frege/atom.xml" rel="self"/>
   <link href="http://mmhelloworld.github.io/"/>
   <updated>2013-07-10T23:02:47-04:00</updated>
   <id>http://mmhelloworld.github.io/</id>
@@ -20,7 +20,7 @@
     <id>http://mmhelloworld.github.io/blog/2013/07/08/frege-hello-java</id>
     <content type="html"><![CDATA[<p>Here is a small code demonstrating Java interoperability in Frege:</p>
 
-<figure class='code'><figcaption><span>Calling Java from Frege  (HelloJava.fr)</span> <a href='http://mmhelloworld.github.io/downloads/code/HelloJava.fr'>download</a></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Calling Java from Frege  (HelloJava.fr)</span> <a href='/downloads/code/HelloJava.fr'>download</a></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -91,8 +91,7 @@
 </span><span class='line'>    <span class="n">try</span> <span class="p">(</span><span class="nf">\</span><span class="n">xs</span> <span class="ow">-&gt;</span> <span class="n">plusTop</span> <span class="n">xs</span> <span class="o">&gt;&gt;=</span> <span class="p">(</span><span class="n">println</span> <span class="o">.</span> <span class="n">maybe</span> <span class="s">&quot;Got a null pointer&quot;</span> <span class="n">show</span><span class="p">))</span> <span class="n">javaList</span>
 </span><span class='line'>        <span class="p">`</span><span class="n">catch</span><span class="p">`</span> <span class="p">(</span><span class="nf">\</span><span class="p">(</span><span class="n">npe</span> <span class="ow">::</span> <span class="kt">NullPointerException</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="n">println</span> <span class="o">$</span> <span class="n">showThrowable</span> <span class="n">npe</span><span class="p">)</span>
 </span><span class='line'>        <span class="p">`</span><span class="n">catch</span><span class="p">`</span> <span class="p">(</span><span class="nf">\</span><span class="p">(</span><span class="n">exception</span> <span class="ow">::</span> <span class="kt">Exception</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="n">println</span> <span class="o">$</span> <span class="n">showThrowable</span> <span class="n">exception</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>We can observe the following things from the above code:</p>
 
@@ -108,16 +107,23 @@
 
 <p>If a Java class is pure then without much effort, we can use that class in Frege. For example,</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="kr">data</span> <span class="kt">Integer</span> <span class="ow">=</span> <span class="n">native</span> <span class="n">java</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="kt">BigInteger</span> <span class="kr">where</span>
-</span><span class='line'>    <span class="n">pure</span>  <span class="n">native</span> <span class="n">abs</span>                                  <span class="ow">::</span> <span class="kt">Integer</span> <span class="ow">-&gt;</span> <span class="kt">Integer</span>
-</span><span class='line'>    <span class="n">pure</span>  <span class="n">native</span> <span class="n">negate</span>                               <span class="ow">::</span> <span class="kt">Integer</span> <span class="ow">-&gt;</span> <span class="kt">Integer</span>
-</span><span class='line'>    <span class="n">pure</span>  <span class="n">native</span> <span class="n">valueOf</span> <span class="n">java</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="kt">BigInteger</span><span class="o">.</span><span class="n">valueOf</span> <span class="ow">::</span> <span class="kt">Long</span> <span class="ow">-&gt;</span> <span class="kt">Integer</span>
-</span></code></pre></td></tr></table></div></figure>
-
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="kr">data</span> <span class="kt">Integer</span> <span class="ow">=</span> <span class="n">native</span> <span class="n">java</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="kt">BigInteger</span> <span class="kr">where</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">pure</span>  <span class="n">native</span> <span class="n">abs</span>                                  <span class="ow">::</span> <span class="kt">Integer</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="kt">Integer</span>
+</span><span class='line'><span class="nf">pure</span>  <span class="n">native</span> <span class="n">negate</span>                               <span class="ow">::</span> <span class="kt">Integer</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="kt">Integer</span>
+</span><span class='line'><span class="nf">pure</span>  <span class="n">native</span> <span class="n">valueOf</span> <span class="n">java</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="kt">BigInteger</span><span class="o">.</span><span class="n">valueOf</span> <span class="ow">::</span> <span class="kt">Long</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="kt">Integer</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>A Java class is declared with <code>data</code> declaration in Frege. The identifier after the <code>data</code> keyword
 is the corresponding type for the Java class in Frege and the qualified Java class is identified after the <code>native</code>
@@ -148,14 +154,13 @@ a mutable object, a new <code>LinkedList</code> instance, so the return type is 
 declared in Frege in some module but the function that we are looking
 for is missing in the <code>data</code> declaration.</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">pure</span> <span class="n">native</span> <span class="n">showThrowable</span> <span class="n">toString</span> <span class="ow">::</span> <span class="kt">Throwable</span> <span class="ow">-&gt;</span> <span class="kt">String</span>
-</span></code></pre></td></tr></table></div></figure>
-
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">pure</span> <span class="n">native</span> <span class="n">showThrowable</span> <span class="n">toString</span> <span class="ow">::</span> <span class="kt">Throwable</span> <span class="o">&amp;</span><span class="n">ndash</span><span class="p">;</span><span class="o">&gt;</span> <span class="kt">String</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Here <code>showThrowable</code> is the Frege function name for <code>Throwable.toString()</code>. Since it is an
 instance method on <code>Throwable</code>, the first argument is of type
-<code>Throwable</code> and then the formal arguments&#8217; types (in this case, none) and return type.</p>
+<code>Throwable</code> and then the formal arguments' types (in this case, none) and return type.</p>
 
 <h3>2. Using a Java object in a Frege function</h3>
 
@@ -177,23 +182,29 @@ module. It is the same as declaring native declaration for a Java class but
 additionally we need to derive the <code>Exceptional</code> type class so that the exception can later be handled with
 <code>catch</code>.</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="kr">data</span> <span class="kt">IndexOutOfBoundsException</span> <span class="ow">=</span> <span class="n">native</span> <span class="n">java</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="kt">IndexOutOfBoundsException</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="kr">data</span> <span class="kt">IndexOutOfBoundsException</span> <span class="ow">=</span> <span class="n">native</span> <span class="n">java</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="kt">IndexOutOfBoundsException</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
-</span><span class='line'><span class="nf">derive</span> <span class="kt">Exceptional</span> <span class="kt">IndexOutOfBoundsException</span>
-</span></code></pre></td></tr></table></div></figure>
-
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">derive</span> <span class="kt">Exceptional</span> <span class="kt">IndexOutOfBoundsException</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>The exceptions can then be used in native declarations as in <code>get</code> function in our example:</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">native</span> <span class="n">get</span> <span class="ow">::</span> <span class="kt">Mutable</span> <span class="n">s</span> <span class="p">(</span><span class="kt">LinkedList</span> <span class="n">a</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="kt">Int</span> <span class="ow">-&gt;</span> <span class="kt">ST</span> <span class="n">s</span> <span class="p">(</span><span class="kt">Maybe</span> <span class="n">a</span><span class="p">)</span> <span class="n">throws</span>
-</span><span class='line'>    <span class="kt">IndexOutOfBoundsException</span>
-</span></code></pre></td></tr></table></div></figure>
-
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">native</span> <span class="n">get</span> <span class="ow">::</span> <span class="kt">Mutable</span> <span class="n">s</span> <span class="p">(</span><span class="kt">LinkedList</span> <span class="n">a</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">ndash</span><span class="p">;</span><span class="o">&gt;</span> <span class="kt">Int</span> <span class="o">&amp;</span><span class="n">ndash</span><span class="p">;</span><span class="o">&gt;</span> <span class="kt">ST</span> <span class="n">s</span> <span class="p">(</span><span class="kt">Maybe</span> <span class="n">a</span><span class="p">)</span> <span class="n">throws</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="kt">IndexOutOfBoundsException</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h3>4. Handling Java exceptions</h3>
 
@@ -234,20 +245,17 @@ monad which can then be passed to <code>catch</code> to handle those
 exceptions. In our example, <code>\xs -&gt; plusTop xs &gt;&gt;= (println . maybe "Got a null pointer"
 show)</code> is the function which when applied to a
 <code>java.util.LinkedList</code> might throw a <code>NullPointerException</code> or
-<code>IndexOutOfBoundsException</code>:</p></li>
-</ol>
+<code>IndexOutOfBoundsException</code>:</p>
 
-
-<figure class='code'><figcaption><span>Using try </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Using try </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='haskell'><span class='line'>    <span class="n">try</span> <span class="p">(</span><span class="nf">\</span><span class="n">xs</span> <span class="ow">-&gt;</span> <span class="n">plusTop</span> <span class="n">xs</span> <span class="o">&gt;&gt;=</span> <span class="p">(</span><span class="n">println</span> <span class="o">.</span> <span class="n">maybe</span> <span class="s">&quot;Got a null pointer&quot;</span> <span class="n">show</span><span class="p">))</span> <span class="n">javaList</span>
-</span><span class='line'>        <span class="n">catch</span><span class="p">`</span> <span class="p">(</span><span class="nf">\</span><span class="p">(</span><span class="n">npe</span> <span class="ow">::</span> <span class="kt">NullPointerException</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="n">println</span> <span class="o">$</span> <span class="n">showThrowable</span> <span class="n">npe</span><span class="p">)</span>
-</span><span class='line'>        <span class="n">catch</span><span class="p">`</span> <span class="p">(</span><span class="nf">\</span><span class="p">(</span><span class="n">exception</span> <span class="ow">::</span> <span class="kt">Exception</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="n">println</span> <span class="o">$</span> <span class="n">showThrowable</span> <span class="n">exception</span><span class="p">)</span>
-</span><span class='line'>
-</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">try</span> <span class="p">(</span><span class="nf">\</span><span class="n">xs</span> <span class="o">&amp;</span><span class="n">ndash</span><span class="p">;</span><span class="o">&gt;</span> <span class="n">plusTop</span> <span class="n">xs</span> <span class="o">&gt;&gt;=</span> <span class="p">(</span><span class="n">println</span> <span class="o">.</span> <span class="n">maybe</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="kt">Got</span> <span class="n">a</span> <span class="n">null</span> <span class="n">pointer</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span> <span class="n">show</span><span class="p">))</span> <span class="n">javaList</span>
+</span><span class='line'>    <span class="n">catch</span><span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="p">(</span><span class="nf">\</span><span class="p">(</span><span class="n">npe</span> <span class="ow">::</span> <span class="kt">NullPointerException</span><span class="p">)</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">println</span> <span class="o">$</span> <span class="n">showThrowable</span> <span class="n">npe</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">catch</span><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;</span> <span class="p">((</span><span class="n">exception</span> <span class="ow">::</span> <span class="kt">Exception</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">ndash</span><span class="p">;</span><span class="o">&gt;</span> <span class="n">println</span> <span class="o">$</span> <span class="n">showThrowable</span> <span class="n">exception</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p></li>
+</ol>
 
 
 <p>Since the construction of action is deferred through a lambda

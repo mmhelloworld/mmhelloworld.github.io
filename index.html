@@ -5,11 +5,24 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Hello World! Marimuthu's blog</title>
+  <title>mmhelloworld</title>
   <meta name="author" content="Marimuthu">
 
   
-  <meta name="description" content="Blog Archives Recent Posts GitHub Repos Status updating&#8230; @mmhelloworld on GitHub $(document).ready(function(){ if (!window.jXHR){ var jxhr = &hellip;">
+  <meta name="description" content="Here is a small code demonstrating Java interoperability in Frege: Calling Java from Frege (HelloJava.fr) download 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -21,7 +34,7 @@
   <link rel="canonical" href="http://mmhelloworld.github.io">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <link href="/atom.xml" rel="alternate" title="Hello World! Marimuthu's blog" type="application/atom+xml">
+  <link href="/atom.xml" rel="alternate" title="mmhelloworld" type="application/atom+xml">
   <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
@@ -36,9 +49,9 @@
 
 <body   >
   <header role="banner"><hgroup>
-  <h1><a href="/">Hello World! Marimuthu's blog</a></h1>
+  <h1><a href="/">mmhelloworld</a></h1>
   
-    <h2>A programmer's journey</h2>
+    <h2>main _ = println "Hello World!"</h2>
   
 </hgroup>
 
@@ -66,6 +79,291 @@
       <div class="blog-index">
   
   
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/07/08/frege-hello-java/">Frege: Hello Java</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-08T21:09:00-04:00" pubdate data-updated="true">Jul 8<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Here is a small code demonstrating Java interoperability in Frege:</p>
+
+<figure class='code'><figcaption><span>Calling Java from Frege  (HelloJava.fr)</span> <a href='/downloads/code/HelloJava.fr'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="kr">module</span> <span class="err">hellojava.</span><span class="nn">HelloJava</span> <span class="kr">where</span>
+</span><span class='line'>
+</span><span class='line'><span class="kr">data</span> <span class="kt">LinkedList</span> <span class="n">a</span> <span class="ow">=</span> <span class="n">native</span> <span class="n">java</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="kt">LinkedList</span> <span class="kr">where</span>
+</span><span class='line'>    <span class="n">native</span> <span class="n">add</span> <span class="ow">::</span> <span class="kt">Mutable</span> <span class="n">s</span> <span class="p">(</span><span class="kt">LinkedList</span> <span class="n">a</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="kt">ST</span> <span class="n">s</span> <span class="kt">Bool</span>
+</span><span class='line'>    <span class="n">native</span> <span class="n">get</span> <span class="ow">::</span> <span class="kt">Mutable</span> <span class="n">s</span> <span class="p">(</span><span class="kt">LinkedList</span> <span class="n">a</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="kt">Int</span> <span class="ow">-&gt;</span> <span class="kt">ST</span> <span class="n">s</span> <span class="p">(</span><span class="kt">Maybe</span> <span class="n">a</span><span class="p">)</span> <span class="n">throws</span>
+</span><span class='line'>        <span class="kt">IndexOutOfBoundsException</span>
+</span><span class='line'>    <span class="n">native</span> <span class="n">new</span> <span class="ow">::</span> <span class="nb">()</span> <span class="ow">-&gt;</span> <span class="kt">STMutable</span> <span class="n">s</span> <span class="p">(</span><span class="kt">LinkedList</span> <span class="n">a</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">fromFregeList</span> <span class="ow">::</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="kt">STMutable</span> <span class="n">s</span> <span class="p">(</span><span class="kt">LinkedList</span> <span class="n">a</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">fromFregeList</span> <span class="n">xs</span> <span class="ow">=</span> <span class="kt">LinkedList</span><span class="o">.</span><span class="n">new</span> <span class="nb">()</span> <span class="o">&gt;&gt;=</span> <span class="n">loop</span> <span class="n">xs</span> <span class="kr">where</span>
+</span><span class='line'>        <span class="n">loop</span> <span class="p">(</span><span class="n">x</span><span class="kt">:</span><span class="n">xs</span><span class="p">)</span> <span class="n">jlist</span> <span class="ow">=</span> <span class="kt">LinkedList</span><span class="o">.</span><span class="n">add</span> <span class="n">jlist</span> <span class="n">x</span> <span class="o">&gt;&gt;</span> <span class="n">loop</span> <span class="n">xs</span> <span class="n">jlist</span>
+</span><span class='line'>        <span class="n">loop</span> <span class="kt">[]</span> <span class="n">jlist</span> <span class="ow">=</span> <span class="n">return</span> <span class="n">jlist</span>
+</span><span class='line'>
+</span><span class='line'><span class="nf">plusTop</span> <span class="ow">::</span> <span class="kt">Mutable</span> <span class="n">s</span> <span class="p">(</span><span class="kt">LinkedList</span> <span class="kt">Int</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="kt">ST</span> <span class="n">s</span> <span class="p">(</span><span class="kt">Maybe</span> <span class="kt">Int</span><span class="p">)</span>
+</span><span class='line'><span class="nf">plusTop</span> <span class="n">xs</span> <span class="ow">=</span> <span class="kr">do</span>
+</span><span class='line'>    <span class="n">a</span> <span class="ow">&lt;-</span> <span class="n">xs</span><span class="o">.</span><span class="n">get</span> <span class="mi">0</span>
+</span><span class='line'>    <span class="n">b</span> <span class="ow">&lt;-</span> <span class="n">xs</span><span class="o">.</span><span class="n">get</span> <span class="mi">1</span>
+</span><span class='line'>    <span class="n">return</span> <span class="p">((</span><span class="o">+</span><span class="p">)</span> <span class="o">&lt;$&gt;</span> <span class="n">a</span> <span class="o">&lt;*&gt;</span> <span class="n">b</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="kr">data</span> <span class="kt">IndexOutOfBoundsException</span> <span class="ow">=</span> <span class="n">native</span> <span class="n">java</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="kt">IndexOutOfBoundsException</span>
+</span><span class='line'><span class="nf">derive</span> <span class="kt">Exceptional</span> <span class="kt">IndexOutOfBoundsException</span>
+</span><span class='line'>
+</span><span class='line'><span class="kr">data</span> <span class="kt">Exception</span> <span class="ow">=</span> <span class="n">native</span> <span class="n">java</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="kt">Exception</span>
+</span><span class='line'><span class="nf">derive</span> <span class="kt">Exceptional</span> <span class="kt">Exception</span>
+</span><span class='line'>
+</span><span class='line'><span class="kr">data</span> <span class="kt">NullPointerException</span> <span class="ow">=</span> <span class="n">native</span> <span class="n">java</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="kt">NullPointerException</span>
+</span><span class='line'><span class="nf">derive</span> <span class="kt">Exceptional</span> <span class="kt">NullPointerException</span>
+</span><span class='line'>
+</span><span class='line'><span class="nf">pure</span> <span class="n">native</span> <span class="n">showThrowable</span> <span class="n">toString</span> <span class="ow">::</span> <span class="kt">Throwable</span> <span class="ow">-&gt;</span> <span class="kt">String</span>
+</span><span class='line'>
+</span><span class='line'><span class="nf">main</span> <span class="kr">_</span> <span class="ow">=</span> <span class="kr">do</span>
+</span><span class='line'>    <span class="n">javaList</span> <span class="ow">&lt;-</span> <span class="kt">LinkedList</span><span class="o">.</span><span class="n">fromFregeList</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+</span><span class='line'>    <span class="n">try</span> <span class="p">(</span><span class="nf">\</span><span class="n">xs</span> <span class="ow">-&gt;</span> <span class="n">plusTop</span> <span class="n">xs</span> <span class="o">&gt;&gt;=</span> <span class="p">(</span><span class="n">println</span> <span class="o">.</span> <span class="n">maybe</span> <span class="s">&quot;Got a null pointer&quot;</span> <span class="n">show</span><span class="p">))</span> <span class="n">javaList</span>
+</span><span class='line'>        <span class="p">`</span><span class="n">catch</span><span class="p">`</span> <span class="p">(</span><span class="nf">\</span><span class="p">(</span><span class="n">npe</span> <span class="ow">::</span> <span class="kt">NullPointerException</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="n">println</span> <span class="o">$</span> <span class="n">showThrowable</span> <span class="n">npe</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">`</span><span class="n">catch</span><span class="p">`</span> <span class="p">(</span><span class="nf">\</span><span class="p">(</span><span class="n">exception</span> <span class="ow">::</span> <span class="kt">Exception</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="n">println</span> <span class="o">$</span> <span class="n">showThrowable</span> <span class="n">exception</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We can observe the following things from the above code:</p>
+
+<ol>
+<li>Making use of a Java class and it&rsquo;s methods</li>
+<li>Using a Java object in a Frege function</li>
+<li>Using Java Exceptions in functions</li>
+<li>Handling Java exceptions</li>
+</ol>
+
+
+<h3>1. Making use of a Java class and it&rsquo;s methods:</h3>
+
+<p>If a Java class is pure then without much effort, we can use that class in Frege. For example,</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="kr">data</span> <span class="kt">Integer</span> <span class="ow">=</span> <span class="n">native</span> <span class="n">java</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="kt">BigInteger</span> <span class="kr">where</span>
+</span><span class='line'>    <span class="n">pure</span>  <span class="n">native</span> <span class="n">abs</span>                                  <span class="ow">::</span> <span class="kt">Integer</span> <span class="ow">-&gt;</span> <span class="kt">Integer</span>
+</span><span class='line'>    <span class="n">pure</span>  <span class="n">native</span> <span class="n">negate</span>                               <span class="ow">::</span> <span class="kt">Integer</span> <span class="ow">-&gt;</span> <span class="kt">Integer</span>
+</span><span class='line'>    <span class="n">pure</span>  <span class="n">native</span> <span class="n">valueOf</span> <span class="n">java</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="kt">BigInteger</span><span class="o">.</span><span class="n">valueOf</span> <span class="ow">::</span> <span class="kt">Long</span> <span class="ow">-&gt;</span> <span class="kt">Integer</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>A Java class is declared with <code>data</code> declaration in Frege. The identifier after the <code>data</code> keyword
+is the corresponding type for the Java class in Frege and the qualified Java class is identified after the <code>native</code>
+keyword followed by the instance methods, static methods or even some Frege functions not defined in the
+original Java class.</p>
+
+<p>An important point here is that the instance methods on BigInteger take Integer as their
+first argument which is the <code>this</code> reference on which the methods will be invoked.</p>
+
+<p>Coming back to our original example, here
+we are trying to use the mutable Java class <code>java.util.LinkedList</code>.
+An obvious difference between this one and the <code>BigInteger</code> example is that the
+functions now do not have the <code>pure</code> keyword in front.</p>
+
+<p>The next difference is that the instance methods now cannot take the simple type like <code>LinkedList a</code> as we did for
+<code>Integer</code> but the type is now <code>Mutable s (LinkedList a)</code> since it is not a pure function.
+If we don&rsquo;t annotate a native function <code>pure</code> and we don&rsquo;t use <code>Mutable</code> to consume or return a mutable Object, it will be a
+compilation error. Mutable objects can only be used in <code>ST</code> or <code>IO</code> actions so the return type
+must be in ST or IO monad.</p>
+
+<p>The <a href="http://docs.oracle.com/javase/7/docs/api/java/util/LinkedList.html#add(E)">LinkedList.add()</a> method returns a boolean. Since
+it is an impure function, it should be used in <code>ST</code> monad. Here the boolean itself is pure so it is just <code>ST s Bool</code>.
+Take a look at the third function <code>new</code>, <code>LinkedList</code> constructor. This function is impure and it returns
+a mutable object, a new <code>LinkedList</code> instance, so the return type is <code>ST s (Mutable s (LinkedList a))</code> for which the shorthand is <code>STMutable s (LinkedList a)</code>.</p>
+
+<p>Here is an example for a native function not being part of a native
+<code>data</code> declaration. This is useful when a native class is already
+declared in Frege in some module but the function that we are looking
+for is missing in the <code>data</code> declaration.</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">pure</span> <span class="n">native</span> <span class="n">showThrowable</span> <span class="n">toString</span> <span class="ow">::</span> <span class="kt">Throwable</span> <span class="ow">-&gt;</span> <span class="kt">String</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Here <code>showThrowable</code> is the Frege function name for <code>Throwable.toString()</code>. Since it is an
+instance method on <code>Throwable</code>, the first argument is of type
+<code>Throwable</code> and then the formal arguments&#8217; types (in this case, none) and return type.</p>
+
+<h3>2. Using a Java object in a Frege function</h3>
+
+<p>A native <code>data</code> declaration doesn&rsquo;t have to just contain the native members, it can also have
+additional Frege functions.
+In our example, the function <code>fromFregeList</code> is not defined in
+the Java class but it has been added as an utility function to create a <code>LinkedList</code> from a frege list.
+Here again the same rule as in the previous section applies: To return a mutable Java object,
+we should use <code>ST s (Mutable s TheJavaType)</code> which is nothing but <code>STMutable s TheJavaType</code>.</p>
+
+<p>In the same way, the <code>plusTop</code> function takes a mutable Java object so the parameter type is
+<code>Mutable s (LinkedList Int)</code>. Also since it consumes a mutable type, it must be in <code>ST</code> monad hence
+the return type is <code>ST s (Maybe Int)</code> returning an <code>Maybe Int</code> in <code>ST</code>.</p>
+
+<h3>3. Using Java Exceptions in functions</h3>
+
+<p>To use a Java Exception class, it must be first defined in a Frege
+module. It is the same as declaring native declaration for a Java class but
+additionally we need to derive the <code>Exceptional</code> type class so that the exception can later be handled with
+<code>catch</code>.</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="kr">data</span> <span class="kt">IndexOutOfBoundsException</span> <span class="ow">=</span> <span class="n">native</span> <span class="n">java</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="kt">IndexOutOfBoundsException</span>
+</span><span class='line'>
+</span><span class='line'><span class="nf">derive</span> <span class="kt">Exceptional</span> <span class="kt">IndexOutOfBoundsException</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The exceptions can then be used in native declarations as in <code>get</code> function in our example:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">native</span> <span class="n">get</span> <span class="ow">::</span> <span class="kt">Mutable</span> <span class="n">s</span> <span class="p">(</span><span class="kt">LinkedList</span> <span class="n">a</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="kt">Int</span> <span class="ow">-&gt;</span> <span class="kt">ST</span> <span class="n">s</span> <span class="p">(</span><span class="kt">Maybe</span> <span class="n">a</span><span class="p">)</span> <span class="n">throws</span>
+</span><span class='line'>    <span class="kt">IndexOutOfBoundsException</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>4. Handling Java exceptions</h3>
+
+<p>In two ways, we can handle exceptions:</p>
+
+<ol>
+<li><p>Using <code>action `catch` handler1 `catch` handler2</code></p>
+
+<p>The type of <code>catch</code> is <code>Exceptional β =&gt; ST γ α -&gt; (β-&gt;ST γ α) -&gt; ST γ α</code>.</p>
+
+<p>Here the <code>action</code> is the code where an exception might be thrown
+and the handlers <code>handler1</code> and <code>handler2</code> take an exception and
+return another value in <code>ST</code> monad. The infix notation facilitates
+adding multiple handlers with better readability. Further here the
+<code>handler1</code> must be more specific(in terms of the types of the
+exceptions being handled) than <code>handler2</code>. Also note that from <a href="https://github.com/Frege/frege/blob/master/frege/prelude/PreludeIO.fr#L116">Frege standard library</a> with respect to <code>catch</code>:</p>
+
+<blockquote><p><strong>Note</strong> If <em>action</em> is of the form:
+   <code>doSomething arg</code>
+then, depending on the strictness of <code>doSomething</code> the argument <code>arg</code> may be evaluated
+<strong>before</strong> the action is returned. Exceptions (i.e. undefined values)
+that occur in the construction of the action do <strong>not</strong> count as
+exceptions thrown during execution of it, and hence cannot be catched.</p>
+
+<p>Example:
+<code>println (head []) `catch`  ....</code></p>
+
+<p>will not catch the exception that will be thrown when println evaluates</p>
+
+<p>For a remedy, see <code>try</code>.</p></blockquote></li>
+<li><p>Using <code>try</code></p>
+
+<p>First, the type: <code>try :: Monad γ =&gt; (α-&gt; γ β) -&gt; α -&gt; γ β</code></p>
+
+<p>Unlike <code>catch</code>, <code>try</code> takes a function that produces a monadic value. If
+the function can throw an exception, it must result in an <code>ST</code>
+monad which can then be passed to <code>catch</code> to handle those
+exceptions. In our example, <code>\xs -&gt; plusTop xs &gt;&gt;= (println . maybe "Got a null pointer"
+show)</code> is the function which when applied to a
+<code>java.util.LinkedList</code> might throw a <code>NullPointerException</code> or
+<code>IndexOutOfBoundsException</code>:</p></li>
+</ol>
+
+
+<figure class='code'><figcaption><span>Using try </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'>    <span class="n">try</span> <span class="p">(</span><span class="nf">\</span><span class="n">xs</span> <span class="ow">-&gt;</span> <span class="n">plusTop</span> <span class="n">xs</span> <span class="o">&gt;&gt;=</span> <span class="p">(</span><span class="n">println</span> <span class="o">.</span> <span class="n">maybe</span> <span class="s">&quot;Got a null pointer&quot;</span> <span class="n">show</span><span class="p">))</span> <span class="n">javaList</span>
+</span><span class='line'>        <span class="n">catch</span><span class="p">`</span> <span class="p">(</span><span class="nf">\</span><span class="p">(</span><span class="n">npe</span> <span class="ow">::</span> <span class="kt">NullPointerException</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="n">println</span> <span class="o">$</span> <span class="n">showThrowable</span> <span class="n">npe</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">catch</span><span class="p">`</span> <span class="p">(</span><span class="nf">\</span><span class="p">(</span><span class="n">exception</span> <span class="ow">::</span> <span class="kt">Exception</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="n">println</span> <span class="o">$</span> <span class="n">showThrowable</span> <span class="n">exception</span><span class="p">)</span>
+</span><span class='line'>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Since the construction of action is deferred through a lambda
+here, <code>try</code> eliminates the issue with <code>catch</code> mentioned in the above note.</p>
+
+<h3>Extending a class or implementing an interface in Frege:</h3>
+
+<p>One thing that is not shown in the example is extending a Java class
+or implementing an interface in Frege. Unfortunately both are not possible in Frege
+yet. There is a workaround though using a Java class which extends a
+class or implements an interface but instead of an implementation on
+it&rsquo;s own, it just delegates to a Frege function. For example, see
+<a href="https://github.com/Frege/frege/blob/master/frege/java/Lang.fr#L89">here</a>
+for implementing <code>java.lang.Runnable</code> in Frege using a Java class
+<a href="https://github.com/Frege/frege/blob/master/frege/runtime/SwingSupport.java#L56">frege.runtime.SwingSupport</a> which takes a Frege function and then
+delegates to it in <code>run</code> method implementation.</p>
+
+<p>This concludes our little experimentation calling Java from Frege. The
+other interesting side, calling Frege from Java, is for a
+future post.</p>
+</div>
+  
+  
+
+
+    </article>
+  
   <div class="pagination">
     
     <a href="/blog/archives">Blog Archives</a>
@@ -77,6 +375,10 @@
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/07/08/frege-hello-java/">Frege: Hello Java</a>
+      </li>
     
   </ul>
 </section>
@@ -101,7 +403,7 @@
 
         github.showRepos({
             user: 'mmhelloworld',
-            count: 0,
+            count: 4,
             skip_forks: true,
             target: '#gh_repos'
         });
