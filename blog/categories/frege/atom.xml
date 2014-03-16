@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Frege | mmhelloworld]]></title>
   <link href="http://mmhelloworld.github.io/blog/categories/frege/atom.xml" rel="self"/>
   <link href="http://mmhelloworld.github.io/"/>
-  <updated>2014-03-16T00:38:04-04:00</updated>
+  <updated>2014-03-16T10:25:51-04:00</updated>
   <id>http://mmhelloworld.github.io/</id>
   <author>
     <name><![CDATA[Marimuthu]]></name>
@@ -368,14 +368,14 @@ here is the link to Frege language reference: <a href="http://www.frege-lang.org
 <p>We can observe the following things from the above code:</p>
 
 <ol>
-<li>Making use of a Java class and it&rsquo;s methods</li>
+<li>Making use of a Java class and its methods</li>
 <li>Using a Java object in a Frege function</li>
 <li>Using Java Exceptions in functions</li>
 <li>Handling Java exceptions</li>
 </ol>
 
 
-<h3>1. Making use of a Java class and it&rsquo;s methods:</h3>
+<h3>1. Making use of a Java class and its methods:</h3>
 
 <p>If a Java class is pure then without much effort, we can use that class in Frege. For example,</p>
 
@@ -539,7 +539,7 @@ here, <code>try</code> eliminates the issue with <code>catch</code> mentioned in
 or implementing an interface in Frege. Unfortunately both are not possible in Frege
 yet. There is a workaround though using a Java class which extends a
 class or implements an interface but instead of an implementation on
-it&rsquo;s own, it just delegates to a Frege function. For example, see
+its own, it just delegates to a Frege function. For example, see
 <a href="https://github.com/Frege/frege/blob/master/frege/java/Lang.fr#L89">here</a>
 for implementing <code>java.lang.Runnable</code> in Frege using a Java class
 <a href="https://github.com/Frege/frege/blob/master/frege/runtime/SwingSupport.java#L56">frege.runtime.SwingSupport</a> which takes a Frege function and then
