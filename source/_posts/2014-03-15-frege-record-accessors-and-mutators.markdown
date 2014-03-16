@@ -107,8 +107,8 @@ Circle (Point 4 5) 10
 frege> c.center.x
 4
 
-frege> c.{center <- Point.{x = 4}}
-Circle (Point 4 5) 10
+frege> c.{center <- Point.{x = 8}}
+Circle (Point 8 5) 10
 
 frege> c.{center <- Point.{y <- (+20)}, radius <- (*5)}
 Circle (Point 4 25) 50
