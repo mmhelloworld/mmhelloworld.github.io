@@ -12,12 +12,12 @@ Here is a small code demonstrating Java interoperability in Frege:
 
 We can observe the following things from the above code:
 
-1. Making use of a Java class and it's methods
+1. Making use of a Java class and its methods
 2. Using a Java object in a Frege function
 3. Using Java Exceptions in functions
 4. Handling Java exceptions
 
-###1. Making use of a Java class and it's methods:
+###1. Making use of a Java class and its methods:
 
 If a Java class is pure then without much effort, we can use that class in Frege. For example,
 
@@ -155,7 +155,7 @@ One thing that is not shown in the example is extending a Java class
 or implementing an interface in Frege. Unfortunately both are not possible in Frege
 yet. There is a workaround though using a Java class which extends a
 class or implements an interface but instead of an implementation on
-it's own, it just delegates to a Frege function. For example, see
+its own, it just delegates to a Frege function. For example, see
 [here](https://github.com/Frege/frege/blob/master/frege/java/Lang.fr#L89)
 for implementing `java.lang.Runnable` in Frege using a Java class
 [frege.runtime.SwingSupport](https://github.com/Frege/frege/blob/master/frege/runtime/SwingSupport.java#L56) which takes a Frege function and then
