@@ -4,7 +4,7 @@
   <title><![CDATA[mmhelloworld]]></title>
   <link href="http://mmhelloworld.github.io/atom.xml" rel="self"/>
   <link href="http://mmhelloworld.github.io/"/>
-  <updated>2013-07-10T23:09:49-04:00</updated>
+  <updated>2014-03-16T00:38:04-04:00</updated>
   <id>http://mmhelloworld.github.io/</id>
   <author>
     <name><![CDATA[Marimuthu]]></name>
@@ -12,6 +12,276 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Frege: Record accessors and mutators]]></title>
+    <link href="http://mmhelloworld.github.io/blog/2014/03/15/frege-record-accessors-and-mutators/"/>
+    <updated>2014-03-15T20:41:00-04:00</updated>
+    <id>http://mmhelloworld.github.io/blog/2014/03/15/frege-record-accessors-and-mutators</id>
+    <content type="html"><![CDATA[<p>Frege has built-in mechanism to access and mutate (non-destructive) record fields.</p>
+
+<p>Consider the following type in Frege:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">frege</span><span class="o">&gt;</span> <span class="kr">data</span> <span class="kt">Point</span> <span class="ow">=</span> <span class="kt">Point</span> <span class="p">{</span><span class="n">x</span> <span class="ow">::</span> <span class="kt">Int</span><span class="p">,</span> <span class="n">y</span> <span class="ow">::</span> <span class="kt">Int</span><span class="p">}</span>
+</span><span class='line'><span class="kr">data</span> <span class="kr">type</span> <span class="kt">Point</span> <span class="ow">::</span> <span class="o">*</span>
+</span><span class='line'>
+</span><span class='line'><span class="nf">frege</span><span class="o">&gt;</span> <span class="n">derive</span> <span class="kt">Show</span> <span class="kt">Point</span>
+</span><span class='line'><span class="kr">instance</span> <span class="kt">Show</span>  <span class="kt">Point</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now we can use the following functions to get and set record fields:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">frege</span><span class="o">&gt;</span> <span class="kt">Point</span><span class="o">.</span><span class="n">x</span>
+</span><span class='line'><span class="ow">::</span> <span class="kt">Point</span> <span class="ow">-&gt;</span> <span class="kt">Int</span>
+</span><span class='line'>
+</span><span class='line'><span class="nf">frege</span><span class="o">&gt;</span> <span class="kt">Point</span><span class="o">.</span><span class="p">{</span><span class="n">x</span> <span class="ow">=</span> <span class="p">}</span>
+</span><span class='line'><span class="ow">::</span> <span class="kt">Point</span> <span class="ow">-&gt;</span> <span class="kt">Int</span> <span class="ow">-&gt;</span> <span class="kt">Point</span>
+</span><span class='line'>
+</span><span class='line'><span class="nf">frege</span><span class="o">&gt;</span> <span class="kt">Point</span><span class="o">.</span><span class="p">{</span><span class="n">x</span> <span class="ow">&lt;-</span> <span class="p">}</span>
+</span><span class='line'><span class="ow">::</span> <span class="kt">Point</span> <span class="ow">-&gt;</span> <span class="p">(</span><span class="kt">Int</span><span class="ow">-&gt;</span><span class="kt">Int</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="kt">Point</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>For Field <code>x</code>,</p>
+
+<ol>
+<li>The function <code>Point.x</code> is the getter.</li>
+<li>The function <code>Point.{x = }</code> is a setter which sets the field <code>x</code> with a new value.</li>
+<li>The function <code>Point.{x &lt;- }</code> is also a setter but applies a function to update the current value.</li>
+</ol>
+
+
+<p>We can use the functions like this:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">frege</span><span class="o">&gt;</span> <span class="n">p</span> <span class="ow">=</span> <span class="kt">Point</span> <span class="mi">3</span> <span class="mi">4</span>
+</span><span class='line'><span class="nf">value</span> <span class="n">p</span> <span class="ow">::</span> <span class="kt">Point</span>
+</span><span class='line'>
+</span><span class='line'><span class="nf">frege</span><span class="o">&gt;</span> <span class="n">p</span>
+</span><span class='line'><span class="kt">Point</span> <span class="mi">3</span> <span class="mi">4</span>
+</span><span class='line'>
+</span><span class='line'><span class="nf">frege</span><span class="o">&gt;</span> <span class="kt">Point</span><span class="o">.</span><span class="n">x</span> <span class="n">p</span>
+</span><span class='line'><span class="mi">3</span>
+</span><span class='line'>
+</span><span class='line'><span class="nf">frege</span><span class="o">&gt;</span> <span class="kt">Point</span><span class="o">.</span><span class="p">{</span><span class="n">x</span> <span class="ow">=</span><span class="p">}</span> <span class="n">p</span> <span class="mi">13</span>
+</span><span class='line'><span class="kt">Point</span> <span class="mi">13</span> <span class="mi">4</span>
+</span><span class='line'>
+</span><span class='line'><span class="nf">frege</span><span class="o">&gt;</span> <span class="kt">Point</span><span class="o">.</span><span class="p">{</span><span class="n">x</span> <span class="ow">&lt;-</span><span class="p">}</span> <span class="n">p</span> <span class="p">(</span><span class="o">+</span><span class="mi">15</span><span class="p">)</span>
+</span><span class='line'><span class="kt">Point</span> <span class="mi">18</span> <span class="mi">4</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Frege also provides some shortcuts to apply these functions:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">frege</span><span class="o">&gt;</span> <span class="n">p</span><span class="o">.</span><span class="n">x</span> <span class="c1">-- Same as `Point.x p`</span>
+</span><span class='line'><span class="mi">3</span>
+</span><span class='line'>
+</span><span class='line'><span class="nf">frege</span><span class="o">&gt;</span> <span class="n">p</span><span class="o">.</span><span class="p">{</span><span class="n">x</span> <span class="ow">=</span> <span class="mi">10</span><span class="p">}</span> <span class="c1">-- Same as `Point.{x = } p 10`</span>
+</span><span class='line'><span class="kt">Point</span> <span class="mi">10</span> <span class="mi">4</span>
+</span><span class='line'>
+</span><span class='line'><span class="nf">frege</span><span class="o">&gt;</span> <span class="n">p</span><span class="o">.</span><span class="p">{</span><span class="n">x</span> <span class="ow">&lt;-</span><span class="p">}</span> <span class="c1">-- Same as `Point.{x &lt;-} p`</span>
+</span><span class='line'><span class="ow">::</span> <span class="p">(</span><span class="kt">Int</span><span class="ow">-&gt;</span><span class="kt">Int</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="kt">Point</span>
+</span><span class='line'>
+</span><span class='line'><span class="nf">frege</span><span class="o">&gt;</span> <span class="n">p</span><span class="o">.</span><span class="p">{</span><span class="n">x</span> <span class="ow">&lt;-</span> <span class="p">(</span><span class="o">+</span><span class="mi">10</span><span class="p">)}</span> <span class="c1">-- Same as `Point.{x &lt;- } p (+10)`</span>
+</span><span class='line'><span class="kt">Point</span> <span class="mi">13</span> <span class="mi">4</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Multiple updates can be combined:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">frege</span><span class="o">&gt;</span> <span class="n">p</span><span class="o">.</span><span class="p">{</span><span class="n">x</span> <span class="ow">&lt;-</span> <span class="p">(</span><span class="o">+</span><span class="mi">8</span><span class="p">),</span> <span class="n">y</span> <span class="ow">=</span> <span class="mi">20</span><span class="p">}</span> <span class="c1">-- Increment x by 8 and set y to 20</span>
+</span><span class='line'><span class="kt">Point</span> <span class="mi">11</span> <span class="mi">20</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Accessors and updates can be at any level deep.
+Let&rsquo;s create another type:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">frege</span><span class="o">&gt;</span> <span class="kt">:</span><span class="p">{</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="kr">data</span> <span class="kt">Circle</span> <span class="ow">=</span> <span class="kt">Circle</span> <span class="p">{</span><span class="n">center</span> <span class="ow">::</span> <span class="kt">Point</span><span class="p">,</span> <span class="n">radius</span> <span class="ow">::</span> <span class="kt">Int</span><span class="p">}</span>
+</span><span class='line'><span class="o">&gt;</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="n">derive</span> <span class="kt">Show</span> <span class="kt">Circle</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="kt">:</span><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kr">data</span> <span class="kr">type</span> <span class="kt">Circle</span> <span class="ow">::</span> <span class="o">*</span>
+</span><span class='line'><span class="kr">instance</span> <span class="kt">Show</span>  <span class="kt">Circle</span>
+</span><span class='line'>
+</span><span class='line'><span class="nf">frege</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Here we have an aggregate type <code>Circle</code> which composes another type <code>Point</code> for it&rsquo;s field <code>center</code>.
+Now we can update and select fields at different levels:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">frege</span><span class="o">&gt;</span> <span class="n">c</span> <span class="ow">=</span> <span class="kt">Circle</span> <span class="p">{</span><span class="n">center</span> <span class="ow">=</span> <span class="kt">Point</span> <span class="mi">4</span> <span class="mi">5</span><span class="p">,</span> <span class="n">radius</span> <span class="ow">=</span> <span class="mi">10</span><span class="p">}</span>
+</span><span class='line'><span class="nf">value</span> <span class="n">c</span> <span class="ow">::</span> <span class="kt">Circle</span>
+</span><span class='line'>
+</span><span class='line'><span class="nf">frege</span><span class="o">&gt;</span> <span class="n">c</span>
+</span><span class='line'><span class="kt">Circle</span> <span class="p">(</span><span class="kt">Point</span> <span class="mi">4</span> <span class="mi">5</span><span class="p">)</span> <span class="mi">10</span>
+</span><span class='line'>
+</span><span class='line'><span class="nf">frege</span><span class="o">&gt;</span> <span class="n">c</span><span class="o">.</span><span class="n">center</span><span class="o">.</span><span class="n">x</span>
+</span><span class='line'><span class="mi">4</span>
+</span><span class='line'>
+</span><span class='line'><span class="nf">frege</span><span class="o">&gt;</span> <span class="n">c</span><span class="o">.</span><span class="p">{</span><span class="n">center</span> <span class="ow">&lt;-</span> <span class="kt">Point</span><span class="o">.</span><span class="p">{</span><span class="n">x</span> <span class="ow">=</span> <span class="mi">4</span><span class="p">}}</span>
+</span><span class='line'><span class="kt">Circle</span> <span class="p">(</span><span class="kt">Point</span> <span class="mi">4</span> <span class="mi">5</span><span class="p">)</span> <span class="mi">10</span>
+</span><span class='line'>
+</span><span class='line'><span class="nf">frege</span><span class="o">&gt;</span> <span class="n">c</span><span class="o">.</span><span class="p">{</span><span class="n">center</span> <span class="ow">&lt;-</span> <span class="kt">Point</span><span class="o">.</span><span class="p">{</span><span class="n">y</span> <span class="ow">&lt;-</span> <span class="p">(</span><span class="o">+</span><span class="mi">20</span><span class="p">)},</span> <span class="n">radius</span> <span class="ow">&lt;-</span> <span class="p">(</span><span class="o">*</span><span class="mi">5</span><span class="p">)}</span>
+</span><span class='line'><span class="kt">Circle</span> <span class="p">(</span><span class="kt">Point</span> <span class="mi">4</span> <span class="mi">25</span><span class="p">)</span> <span class="mi">50</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In the latest version, Frege provides syntactic sugar for lambdas using underscores. For example, <code>T.foo</code> can be written
+as <code>_.foo</code> if the type can be deduced from the context the lambda is applied. Hence the following two are equivalent.</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">frege</span><span class="o">&gt;</span> <span class="n">c</span><span class="o">.</span><span class="p">{</span><span class="n">center</span> <span class="ow">&lt;-</span> <span class="kt">Point</span><span class="o">.</span><span class="p">{</span><span class="n">x</span> <span class="ow">=</span> <span class="mi">25</span><span class="p">}}</span>
+</span><span class='line'><span class="kt">Circle</span> <span class="p">(</span><span class="kt">Point</span> <span class="mi">25</span> <span class="mi">5</span><span class="p">)</span> <span class="mi">10</span>
+</span><span class='line'>
+</span><span class='line'><span class="nf">frege</span><span class="o">&gt;</span> <span class="n">c</span><span class="o">.</span><span class="p">{</span><span class="n">center</span> <span class="ow">&lt;-</span> <span class="kr">_</span><span class="o">.</span><span class="p">{</span><span class="n">x</span> <span class="ow">=</span> <span class="mi">25</span><span class="p">}}</span>
+</span><span class='line'><span class="kt">Circle</span> <span class="p">(</span><span class="kt">Point</span> <span class="mi">25</span> <span class="mi">5</span><span class="p">)</span> <span class="mi">10</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Frege provides another utility to check for a field&rsquo;s existence. This would be useful if we have multiple constructors
+with different set of fields.</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">frege</span><span class="o">&gt;</span> <span class="kt">:</span><span class="p">{</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="kr">data</span> <span class="kt">Point</span> <span class="ow">=</span> <span class="kt">Point2d</span> <span class="p">{</span><span class="n">x</span> <span class="ow">::</span> <span class="kt">Int</span><span class="p">,</span> <span class="n">y</span> <span class="ow">::</span> <span class="kt">Int</span><span class="p">}</span>
+</span><span class='line'><span class="o">&gt;</span>            <span class="o">|</span> <span class="kt">Point3d</span> <span class="p">{</span><span class="n">x</span> <span class="ow">::</span> <span class="kt">Int</span><span class="p">,</span> <span class="n">y</span> <span class="ow">::</span> <span class="kt">Int</span><span class="p">,</span> <span class="n">z</span> <span class="ow">::</span> <span class="kt">Int</span><span class="p">}</span>
+</span><span class='line'><span class="o">&gt;</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="n">derive</span> <span class="kt">Show</span> <span class="kt">Point</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="kt">:</span><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kr">data</span> <span class="kr">type</span> <span class="kt">Point</span> <span class="ow">::</span> <span class="o">*</span>
+</span><span class='line'><span class="kr">instance</span> <span class="kt">Show</span>  <span class="kt">Point</span>
+</span><span class='line'>
+</span><span class='line'><span class="nf">frege</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In the above code, we have two constructors <code>Point2d</code> and <code>Point3d</code> where the field <code>z</code> exists only for <code>Point3d</code>.
+We can check for the existence of field <code>z</code> like this:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">frege</span><span class="o">&gt;</span> <span class="kt">Point</span><span class="o">.</span><span class="p">{</span><span class="n">z</span><span class="o">?</span><span class="p">}</span>
+</span><span class='line'><span class="ow">::</span> <span class="kt">Point</span> <span class="ow">-&gt;</span> <span class="kt">Bool</span>
+</span><span class='line'>
+</span><span class='line'><span class="nf">frege</span><span class="o">&gt;</span> <span class="n">hasZ</span> <span class="ow">=</span> <span class="kt">Point</span><span class="o">.</span><span class="p">{</span><span class="n">z</span><span class="o">?</span><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nf">frege</span><span class="o">&gt;</span> <span class="n">hasZ</span> <span class="o">$</span> <span class="kt">Point3d</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span>
+</span><span class='line'><span class="nf">true</span>
+</span><span class='line'>
+</span><span class='line'><span class="nf">frege</span><span class="o">&gt;</span> <span class="n">hasZ</span> <span class="o">$</span> <span class="kt">Point2d</span> <span class="mi">3</span> <span class="mi">4</span>
+</span><span class='line'><span class="nf">false</span>
+</span><span class='line'>
+</span><span class='line'><span class="nf">frege</span><span class="o">&gt;</span> <span class="n">p</span> <span class="ow">=</span> <span class="kt">Point3d</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span>
+</span><span class='line'><span class="nf">value</span> <span class="n">p</span> <span class="ow">::</span> <span class="kt">Point</span>
+</span><span class='line'>
+</span><span class='line'><span class="nf">frege</span><span class="o">&gt;</span> <span class="n">p</span><span class="o">.</span><span class="p">{</span><span class="n">z</span><span class="o">?</span><span class="p">}</span>
+</span><span class='line'><span class="nf">true</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>For more details on how these field existence check, accessor and mutator functions are generated for a record type,
+here is the link to Frege language reference: <a href="http://www.frege-lang.org/doc/Language.pdf.">http://www.frege-lang.org/doc/Language.pdf.</a></p>
+
+<p>Happy coding!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Frege: Hello Java]]></title>
