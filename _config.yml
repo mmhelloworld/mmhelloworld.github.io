@@ -4,7 +4,7 @@
 
 url: http://mmhelloworld.github.io
 title: mmhelloworld
-subtitle: main _ = println "Hello World!"
+subtitle: main = println "Hello World!"
 author: Marimuthu
 simple_search: http://google.com/search
 description:
