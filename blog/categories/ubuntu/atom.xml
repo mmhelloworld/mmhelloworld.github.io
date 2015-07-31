@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Ubuntu | mmhelloworld]]></title>
+  <link href="http://mmhelloworld.github.io/blog/categories/ubuntu/atom.xml" rel="self"/>
+  <link href="http://mmhelloworld.github.io/"/>
+  <updated>2015-07-30T23:39:14-04:00</updated>
+  <id>http://mmhelloworld.github.io/</id>
+  <author>
+    <name><![CDATA[Marimuthu]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Enabling Java in Firefox Ubuntu]]></title>
+    <link href="http://mmhelloworld.github.io/blog/2015/07/21/enabling-java-in-firefox-ubuntu/"/>
+    <updated>2015-07-21T01:00:00-04:00</updated>
+    <id>http://mmhelloworld.github.io/blog/2015/07/21/enabling-java-in-firefox-ubuntu</id>
+    <content type="html"><![CDATA[<ol>
+<li>Download Java <code>jdk-&lt;version&gt;-linux-x64.tar.gz</code> (for 64 bit)</li>
+<li>Extract the archive</li>
+<li>Run <code>ln -sf /path/to/jdk/jre/lib/amd64/libnpjp2.so ~/.mozilla/plugins/</code></li>
+</ol>
+
+]]></content>
+  </entry>
+  
+</feed>
