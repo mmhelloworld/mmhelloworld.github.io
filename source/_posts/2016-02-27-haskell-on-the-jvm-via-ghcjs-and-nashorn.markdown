@@ -14,7 +14,7 @@ Currently there are 2 ways we can write Haskell on the JVM:
 1. [Frege](https://github.com/Frege/frege), a language that follows Haskell 2010 standard and compiles to Java.
 1. Haskell itself by compiling it to JavaScript via GHCJS.
 
-Frege is basically a Haskell for the JVM and is infact conforms to Haskell 2010 with few inbuilt GHC extensions. Even with good Java interop, it doesn't sacrifice its type guarantees and currently is the only pure language on the JVM.
+Frege is basically a Haskell for the JVM and infact conforms to Haskell 2010 with few inbuilt GHC extensions. Even with good Java interop, it doesn't sacrifice its type guarantees and currently is the only pure language on the JVM.
 
 In this post, I am going to explore another interesting option: Haskell itself on the JVM. Haskell can be compiled to JavaScript using GHCJS and Java has an inbuilt JavaScript engine, called Nashorn so it is actually possible to compile Haskell to JavaScript and run the resulting JavaScript on the JVM.
 
