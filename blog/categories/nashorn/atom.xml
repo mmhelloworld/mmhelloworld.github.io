@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Nashorn | mmhelloworld]]></title>
+  <link href="http://mmhelloworld.github.io/blog/categories/nashorn/atom.xml" rel="self"/>
+  <link href="http://mmhelloworld.github.io/"/>
+  <updated>2016-02-28T00:31:29-05:00</updated>
+  <id>http://mmhelloworld.github.io/</id>
+  <author>
+    <name><![CDATA[Marimuthu]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Haskell on the JVM via GHCJS and Nashorn]]></title>
+    <link href="http://mmhelloworld.github.io/blog/2016/02/27/haskell-on-the-jvm-via-ghcjs-and-nashorn/"/>
+    <updated>2016-02-27T19:56:00-05:00</updated>
+    <id>http://mmhelloworld.github.io/blog/2016/02/27/haskell-on-the-jvm-via-ghcjs-and-nashorn</id>
+    <content type="html"><![CDATA[<p>Currently there are 2 ways we can write Haskell on the JVM:</p>
+
+<ol>
+<li><a href="https://github.com/Frege/frege">Frege</a>, a language that follows Haskell 2010 standard and compiles to Java.</li>
+<li>Haskell itself by compiling it to JavaScript via GHCJS.</li>
+</ol>
+
+
+<p>Frege is basically a Haskell for the JVM and is infact conforms to Haskell 2010 with few inbuilt GHC extensions. Even with good Java interop, it doesn&rsquo;t sacrifice its type guarantees and currently is the only pure language on the JVM.</p>
+
+<p>In this post, I am going to explore another interesting option: Haskell itself on the JVM. Haskell can be compiled to JavaScript using GHCJS and Java has an inbuilt JavaScript engine, called Nashorn so it is actually possible to compile Haskell to JavaScript and run the resulting JavaScript on the JVM.</p>
+
+<p>Here is a simple Haskell code that can be run on the JVM:
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="kr">module</span> <span class="nn">Main</span> <span class="kr">where</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;&amp;</span><span class="n">mdash</span><span class="p">;</span> <span class="kt">Nashorn</span> <span class="n">doesn</span><span class="o">&amp;</span><span class="n">rsquo</span><span class="p">;</span><span class="n">t</span> <span class="n">provide</span> <span class="kr">default</span> <span class="n">console</span> <span class="n">object</span><span class="o">.</span> <span class="kt">Haskell</span><span class="o">&amp;</span><span class="n">rsquo</span><span class="p">;</span><span class="n">s</span> <span class="n">putStrLn</span> <span class="n">logs</span> <span class="n">to</span> <span class="n">the</span> <span class="n">console</span><span class="o">.</span>
+</span><span class='line'><span class="nf">foreign</span> <span class="kr">import</span> <span class="nn">javascript</span> <span class="n">unsafe</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">console</span><span class="ow">=</span><span class="p">{</span> <span class="o">\&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;\</span> <span class="n">log</span><span class="kt">:</span> <span class="n">function</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="p">{</span> <span class="n">java</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="kt">System</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">s</span><span class="p">);</span> <span class="p">},</span><span class="nf">\</span>
+</span><span class='line'><span class="nf">\</span> <span class="n">info</span><span class="kt">:</span> <span class="n">function</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="p">{</span> <span class="n">java</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="kt">System</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">s</span><span class="p">);</span> <span class="p">},</span><span class="nf">\</span>
+</span><span class='line'><span class="nf">\</span> <span class="n">warn</span><span class="kt">:</span> <span class="n">function</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="p">{</span> <span class="n">java</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="kt">System</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">s</span><span class="p">);</span> <span class="p">},</span><span class="nf">\</span>
+</span><span class='line'><span class="nf">\</span> <span class="n">debug</span><span class="kt">:</span> <span class="n">function</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="p">{</span> <span class="n">java</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="kt">System</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">s</span><span class="p">);</span> <span class="p">},</span><span class="nf">\</span>
+</span><span class='line'><span class="nf">\</span> <span class="ne">error</span><span class="kt">:</span> <span class="n">function</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="p">{</span> <span class="n">java</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="kt">System</span><span class="o">.</span><span class="n">err</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">s</span><span class="p">);</span> <span class="p">}</span><span class="nf">\</span>
+</span><span class='line'><span class="nf">\</span> <span class="p">}</span><span class="s">&quot;</span>
+</span><span class='line'><span class="s">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="s">&lt;p&gt;  setupConsole :: IO ()&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="s">&lt;p&gt;foreign import javascript unsafe &amp;ldquo;java.lang.System.exit($1)&amp;rdquo;</span>
+</span><span class='line'><span class="s">  sysexit :: Int &amp;ndash;&gt; IO ()&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="s">&lt;p&gt;main = do</span>
+</span><span class='line'><span class="s">  setupConsole</span>
+</span><span class='line'><span class="s">  putStrLn &amp;ldquo;Hello from Haskell!&amp;rdquo;</span>
+</span><span class='line'><span class="s">  sysexit 0&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="s">&lt;p&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Nashorn doesn&rsquo;t have an inbuilt <code>console</code> object and Haskell&rsquo;s <code>putStrLn</code> prints to the console so we have to provide an implementation of console. The implementation, as can be seen from the code above, is actually backed by Java&rsquo;s <code>System.out.print</code>. That is our first example of calling Java from Haskell. <code>sysexit</code> is another function calling Java. <code>sysexit</code> is needed here as otherwise the program just keeps on running which I think is because of JavaScript event loop or something similar that prevents the JVM from shutting down.</p>
+
+<h3>Compiling Haskell with GHCJS and running on JVM</h3>
+
+<p>```
+$ ghcjs -o HelloJava HelloJava.hs
+[1 of 1] Compiling Main             ( HelloJava.hs, HelloJava.js_o )
+Linking HelloJava.jsexe (Main)</p>
+
+<p>$ jjs HelloJava.jsexe/all.js
+Hello from Haskell!
+<code>``
+</code>jjs<code>is a JVM laucher for JavaScript code similar to Node. It is also possible to run this as a regular Java program along with other Java classes without</code>jjs<code>.</code>jjs<code>is just a convenient way  to run just JavaScript code on the JVM. Above GHCJS compiles the Haskell code to JavaScript in one file</code>all.js<code>and the JVM runs the JavaScript code from</code>all.js`.</p>
+
+<h3>Example 2</h3>
+
+<p>Now let&rsquo;s look at another example that shows how to convert between Haskell and Java lists:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Converstion between Haskell and Java Lists  (HaskellJavaListsConversion.hs)</span> <a href='/downloads/code/HaskellJavaListsConversion.hs'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
+<span class='line-number'>118</span>
+<span class='line-number'>119</span>
+<span class='line-number'>120</span>
+<span class='line-number'>121</span>
+<span class='line-number'>122</span>
+<span class='line-number'>123</span>
+<span class='line-number'>124</span>
+<span class='line-number'>125</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="cm">{-# LANGUAGE ForeignFunctionInterface #-}</span>
+</span><span class='line'><span class="cm">{-# LANGUAGE JavaScriptFFI #-}</span>
+</span><span class='line'><span class="cm">{-# LANGUAGE UnliftedFFITypes #-}</span>
+</span><span class='line'><span class="cm">{-# LANGUAGE GHCForeignImportPrim #-}</span>
+</span><span class='line'><span class="cm">{-# LANGUAGE TypeSynonymInstances #-}</span>
+</span><span class='line'><span class="cm">{-# LANGUAGE FlexibleInstances #-}</span>
+</span><span class='line'><span class="cm">{-# LANGUAGE DataKinds #-}</span>
+</span><span class='line'><span class="cm">{-# LANGUAGE PolyKinds #-}</span>
+</span><span class='line'><span class="cm">{-# LANGUAGE DeriveDataTypeable #-}</span>
+</span><span class='line'><span class="cm">{-# LANGUAGE TypeFamilies #-}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kr">module</span> <span class="nn">Main</span> <span class="kr">where</span>
+</span><span class='line'>
+</span><span class='line'><span class="kr">import</span> <span class="nn">Control.Monad.ST</span>
+</span><span class='line'><span class="kr">import</span> <span class="nn">GHCJS.Types</span>
+</span><span class='line'><span class="kr">import</span> <span class="nn">GHCJS.Foreign</span>
+</span><span class='line'><span class="kr">import</span> <span class="nn">GHCJS.Prim</span>
+</span><span class='line'><span class="kr">import</span> <span class="nn">Data.Typeable</span>
+</span><span class='line'><span class="kr">import</span> <span class="nn">GHC.ST</span>
+</span><span class='line'>
+</span><span class='line'><span class="kr">data</span> <span class="kt">MutabilityType</span> <span class="n">s</span> <span class="ow">=</span> <span class="kt">Mutable</span>
+</span><span class='line'>                      <span class="o">|</span> <span class="kt">Immutable</span>
+</span><span class='line'>                      <span class="o">|</span> <span class="kt">STMutable</span> <span class="n">s</span>
+</span><span class='line'>
+</span><span class='line'><span class="kr">data</span> <span class="kt">IsItMutable</span> <span class="ow">=</span> <span class="kt">IsImmutable</span>
+</span><span class='line'>                 <span class="o">|</span> <span class="kt">IsMutable</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">-- Copied from GHCJS.Internal.Types. Not sure why this is not exposed.</span>
+</span><span class='line'><span class="kr">type</span> <span class="n">family</span> <span class="kt">Mutability</span> <span class="p">(</span><span class="n">a</span> <span class="ow">::</span> <span class="kt">MutabilityType</span> <span class="n">s</span><span class="p">)</span> <span class="ow">::</span> <span class="kt">IsItMutable</span> <span class="kr">where</span>
+</span><span class='line'>  <span class="kt">Mutability</span> <span class="kt">Immutable</span>     <span class="ow">=</span> <span class="kt">IsImmutable</span>
+</span><span class='line'>  <span class="kt">Mutability</span> <span class="kt">Mutable</span>       <span class="ow">=</span> <span class="kt">IsMutable</span>
+</span><span class='line'>  <span class="kt">Mutability</span> <span class="p">(</span><span class="kt">STMutable</span> <span class="n">s</span><span class="p">)</span> <span class="ow">=</span> <span class="kt">IsMutable</span>
+</span><span class='line'>
+</span><span class='line'><span class="cm">{- java.util.ArrayList class and its methods -}</span>
+</span><span class='line'><span class="kr">newtype</span> <span class="kt">SomeArrayList</span> <span class="p">(</span><span class="n">a</span> <span class="ow">::</span> <span class="kt">MutabilityType</span> <span class="n">s</span><span class="p">)</span> <span class="ow">=</span> <span class="kt">SomeArrayList</span> <span class="kt">JSVal</span> <span class="kr">deriving</span> <span class="kt">Typeable</span>
+</span><span class='line'><span class="kr">type</span> <span class="kt">ArrayList</span>           <span class="ow">=</span> <span class="kt">SomeArrayList</span> <span class="kt">Immutable</span>
+</span><span class='line'><span class="kr">type</span> <span class="kt">MutableArrayList</span>    <span class="ow">=</span> <span class="kt">SomeArrayList</span> <span class="kt">Mutable</span>
+</span><span class='line'><span class="kr">type</span> <span class="kt">STArrayList</span> <span class="n">s</span>      <span class="ow">=</span> <span class="kt">SomeArrayList</span> <span class="p">(</span><span class="kt">STMutable</span> <span class="n">s</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="kr">instance</span> <span class="kt">IsJSVal</span> <span class="p">(</span><span class="kt">SomeArrayList</span> <span class="n">m</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">-- ArrayList Constructor</span>
+</span><span class='line'><span class="nf">foreign</span> <span class="kr">import</span> <span class="nn">javascript</span> <span class="n">unsafe</span> <span class="s">&quot;new $1()&quot;</span>
+</span><span class='line'>  <span class="n">arrayList_new</span> <span class="ow">::</span> <span class="kt">JType</span> <span class="ow">-&gt;</span> <span class="kt">ST</span> <span class="n">s</span> <span class="p">(</span><span class="kt">STArrayList</span> <span class="n">s</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">-- Adds an element to ArrayList</span>
+</span><span class='line'><span class="nf">foreign</span> <span class="kr">import</span> <span class="nn">javascript</span> <span class="n">unsafe</span> <span class="s">&quot;$2.add($1)&quot;</span>
+</span><span class='line'>  <span class="n">arrayList_add</span> <span class="ow">::</span> <span class="kt">JSVal</span> <span class="ow">-&gt;</span>  <span class="kt">STArrayList</span> <span class="n">s</span> <span class="ow">-&gt;</span> <span class="kt">ST</span> <span class="n">s</span> <span class="nb">()</span>
+</span><span class='line'>
+</span><span class='line'><span class="cm">{- java.util.Iterator class and its methods -}</span>
+</span><span class='line'><span class="kr">newtype</span> <span class="kt">SomeIterator</span> <span class="p">(</span><span class="n">a</span> <span class="ow">::</span> <span class="kt">MutabilityType</span> <span class="n">s</span><span class="p">)</span> <span class="ow">=</span> <span class="kt">SomeIterator</span> <span class="kt">JSVal</span> <span class="kr">deriving</span> <span class="kt">Typeable</span>
+</span><span class='line'><span class="kr">type</span> <span class="kt">Iterator</span>            <span class="ow">=</span> <span class="kt">SomeIterator</span> <span class="kt">Immutable</span>
+</span><span class='line'><span class="kr">type</span> <span class="kt">MutableIterator</span>     <span class="ow">=</span> <span class="kt">SomeIterator</span> <span class="kt">Mutable</span>
+</span><span class='line'><span class="kr">type</span> <span class="kt">STIterator</span> <span class="n">s</span>        <span class="ow">=</span> <span class="kt">SomeIterator</span> <span class="p">(</span><span class="kt">STMutable</span> <span class="n">s</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="kr">instance</span> <span class="kt">IsJSVal</span> <span class="p">(</span><span class="kt">SomeIterator</span> <span class="n">m</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">-- Create an Iterator from an ArrayList</span>
+</span><span class='line'><span class="nf">foreign</span> <span class="kr">import</span> <span class="nn">javascript</span> <span class="n">unsafe</span> <span class="s">&quot;$1.iterator()&quot;</span>
+</span><span class='line'>  <span class="n">iterator</span> <span class="ow">::</span> <span class="kt">STArrayList</span> <span class="n">s</span> <span class="ow">-&gt;</span> <span class="kt">ST</span> <span class="n">s</span> <span class="p">(</span><span class="kt">STIterator</span> <span class="n">s</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="nf">foreign</span> <span class="kr">import</span> <span class="nn">javascript</span> <span class="n">unsafe</span> <span class="s">&quot;$1.hasNext()&quot;</span>
+</span><span class='line'>  <span class="n">iterator_hasNext</span> <span class="ow">::</span> <span class="kt">STIterator</span> <span class="n">s</span> <span class="ow">-&gt;</span> <span class="kt">ST</span> <span class="n">s</span> <span class="kt">Bool</span>
+</span><span class='line'>
+</span><span class='line'><span class="nf">foreign</span> <span class="kr">import</span> <span class="nn">javascript</span> <span class="n">unsafe</span> <span class="s">&quot;$1.next()&quot;</span>
+</span><span class='line'>  <span class="n">iterator_next</span> <span class="ow">::</span> <span class="kt">STIterator</span> <span class="n">s</span> <span class="ow">-&gt;</span> <span class="kt">ST</span> <span class="n">s</span> <span class="kt">JSVal</span>
+</span><span class='line'>
+</span><span class='line'><span class="cm">{- Other Nashorn imports -}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">-- Represents a Java type</span>
+</span><span class='line'><span class="kr">newtype</span> <span class="kt">JType</span> <span class="ow">=</span> <span class="kt">JType</span> <span class="kt">JSVal</span>
+</span><span class='line'>
+</span><span class='line'><span class="nf">foreign</span> <span class="kr">import</span> <span class="nn">javascript</span> <span class="n">unsafe</span> <span class="s">&quot;java.lang.System.out.println($1)&quot;</span>
+</span><span class='line'>  <span class="n">jprintln</span> <span class="ow">::</span> <span class="kt">JSVal</span> <span class="ow">-&gt;</span> <span class="kt">IO</span> <span class="nb">()</span>
+</span><span class='line'>
+</span><span class='line'><span class="nf">foreign</span> <span class="kr">import</span> <span class="nn">javascript</span> <span class="n">unsafe</span> <span class="s">&quot;java.lang.System.exit($1)&quot;</span>
+</span><span class='line'>  <span class="n">sysexit</span> <span class="ow">::</span> <span class="kt">Int</span> <span class="ow">-&gt;</span> <span class="kt">IO</span> <span class="nb">()</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">-- Imports a Java class</span>
+</span><span class='line'><span class="nf">foreign</span> <span class="kr">import</span> <span class="nn">javascript</span> <span class="n">unsafe</span> <span class="s">&quot;Java.type($1)&quot;</span>
+</span><span class='line'>  <span class="n">jimport</span> <span class="ow">::</span> <span class="kt">JSVal</span> <span class="ow">-&gt;</span> <span class="kt">JType</span>
+</span><span class='line'>
+</span><span class='line'><span class="cm">{- Create an instance of Java&#39;s ArrayList from Haskell&#39;s list -}</span>
+</span><span class='line'><span class="nf">listToArrayList</span> <span class="ow">::</span> <span class="p">[</span><span class="kt">JSVal</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="kt">ST</span> <span class="n">s</span> <span class="p">(</span><span class="kt">STArrayList</span> <span class="n">s</span><span class="p">)</span>
+</span><span class='line'><span class="nf">listToArrayList</span> <span class="n">xs</span> <span class="ow">=</span> <span class="kr">do</span>
+</span><span class='line'>    <span class="kr">let</span> <span class="n">arrayListClass</span> <span class="ow">=</span> <span class="n">jimport</span> <span class="o">$</span> <span class="n">toJSString</span> <span class="s">&quot;java.util.ArrayList&quot;</span>
+</span><span class='line'>    <span class="n">arrList</span> <span class="ow">&lt;-</span> <span class="n">arrayList_new</span> <span class="n">arrayListClass</span>
+</span><span class='line'>    <span class="n">go</span> <span class="n">xs</span> <span class="n">arrList</span>
+</span><span class='line'>  <span class="kr">where</span>
+</span><span class='line'>    <span class="n">go</span> <span class="kt">[]</span> <span class="n">arrList</span> <span class="ow">=</span> <span class="n">return</span> <span class="n">arrList</span>
+</span><span class='line'>    <span class="n">go</span> <span class="p">(</span><span class="n">x</span><span class="kt">:</span><span class="n">xs</span><span class="p">)</span> <span class="n">arrList</span> <span class="ow">=</span> <span class="kr">do</span>
+</span><span class='line'>      <span class="n">arrayList_add</span> <span class="n">x</span> <span class="n">arrList</span>
+</span><span class='line'>      <span class="n">go</span> <span class="n">xs</span> <span class="n">arrList</span>
+</span><span class='line'>
+</span><span class='line'><span class="cm">{- Create Haskell&#39;s list from Java&#39;s Iterator -}</span>
+</span><span class='line'><span class="nf">iteratorToList</span> <span class="ow">::</span> <span class="kt">STIterator</span> <span class="n">s</span> <span class="ow">-&gt;</span> <span class="kt">ST</span> <span class="n">s</span> <span class="p">[</span><span class="kt">JSVal</span><span class="p">]</span>
+</span><span class='line'><span class="nf">iteratorToList</span> <span class="n">itr</span> <span class="ow">=</span> <span class="n">reverse</span> <span class="o">&lt;$&gt;</span> <span class="n">go</span> <span class="kt">[]</span> <span class="kr">where</span>
+</span><span class='line'>  <span class="n">go</span> <span class="n">acc</span> <span class="ow">=</span> <span class="kr">do</span>
+</span><span class='line'>    <span class="n">hasNext</span> <span class="ow">&lt;-</span> <span class="n">iterator_hasNext</span> <span class="n">itr</span>
+</span><span class='line'>    <span class="kr">if</span> <span class="n">hasNext</span>
+</span><span class='line'>      <span class="kr">then</span> <span class="kr">do</span>
+</span><span class='line'>        <span class="n">next</span> <span class="ow">&lt;-</span> <span class="n">iterator_next</span> <span class="n">itr</span>
+</span><span class='line'>        <span class="n">go</span> <span class="p">(</span><span class="n">next</span><span class="kt">:</span> <span class="n">acc</span><span class="p">)</span>
+</span><span class='line'>      <span class="kr">else</span>
+</span><span class='line'>        <span class="n">return</span> <span class="n">acc</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">-- Nashorn doesn&#39;t provide default console object. Haskell&#39;s putStrLn logs to the console.</span>
+</span><span class='line'><span class="nf">foreign</span> <span class="kr">import</span> <span class="nn">javascript</span> <span class="n">unsafe</span> <span class="s">&quot;console={ </span><span class="se">\</span>
+</span><span class='line'><span class="se">    \</span><span class="s"> log: function(s) { java.lang.System.out.print(s); },</span><span class="se">\</span>
+</span><span class='line'><span class="se">    \</span><span class="s"> info: function(s) { java.lang.System.out.print(s); },</span><span class="se">\</span>
+</span><span class='line'><span class="se">    \</span><span class="s"> warn: function(s) { java.lang.System.out.print(s); },</span><span class="se">\</span>
+</span><span class='line'><span class="se">    \</span><span class="s"> debug: function(s) { java.lang.System.out.print(s); },</span><span class="se">\</span>
+</span><span class='line'><span class="se">    \</span><span class="s"> error: function(s) { java.lang.System.err.print(s); }</span><span class="se">\</span>
+</span><span class='line'><span class="se">    \</span><span class="s"> }&quot;</span>
+</span><span class='line'>  <span class="n">setupConsole</span> <span class="ow">::</span> <span class="kt">IO</span> <span class="nb">()</span>
+</span><span class='line'>
+</span><span class='line'><span class="nf">demo</span> <span class="ow">=</span> <span class="n">runST</span> <span class="o">$</span> <span class="kr">do</span>
+</span><span class='line'>  <span class="n">jlist</span> <span class="ow">&lt;-</span> <span class="n">listToArrayList</span> <span class="o">.</span> <span class="n">map</span> <span class="n">toJSInt</span> <span class="o">$</span> <span class="p">[</span><span class="mi">1</span><span class="o">..</span><span class="mi">5</span><span class="p">]</span>
+</span><span class='line'>  <span class="n">iterator</span> <span class="n">jlist</span> <span class="o">&gt;&gt;=</span> <span class="n">iteratorToList</span>
+</span><span class='line'>
+</span><span class='line'><span class="nf">main</span> <span class="ow">=</span> <span class="kr">do</span>
+</span><span class='line'>  <span class="n">setupConsole</span>
+</span><span class='line'>  <span class="n">mapM_</span> <span class="p">(</span><span class="n">putStrLn</span> <span class="o">.</span> <span class="n">show</span> <span class="o">.</span> <span class="n">fromJSInt</span><span class="p">)</span> <span class="n">demo</span>
+</span><span class='line'>  <span class="n">sysexit</span> <span class="mi">0</span>
+</span><span class='line'>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>In the code above, two Java types are used: <code>java.util.ArrayList</code> and <code>java.util.Iterator</code>.</p>
+
+<h4>Importing a Java class</h4>
+
+<p>A Java class can be imported with <code>Java.type(className)</code> Nashorn JavaScript code. Line 80 defines the corresponding Haskell FFI function:</p>
+
+<p><code>haskell
+-- Imports a Java class
+foreign import javascript unsafe "Java.type($1)"
+  jimport :: JSVal -&gt; JType
+</code></p>
+
+<h4>Creating an instance of a Java class</h4>
+
+<p>An instance can be created by invoking the constructor on the Java class with <code>new</code>. Here is the corresponding FFI:
+<code>haskell
+-- ArrayList Constructor
+foreign import javascript unsafe "new $1()"
+  arrayList_new :: JType -&gt; ST s (STArrayList s)
+</code>
+It takes the <code>ArrayList</code> class and invokes the dafault <code>ArrayList</code> constructor to return an instance of it. In the same way, we can create FFI functions for <code>ArrayList.add</code> and <code>ArrayList.iterator</code> to return an Java <code>Iterator</code> instance.</p>
+
+<p>The function <code>listToArrayList</code> takes a Haskell list and return an instance of Java <code>ArrayList</code>. As the java list is mutable, it is returned as <code>STArrayList s</code> inside <code>ST</code>. This function first creates an instance of <code>ArrayList</code> by invoking the Java constructor and then calls <code>ArrayList.add</code> to add items from Haskell list to the <code>ArrayList</code>.</p>
+
+<p>In the similar way, the function <code>iteratorToList</code> takes a Java <code>iterator</code> and returns Haskell list by extracting items from the iterator by invoking corresponding FFI functions for <code>Iterator.hasNext</code> and <code>Iterator.next</code>.</p>
+
+<h3>Building with <code>Stack</code></h3>
+
+<p>It is easy to <a href="http://docs.haskellstack.org/en/stable/ghcjs/">setup a GHCJS project with <code>Stack</code></a> so that we can add other dependencies easily and build it for GHCJS. With the above code in a stack project &ldquo;haskell-jvm-hello&rdquo;, we can build it with <code>stack build</code> and run it with <code>jjs</code>:</p>
+
+<p>```
+$ stack build
+haskell-jvm-hello-0.1.0.0: unregistering (local file changes: app/Main.hs)
+haskell-jvm-hello-0.1.0.0: build
+Preprocessing library haskell-jvm-hello-0.1.0.0&hellip;
+In-place registering haskell-jvm-hello-0.1.0.0&hellip;
+Preprocessing executable &lsquo;haskell-jvm-hello-exe&rsquo; for
+haskell-jvm-hello-0.1.0.0&hellip;
+[1 of 1] Compiling Main             ( app/Main.hs, .stack-work/dist/x86_64-linux/Cabal-1.22.4.0_ghcjs/build/haskell-jvm-hello-exe/haskell-jvm-hello-exe-tmp/Main.js_o )
+Linking .stack-work/dist/x86_64-linux/Cabal-1.22.4.0_ghcjs/build/haskell-jvm-hello-exe/haskell-jvm-hello-exe.jsexe (Main)
+haskell-jvm-hello-0.1.0.0: copy/register
+Installing library in
+/workspace/haskell-jvm-hello/.stack-work/install/x86_64-linux/lts-3.12/ghcjs-0.2.0_ghc-7.10.3/lib/x86_64-linux-ghcjs-0.2.0-ghc7_10_3/haskell-jvm-hello-0.1.0.0-7MA0h74rERuEwiJY2TRuHx
+Installing executable(s) in
+/workspace/haskell-jvm-hello/.stack-work/install/x86_64-linux/lts-3.12/ghcjs-0.2.0_ghc-7.10.3/bin
+Warning: the following files would be used as linker inputs, but linking is not being done: .stack-work/dist/x86_64-linux/Cabal-1.22.4.0_ghcjs/build/haskell-jvm-hello-exe/haskell-jvm-hello-exe
+Registering haskell-jvm-hello-0.1.0.0&hellip;</p>
+
+<p>$ jjs .stack-work/dist/x86_64-linux/Cabal-1.22.4.0_ghcjs/build/haskell-jvm-hello-exe/haskell-jvm-hello-exe.jsexe/all.js
+1
+2
+3
+4
+5
+```</p>
+
+<p>Java&rsquo;s Nashorn JavaScript engine opens up few more ways for the JVM to be polyglot and it is so good to have one of the best languages, Haskell, on the JVM. Actually it should also be possible to run PureScript as well in this way on the JVM but that is for another day. Happy Haskelling!</p>
+]]></content>
+  </entry>
+  
+</feed>
