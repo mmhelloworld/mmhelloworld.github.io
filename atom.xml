@@ -4,7 +4,7 @@
   <title><![CDATA[mmhelloworld]]></title>
   <link href="http://mmhelloworld.github.io/atom.xml" rel="self"/>
   <link href="http://mmhelloworld.github.io/"/>
-  <updated>2016-02-28T00:31:29-05:00</updated>
+  <updated>2016-02-28T12:59:09-05:00</updated>
   <id>http://mmhelloworld.github.io/</id>
   <author>
     <name><![CDATA[Marimuthu]]></name>
@@ -26,7 +26,7 @@
 </ol>
 
 
-<p>Frege is basically a Haskell for the JVM and is infact conforms to Haskell 2010 with few inbuilt GHC extensions. Even with good Java interop, it doesn&rsquo;t sacrifice its type guarantees and currently is the only pure language on the JVM.</p>
+<p>Frege is basically a Haskell for the JVM and infact conforms to Haskell 2010 with few inbuilt GHC extensions. Even with good Java interop, it doesn&rsquo;t sacrifice its type guarantees and currently is the only pure language on the JVM.</p>
 
 <p>In this post, I am going to explore another interesting option: Haskell itself on the JVM. Haskell can be compiled to JavaScript using GHCJS and Java has an inbuilt JavaScript engine, called Nashorn so it is actually possible to compile Haskell to JavaScript and run the resulting JavaScript on the JVM.</p>
 
