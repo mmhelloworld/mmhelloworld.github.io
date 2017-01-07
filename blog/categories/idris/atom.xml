@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Idris | mmhelloworld]]></title>
+  <link href="http://mmhelloworld.github.io/blog/categories/idris/atom.xml" rel="self"/>
+  <link href="http://mmhelloworld.github.io/"/>
+  <updated>2017-01-07T05:38:38-05:00</updated>
+  <id>http://mmhelloworld.github.io/</id>
+  <author>
+    <name><![CDATA[Marimuthu]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Introducing Idris on the JVM and an Idris Android example]]></title>
+    <link href="http://mmhelloworld.github.io/blog/2017/01/06/introducing-idris-on-the-jvm-and-an-idris-android-example/"/>
+    <updated>2017-01-06T22:51:00-05:00</updated>
+    <id>http://mmhelloworld.github.io/blog/2017/01/06/introducing-idris-on-the-jvm-and-an-idris-android-example</id>
+    <content type="html"><![CDATA[<p><a href="https://github.com/mmhelloworld/idris-jvm">Idris on the JVM!</a> Yes, a dependently typed language on the JVM!
+I have been working on a <a href="https://github.com/mmhelloworld/idris-jvm">JVM bytecode backend for Idris</a> for the past few months and
+it is now at a point that we can even write Android programs with Idris without having to write a single line of Java.
+In this post, we will see how Idris works on the JVM and an example Android program written in Idris.</p>
+
+<h2>Hello World</h2>
+
+<p>```haskell hellworld.idr
+module Main</p>
+
+<p>main : IO ()
+main = printLn &ldquo;Hello World&rdquo;
+```</p>
+
+<h6>Compile:</h6>
+
+<p><code>bash
+$ idrisjvm helloworld.idr -o target
+</code></p>
+
+<p>Here <code>idrisjvm</code> is just a wrapper around Idris command itself with few default options: <code>idris --codegen jvm -p idrisjvmruntime</code>.
+Dependencies are provided as Idris packages, not as Java dependencies like jar or class files.
+The overall process is that the compiler reads Idris files and converts them into Idris bytecode files (<code>*.ibc</code>) and
+the JVM bytecode generator takes the <code>ibc</code> files and converts them into JVM bytecode class files directly.
+It is only when we run a Java class, we have to provide Java dependency jars. The output option <code>-o</code> represents a directory
+where the Java class files will be created.</p>
+
+<h6>Run:</h6>
+
+<p>```bash
+$ java -cp target:/path/to/idris-jvm-runtime-1.0-SNAPSHOT.jar main.Main
+&ldquo;Hello World&rdquo;</p>
+
+<p>```</p>
+
+<p>And the output folder contains,</p>
+
+<p>```bash
+$ tree target
+target
+├── Decidable
+│   └── Equality.class
+├── main
+│   └── Main.class
+└── Prelude</p>
+
+<pre><code>├── Basics.class
+├── Bool.class
+├── Chars.class
+├── Interfaces.class
+├── Show.class
+└── Strings.class
+</code></pre>
+
+<p>```</p>
+
+<p>Why do we have all these classes? We only compiled <code>Main</code> module! This is because Idris performs whole program analysis/compilation
+and code generator generates bytecode for all the modules that are relevant for the result produced by the main program.</p>
+
+<h2>How does Idris JVM handle tail calls?</h2>
+
+<p>Idris JVM eliminates self-recursion with JVM <code>GOTO</code> and uses trampolines for other tail calls.
+Let&rsquo;s look at the following examples.</p>
+
+<h5>self-recursion example</h5>
+
+<p>```haskell selfrecursion.idr
+module Main</p>
+
+<p>import IdrisJvm.IO</p>
+
+<p>sum : Nat &ndash;> Nat
+sum n = go 0 n where
+  go : Nat &ndash;> Nat &ndash;> Nat
+  go acc Z = acc
+  go acc n@(S k) = go (acc + n) k</p>
+
+<p>main : JVM_IO ()
+main = printLn (sum 50000)</p>
+
+<p>```</p>
+
+<p>This program would work just fine without blowing up the stack as it will be compiled down to a loop that uses JVM&rsquo;s <code>GOTO</code> instruction.
+Here is the relevant section from bytecode:</p>
+
+<p>```bash
+$ javap -c -cp target:/path/to/idris-jvm-runtime-1.0-SNAPSHOT.jar main.Main</p>
+
+<p>  public static java.lang.Object sum$whr$go$colon$0(java.lang.Object, java.lang.Object, java.lang.Object);</p>
+
+<pre><code>Code:
+   0: aconst_null
+   1: astore        7
+   3: aconst_null
+   4: astore_3
+   5: aconst_null
+   6: astore        4
+   8: aconst_null
+   9: astore        5
+  11: aconst_null
+  12: astore        6
+  14: iconst_1
+  15: istore        8
+  17: iload         8
+  19: ifeq          130
+  22: aload_2
+  23: new           #80                 // class java/math/BigInteger
+  26: dup
+  27: ldc           #82                 // String 0
+  29: invokespecial #85                 // Method java/math/BigInteger."&lt;init&gt;":(Ljava/lang/String;)V
+  32: invokestatic  #333                // Method mmhelloworld/idrisjvmruntime/Util.equals:(Ljava/lang/Object;Ljava/lang/Object;)Z
+  35: ifeq          47
+  38: aload_1
+  39: astore        7
+  41: iconst_0
+  42: istore        8
+  44: goto          127
+  47: new           #80                 // class java/math/BigInteger
+  50: dup
+  51: ldc_w         #335                // String 1
+  54: invokespecial #85                 // Method java/math/BigInteger."&lt;init&gt;":(Ljava/lang/String;)V
+  57: astore_3
+  58: aload_2
+  59: invokestatic  #103                // Method mmhelloworld/idrisjvmruntime/Util.asBigInt:(Ljava/lang/Object;)Ljava/math/BigInteger;
+  62: aload_3
+  63: invokestatic  #103                // Method mmhelloworld/idrisjvmruntime/Util.asBigInt:(Ljava/lang/Object;)Ljava/math/BigInteger;
+  66: invokevirtual #338                // Method java/math/BigInteger.subtract:(Ljava/math/BigInteger;)Ljava/math/BigInteger;
+  69: astore_3
+  70: new           #80                 // class java/math/BigInteger
+  73: dup
+  74: ldc_w         #335                // String 1
+  77: invokespecial #85                 // Method java/math/BigInteger."&lt;init&gt;":(Ljava/lang/String;)V
+  80: astore        4
+  82: aload_3
+  83: invokestatic  #103                // Method mmhelloworld/idrisjvmruntime/Util.asBigInt:(Ljava/lang/Object;)Ljava/math/BigInteger;
+  86: aload         4
+  88: invokestatic  #103                // Method mmhelloworld/idrisjvmruntime/Util.asBigInt:(Ljava/lang/Object;)Ljava/math/BigInteger;
+  91: invokevirtual #107                // Method java/math/BigInteger.add:(Ljava/math/BigInteger;)Ljava/math/BigInteger;
+  94: astore        4
+  96: iconst_0
+  97: invokestatic  #41                 // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+ 100: astore        5
+ 102: aload_1
+ 103: invokestatic  #103                // Method mmhelloworld/idrisjvmruntime/Util.asBigInt:(Ljava/lang/Object;)Ljava/math/BigInteger;
+ 106: aload         4
+ 108: invokestatic  #103                // Method mmhelloworld/idrisjvmruntime/Util.asBigInt:(Ljava/lang/Object;)Ljava/math/BigInteger;
+ 111: invokevirtual #107                // Method java/math/BigInteger.add:(Ljava/math/BigInteger;)Ljava/math/BigInteger;
+ 114: astore        6
+ 116: aload         5
+ 118: astore_0
+ 119: aload         6
+ 121: astore_1
+ 122: aload_3
+ 123: astore_2
+ 124: goto          127
+ 127: goto          17
+ 130: aload         7
+ 132: areturn
+</code></pre>
+
+<p><code>``
+The third line from the last is the</code>GOTO` instruction that transfers the control back to the top of function instead of
+actually calling the function.</p>
+
+<h5>Mutual recursion example:</h5>
+
+<p>```haskell mutualrecursion.idr
+module Main</p>
+
+<p>mutual
+  evenT : Nat &ndash;> IO Bool
+  evenT Z = pure True
+  evenT (S k) = oddT k</p>
+
+<p>  oddT : Nat &ndash;> IO Bool
+  oddT Z = pure False
+  oddT (S k) = evenT k</p>
+
+<p>main : IO ()
+main = printLn !(evenT 9999)</p>
+
+<p>```</p>
+
+<p>The above code also would work fine without killing the stack. Mutual recursion is handled using trampolines and
+the tail calls are delayed and compiled down to Java 8 lambdas. As the bytecode for this is bit long, here is the
+decompiled bytecode for the <code>evenT</code> function:</p>
+
+<p>```java Decompiled bytecode for evenT</p>
+
+<pre><code>public static Object evenT(Object var0) {
+    Object var4 = null;
+    Integer var1 = null;
+    Integer var2 = null;
+    Object[] var3 = null;
+    if(Util.equals(var0, new BigInteger("0"))) {
+        var1 = Integer.valueOf(0);
+        var2 = Integer.valueOf(0);
+        var3 = new Object[]{Integer.valueOf(1)};
+        var4 = new Object[]{Integer.valueOf(65648), var1, var2, var3};
+    } else {
+        BigInteger var5 = new BigInteger("1");
+        var5 = Util.asBigInt(var0).subtract(Util.asBigInt(var5));
+        var4 = Runtime.thunk((var0) -&gt; {
+            return oddT(var0[0]);
+        }, new Object[]{var5});
+    }
+
+    return var4;
+}
+</code></pre>
+
+<p>```</p>
+
+<p>As we can see from the decompiled output above, the <code>oddT</code> call is not performed on the same call stack but a thunk
+wrapping the function call is returned using lambda (which is compiled down to JVM&rsquo;s <code>invokedynamic</code> instruction).</p>
+
+<p>Here is the relevant bit from bytecode for those who are interested:</p>
+
+<p>```java bytecode for evenT</p>
+
+<pre><code>    76: new           #61                 // class java/math/BigInteger
+    79: dup
+    80: ldc           #75                 // String 1
+    82: invokespecial #66                 // Method java/math/BigInteger."&lt;init&gt;":(Ljava/lang/String;)V
+    85: astore_1
+    86: aload_0
+    87: invokestatic  #79                 // Method mmhelloworld/idrisjvmruntime/Util.asBigInt:(Ljava/lang/Object;)
+</code></pre>
+
+<p>Ljava/math/BigInteger;</p>
+
+<pre><code>    90: aload_1
+    91: invokestatic  #79                 // Method mmhelloworld/idrisjvmruntime/Util.asBigInt:(Ljava/lang/Object;)
+</code></pre>
+
+<p>Ljava/math/BigInteger;</p>
+
+<pre><code>    94: invokevirtual #83                 // Method java/math/BigInteger.subtract:(Ljava/math/BigInteger;)Ljava/math/BigInteger;
+    97: astore_1
+    98: invokedynamic #88,  0             // InvokeDynamic #1:apply:()Lmmhelloworld/idrisjvmruntime/Function;
+   103: iconst_1
+   104: anewarray     #4                  // class java/lang/Object
+   107: dup
+   108: iconst_0
+   109: aload_1
+   110: aastore
+   111: invokestatic  #58                 // Method mmhelloworld/idrisjvmruntime/Runtime.thunk:(Lmmhelloworld/idrisjvmruntime/Function;[Ljava/lang/Object;)Lmmhelloworld/idrisjvmruntime/Thunk;
+   114: astore        4
+   116: goto          119
+   119: aload         4
+   121: areturn
+</code></pre>
+
+<p>```</p>
+
+<h2>Java interoperability: Calling Java from Idris and calling Idris from Java</h2>
+
+<p>Idris JVM supports calling Java static methods, instance methods, constructors and also accessing static and instance fields from Idris.
+At the moment, except for Java arrays, all the Java types can be constructed from Idris and passed to Java methods.
+Support for handling nulls and exceptions is currently in progress and will soon be available.</p>
+
+<p>To use Idris functions from Java, Idris JVM supports exporting Idris functions as static methods, instance methods,
+constructors of an exported Java class. The exported class can also extend a Java class or implement interfaces with Idris functions.</p>
+
+<p>To demonstrate these features, let&rsquo;s create an Android application In Idris.</p>
+
+<h3>An Android application in Idris</h3>
+
+<p>```haskell idrisandroid.idr
+module Main</p>
+
+<p>import IdrisJvm.IO
+import Java.Lang</p>
+
+<p>pythag : Int &ndash;> List (Int, Int, Int)
+pythag max = [(x, y, z) | z &lt;&ndash; [1..max], y &lt;&ndash; [1..z], x &lt;&ndash; [1..y],</p>
+
+<pre><code>                      x * x + y * y == z * z]
+</code></pre>
+
+<p>IdrisAndroidActivity : Type
+IdrisAndroidActivity = JVM_Native $ Class &ldquo;hello/IdrisAndroidActivity&rdquo;</p>
+
+<p>Bundle : Type
+Bundle = JVM_Native $ Class &ldquo;android/os/Bundle&rdquo;</p>
+
+<p>Context : Type
+Context = JVM_Native $ Class &ldquo;android/content/Context&rdquo;</p>
+
+<p>View : Type
+View = JVM_Native $ Class &ldquo;android/view/View&rdquo;</p>
+
+<p>TextView : Type
+TextView = JVM_Native $ Class &ldquo;android/widget/TextView&rdquo;</p>
+
+<p>Inherits View TextView where {}</p>
+
+<p>CharSequence : Type
+CharSequence = JVM_Native $ Class &ldquo;java/lang/CharSequence&rdquo;</p>
+
+<p>Inherits CharSequence String where {}</p>
+
+<p>superOnCreate : IdrisAndroidActivity &ndash;> Bundle &ndash;> JVM_IO ()
+superOnCreate = invokeInstance &ldquo;superOnCreate&rdquo; (IdrisAndroidActivity &ndash;> Bundle &ndash;> JVM_IO ())</p>
+
+<p>getApplicationContext : IdrisAndroidActivity &ndash;> JVM_IO Context
+getApplicationContext = invokeInstance &ldquo;getApplicationContext&rdquo; (IdrisAndroidActivity &ndash;> JVM_IO Context)</p>
+
+<p>newTextView : Context &ndash;> JVM_IO TextView
+newTextView = FFI.new (Context &ndash;> JVM_IO TextView)</p>
+
+<p>setText : Inherits CharSequence charSequence => TextView &ndash;> charSequence &ndash;> JVM_IO ()
+setText this text = invokeInstance &ldquo;setText&rdquo; (TextView &ndash;> CharSequence &ndash;> JVM_IO ()) this (believe_me text)</p>
+
+<p>setContentView : Inherits View view => IdrisAndroidActivity &ndash;> view &ndash;> JVM_IO ()
+setContentView this view = invokeInstance &ldquo;setContentView&rdquo; (IdrisAndroidActivity &ndash;> View &ndash;> JVM_IO ()) this (believe_me view)</p>
+
+<p>onCreate : IdrisAndroidActivity &ndash;> Bundle &ndash;> JVM_IO ()
+onCreate this bundle = do
+  superOnCreate this bundle
+  context &lt;&ndash; getApplicationContext this
+  textView &lt;&ndash; newTextView context
+  setText textView $ &ldquo;Hello Android from Idris! pythag 50 is &rdquo; ++ show (pythag 50)
+  setContentView this textView</p>
+
+<p>main : IO ()
+main = pure ()</p>
+
+<p>androidExport: FFI_Export FFI_JVM &ldquo;hello/IdrisAndroidActivity extends android/support/v7/app/AppCompatActivity&rdquo; []
+androidExport =
+  Fun superOnCreate (Super &ldquo;onCreate&rdquo;) $
+  Fun onCreate (ExportInstance &ldquo;onCreate&rdquo;) $
+  End</p>
+
+<p>```</p>
+
+<p>The above program demonstrates calling Java instance methods (<code>setText</code> for example) and constructors (<code>newTextView</code>).</p>
+
+<p>It further demonstrates how to handle inheritance relationship when passing subclass instances to a parent class type.
+For example, function <code>setContentView</code> takes a <code>View</code> but we can pass a <code>TextView</code> as it is a subclass of <code>View</code> and we
+mention that to Idris via <code>Inherits View TextView where {}</code>.</p>
+
+<p>It also demonstrates how we can create a Java class that extends another class and override methods with Idris functions.
+The last section <code>androidExport</code> creates a Java class named <code>hello/IdrisAndroidActivity</code> that extends <code>android/support/v7/app/AppCompatActivity</code>.
+The Java class also creates a wrapper method <code>superOnCreate</code> that just delegates to <code>super.OnCreate</code> and the class also overrides <code>onCreate</code> method
+with Idris' <code>onCreate</code> function. The Java class can also implement one or more Java interfaces with something like,</p>
+
+<p><code>bash
+hello/IdrisAndroidActivity extends android/support/v7/app/AppCompatActivity implements java/lang/Runnable, java/lang/Comparable
+</code></p>
+
+<p>A module can have multiple exports so we can actually create multiple Java classes with Idris implementation functions from an Idris module.</p>
+
+<p>We can compile this as usual,</p>
+
+<p><code>idrisjvm idrisandroid.idr -o target</code></p>
+
+<p>It would produce the following class files:</p>
+
+<p>```
+$ tree target/
+target/
+├── Decidable
+│   └── Equality.class
+├── hello
+│   └── IdrisAndroidActivity.class
+├── main
+│   ├── Main.class
+│   └── Prelude.class
+└── Prelude</p>
+
+<pre><code>├── Algebra.class
+├── Applicative.class
+├── Bool.class
+├── Foldable.class
+├── Interfaces.class
+├── List.class
+├── Monad.class
+├── Show.class
+└── Strings.class
+</code></pre>
+
+<p>```</p>
+
+<h5>Deploying to Android:</h5>
+
+<ol>
+<li>Create an android project using Android studio with <a href="https://developer.android.com/guide/platform/j8-jack.html#configuration">Jack support for Java 8</a>.</li>
+<li>Then package the classes compiled above along with idris-jvm-runtime-1.0-SNAPSHOT.jar classes in a single jar and copy into an
+android project&rsquo;s <code>app/libs</code> directory.</li>
+<li>Change the activity class name in android manifest file to the Idris exported class name <code>hello.IdrisAndroidActivity</code>.</li>
+<li>Then run <code>./gradlew installDebug</code> from android project after starting an emulator or connected to an android device.</li>
+<li>Finally we should see our Idris code running on Android! It should look something like this:
+<img class="center" src="/images/idris-android.png"></li>
+</ol>
+
+
+<p>Happy coding!</p>
+]]></content>
+  </entry>
+  
+</feed>
