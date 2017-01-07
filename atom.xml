@@ -4,7 +4,7 @@
   <title><![CDATA[mmhelloworld]]></title>
   <link href="http://mmhelloworld.github.io/atom.xml" rel="self"/>
   <link href="http://mmhelloworld.github.io/"/>
-  <updated>2016-02-28T13:30:20-05:00</updated>
+  <updated>2017-01-06T22:04:20-05:00</updated>
   <id>http://mmhelloworld.github.io/</id>
   <author>
     <name><![CDATA[Marimuthu]]></name>
@@ -441,20 +441,6 @@
 
 
 <p>Java&rsquo;s Nashorn JavaScript engine opens up few more ways for the JVM to be polyglot and it is so good to have one of the best languages, Haskell, on the JVM. Actually it should also be possible to run PureScript as well in this way on the JVM but that is for another day. Happy Haskelling!</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Enabling Java in Firefox Ubuntu]]></title>
-    <link href="http://mmhelloworld.github.io/blog/2015/07/21/enabling-java-in-firefox-ubuntu/"/>
-    <updated>2015-07-21T01:00:00-04:00</updated>
-    <id>http://mmhelloworld.github.io/blog/2015/07/21/enabling-java-in-firefox-ubuntu</id>
-    <content type="html"><![CDATA[<ol>
-<li>Download Java <code>jdk-&lt;version&gt;-linux-x64.tar.gz</code> (for 64 bit)</li>
-<li>Extract the archive</li>
-<li>Run <code>ln -sf /path/to/jdk/jre/lib/amd64/libnpjp2.so ~/.mozilla/plugins/</code></li>
-</ol>
-
 ]]></content>
   </entry>
   
