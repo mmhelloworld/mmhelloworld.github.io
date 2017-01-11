@@ -4,7 +4,7 @@
   <title><![CDATA[mmhelloworld]]></title>
   <link href="http://mmhelloworld.github.io/atom.xml" rel="self"/>
   <link href="http://mmhelloworld.github.io/"/>
-  <updated>2017-01-07T05:38:38-05:00</updated>
+  <updated>2017-01-11T00:01:37-05:00</updated>
   <id>http://mmhelloworld.github.io/</id>
   <author>
     <name><![CDATA[Marimuthu]]></name>
@@ -12,6 +12,128 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Idris JVM: Guarding against Java null using Maybe type]]></title>
+    <link href="http://mmhelloworld.github.io/blog/2017/01/10/idris-jvm-guarding-against-java-null-using-maybe-type/"/>
+    <updated>2017-01-10T21:08:00-05:00</updated>
+    <id>http://mmhelloworld.github.io/blog/2017/01/10/idris-jvm-guarding-against-java-null-using-maybe-type</id>
+    <content type="html"><![CDATA[<p>Idris JVM now helps avoiding nulls getting into Idris from FFI calls using <code>Maybe</code> type.
+FFI declarations can have <code>Maybe</code> type in any argument position or in the return type.</p>
+
+<h2>Handling <code>null</code> from FFI call</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">getProperty</span> <span class="kt">:</span> <span class="kt">String</span> <span class="ow">-&gt;</span> <span class="kt">JVM_IO</span> <span class="p">(</span><span class="kt">Maybe</span> <span class="kt">String</span><span class="p">)</span>
+</span><span class='line'><span class="nf">getProperty</span> <span class="ow">=</span> <span class="n">invokeStatic</span> <span class="kt">SystemClass</span> <span class="s">&quot;getProperty&quot;</span> <span class="p">(</span><span class="kt">String</span> <span class="ow">-&gt;</span> <span class="kt">JVM_IO</span> <span class="p">(</span><span class="kt">Maybe</span> <span class="kt">String</span><span class="p">))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The above function is an FFI call to Java&rsquo;s method
+<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/System.html#getProperty-java.lang.String-"><code>static String getProperty(String key)</code></a>.
+The method returns a system property value if the property is set otherwise returns null.
+With <code>Maybe</code> type in the Idris function&rsquo;s return type, the Idris function returns <code>Nothing</code> if the returned value is null
+otherwise the value is wrapped in <code>Just</code>.</p>
+
+<h6>Example</h6>
+
+<figure class='code'><figcaption><span>returningnull.idr</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="kr">module</span> <span class="nn">Main</span>
+</span><span class='line'>
+</span><span class='line'><span class="kr">import</span> <span class="nn">IdrisJvm.IO</span>
+</span><span class='line'><span class="kr">import</span> <span class="nn">Java.Lang</span>
+</span><span class='line'>
+</span><span class='line'><span class="nf">main</span> <span class="kt">:</span> <span class="kt">JVM_IO</span> <span class="nb">()</span>
+</span><span class='line'><span class="nf">main</span> <span class="ow">=</span> <span class="n">printLn</span> <span class="o">!</span><span class="p">(</span><span class="n">getProperty</span> <span class="s">&quot;foo&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>idrisjvm returningnull.idr -o target
+</span><span class='line'>
+</span><span class='line'><span class="nv">$ </span>java -cp target:/path/to/idris-jvm-runtime-1.0-SNAPSHOT.jar main.Main
+</span><span class='line'>Nothing
+</span><span class='line'>
+</span><span class='line'><span class="nv">$ </span>java -cp target:/path/to/idris-jvm-runtime-1.0-SNAPSHOT.jar -Dfoo<span class="o">=</span>hello main.Main
+</span><span class='line'>Just <span class="s2">&quot;hello&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Passing <code>Maybe</code> values for nullable values in FFI calls</h2>
+
+<figure class='code'><figcaption><span>passingnull.idr</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="kr">module</span> <span class="nn">Main</span>
+</span><span class='line'>
+</span><span class='line'><span class="kr">import</span> <span class="nn">IdrisJvm.IO</span>
+</span><span class='line'><span class="kr">import</span> <span class="nn">Java.Lang</span>
+</span><span class='line'>
+</span><span class='line'><span class="nf">namespace</span> <span class="kt">Component</span>
+</span><span class='line'>  <span class="kt">Component</span> <span class="kt">:</span> <span class="kt">Type</span>
+</span><span class='line'>  <span class="kt">Component</span> <span class="ow">=</span> <span class="kt">JVM_Native</span> <span class="o">$</span> <span class="kt">Class</span> <span class="s">&quot;java/awt/Component&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nf">namespace</span> <span class="kt">JOptionPane</span>
+</span><span class='line'>  <span class="kt">JOptionPaneClass</span> <span class="kt">:</span> <span class="kt">JVM_NativeTy</span>
+</span><span class='line'>  <span class="kt">JOptionPaneClass</span> <span class="ow">=</span> <span class="kt">Class</span> <span class="s">&quot;javax/swing/JOptionPane&quot;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">showMessageDialog</span> <span class="kt">:</span> <span class="kt">Inherits</span> <span class="kt">Object</span> <span class="n">messageTy</span> <span class="ow">=&gt;</span> <span class="kt">Maybe</span> <span class="kt">Component</span> <span class="ow">-&gt;</span> <span class="n">messageTy</span> <span class="ow">-&gt;</span> <span class="kt">JVM_IO</span> <span class="nb">()</span>
+</span><span class='line'>  <span class="n">showMessageDialog</span> <span class="n">parent</span> <span class="n">message</span> <span class="ow">=</span>
+</span><span class='line'>    <span class="n">invokeStatic</span> <span class="kt">JOptionPaneClass</span> <span class="s">&quot;showMessageDialog&quot;</span> <span class="p">(</span><span class="kt">Maybe</span> <span class="kt">Component</span> <span class="ow">-&gt;</span> <span class="kt">Object</span> <span class="ow">-&gt;</span> <span class="kt">JVM_IO</span> <span class="nb">()</span><span class="p">)</span> <span class="n">parent</span> <span class="p">(</span><span class="n">believe_me</span> <span class="n">message</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="nf">main</span> <span class="kt">:</span> <span class="kt">JVM_IO</span> <span class="nb">()</span>
+</span><span class='line'><span class="nf">main</span> <span class="ow">=</span> <span class="n">showMessageDialog</span> <span class="kt">Nothing</span> <span class="s">&quot;Hello Idris!&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In the above code, the Java method
+<a href="https://docs.oracle.com/javase/8/docs/api/javax/swing/JOptionPane.html#showMessageDialog-java.awt.Component-java.lang.Object-"><code>JOptionPane.showMessageDialog(parentComponent, message)</code></a>
+takes a nullable parent component and a message. If the parent component is <code>null</code> then the message is displayed in a default frame.</p>
+
+<figure class='code'><figcaption><span>passingnull.idr</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="o">$</span> <span class="n">idrisjvm</span> <span class="n">passingnull</span><span class="o">.</span><span class="n">idr</span> <span class="o">-</span><span class="n">o</span> <span class="n">target</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">$</span> <span class="n">java</span> <span class="o">-</span><span class="n">cp</span> <span class="n">target</span><span class="kt">:/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">idris</span><span class="o">-</span><span class="n">jvm</span><span class="o">-</span><span class="n">runtime</span><span class="o">-</span><span class="mf">1.0</span><span class="o">-</span><span class="kt">SNAPSHOT</span><span class="o">.</span><span class="n">jar</span> <span class="n">main</span><span class="o">.</span><span class="kt">Main</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Idris code passes <code>Nothing</code> in the above code so <code>null</code> is passed for the Java method that displays the message in a default frame as shown below.
+<img class="center" src="http://mmhelloworld.github.io/images/idris-passing-null.png"></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Introducing Idris on the JVM and an Idris Android example]]></title>
@@ -418,7 +540,10 @@ wrapping the function call is returned using lambda (which is compiled down to J
 
 <p>Idris JVM supports calling Java static methods, instance methods, constructors and also accessing static and instance fields from Idris.
 At the moment, except for Java arrays, all the Java types can be constructed from Idris and passed to Java methods.
-Support for handling nulls and exceptions is currently in progress and will soon be available.</p>
+Support for handling nulls and exceptions is currently in progress and will soon be available.
+(Update 01/10/2017: We can now
+<a href="http://mmhelloworld.github.io/blog/2017/01/10/idris-jvm-guarding-against-java-null-using-maybe-type/">use <code>Maybe</code> type to avoid Java nulls</a>
+in Idris code)</p>
 
 <p>To use Idris functions from Java, Idris JVM supports exporting Idris functions as static methods, instance methods,
 constructors of an exported Java class. The exported class can also extend a Java class or implement interfaces with Idris functions.</p>

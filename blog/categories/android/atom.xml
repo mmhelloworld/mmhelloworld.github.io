@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Android | mmhelloworld]]></title>
   <link href="http://mmhelloworld.github.io/blog/categories/android/atom.xml" rel="self"/>
   <link href="http://mmhelloworld.github.io/"/>
-  <updated>2017-01-07T05:38:38-05:00</updated>
+  <updated>2017-01-11T00:01:37-05:00</updated>
   <id>http://mmhelloworld.github.io/</id>
   <author>
     <name><![CDATA[Marimuthu]]></name>
@@ -277,7 +277,10 @@ wrapping the function call is returned using lambda (which is compiled down to J
 
 <p>Idris JVM supports calling Java static methods, instance methods, constructors and also accessing static and instance fields from Idris.
 At the moment, except for Java arrays, all the Java types can be constructed from Idris and passed to Java methods.
-Support for handling nulls and exceptions is currently in progress and will soon be available.</p>
+Support for handling nulls and exceptions is currently in progress and will soon be available.
+(Update 01/10/2017: We can now
+<a href="http://mmhelloworld.github.io/blog/2017/01/10/idris-jvm-guarding-against-java-null-using-maybe-type/">use <code>Maybe</code> type to avoid Java nulls</a>
+in Idris code)</p>
 
 <p>To use Idris functions from Java, Idris JVM supports exporting Idris functions as static methods, instance methods,
 constructors of an exported Java class. The exported class can also extend a Java class or implement interfaces with Idris functions.</p>

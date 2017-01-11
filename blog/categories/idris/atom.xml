@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Idris | mmhelloworld]]></title>
   <link href="http://mmhelloworld.github.io/blog/categories/idris/atom.xml" rel="self"/>
   <link href="http://mmhelloworld.github.io/"/>
-  <updated>2017-01-07T05:38:38-05:00</updated>
+  <updated>2017-01-11T00:01:37-05:00</updated>
   <id>http://mmhelloworld.github.io/</id>
   <author>
     <name><![CDATA[Marimuthu]]></name>
@@ -12,6 +12,91 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Idris JVM: Guarding against Java null using Maybe type]]></title>
+    <link href="http://mmhelloworld.github.io/blog/2017/01/10/idris-jvm-guarding-against-java-null-using-maybe-type/"/>
+    <updated>2017-01-10T21:08:00-05:00</updated>
+    <id>http://mmhelloworld.github.io/blog/2017/01/10/idris-jvm-guarding-against-java-null-using-maybe-type</id>
+    <content type="html"><![CDATA[<p>Idris JVM now helps avoiding nulls getting into Idris from FFI calls using <code>Maybe</code> type.
+FFI declarations can have <code>Maybe</code> type in any argument position or in the return type.</p>
+
+<h2>Handling <code>null</code> from FFI call</h2>
+
+<p><code>haskell
+getProperty : String -&gt; JVM_IO (Maybe String)
+getProperty = invokeStatic SystemClass "getProperty" (String -&gt; JVM_IO (Maybe String))
+</code></p>
+
+<p>The above function is an FFI call to Java&rsquo;s method
+<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/System.html#getProperty-java.lang.String-"><code>static String getProperty(String key)</code></a>.
+The method returns a system property value if the property is set otherwise returns null.
+With <code>Maybe</code> type in the Idris function&rsquo;s return type, the Idris function returns <code>Nothing</code> if the returned value is null
+otherwise the value is wrapped in <code>Just</code>.</p>
+
+<h6>Example</h6>
+
+<p>``` haskell returningnull.idr
+module Main</p>
+
+<p>import IdrisJvm.IO
+import Java.Lang</p>
+
+<p>main : JVM_IO ()
+main = printLn !(getProperty &ldquo;foo&rdquo;)<br/>
+```</p>
+
+<p>``` bash
+$ idrisjvm returningnull.idr -o target</p>
+
+<p>$ java -cp target:/path/to/idris-jvm-runtime-1.0-SNAPSHOT.jar main.Main
+Nothing</p>
+
+<p>$ java -cp target:/path/to/idris-jvm-runtime-1.0-SNAPSHOT.jar -Dfoo=hello main.Main
+Just &ldquo;hello&rdquo;</p>
+
+<p>```</p>
+
+<h2>Passing <code>Maybe</code> values for nullable values in FFI calls</h2>
+
+<p>``` haskell passingnull.idr
+module Main</p>
+
+<p>import IdrisJvm.IO
+import Java.Lang</p>
+
+<p>namespace Component
+  Component : Type
+  Component = JVM_Native $ Class &ldquo;java/awt/Component&rdquo;</p>
+
+<p>namespace JOptionPane
+  JOptionPaneClass : JVM_NativeTy
+  JOptionPaneClass = Class &ldquo;javax/swing/JOptionPane&rdquo;</p>
+
+<p>  showMessageDialog : Inherits Object messageTy => Maybe Component &ndash;> messageTy &ndash;> JVM_IO ()
+  showMessageDialog parent message =</p>
+
+<pre><code>invokeStatic JOptionPaneClass "showMessageDialog" (Maybe Component -&gt; Object -&gt; JVM_IO ()) parent (believe_me message)
+</code></pre>
+
+<p>main : JVM_IO ()
+main = showMessageDialog Nothing &ldquo;Hello Idris!&rdquo;</p>
+
+<p>```</p>
+
+<p>In the above code, the Java method
+<a href="https://docs.oracle.com/javase/8/docs/api/javax/swing/JOptionPane.html#showMessageDialog-java.awt.Component-java.lang.Object-"><code>JOptionPane.showMessageDialog(parentComponent, message)</code></a>
+takes a nullable parent component and a message. If the parent component is <code>null</code> then the message is displayed in a default frame.</p>
+
+<p>```
+$ idrisjvm passingnull.idr -o target</p>
+
+<p>$ java -cp target:/path/to/idris-jvm-runtime-1.0-SNAPSHOT.jar main.Main
+<code>``
+Idris code passes</code>Nothing<code>in the above code so</code>null` is passed for the Java method that displays the message in a default frame as shown below.
+<img class="center" src="/images/idris-passing-null.png"></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Introducing Idris on the JVM and an Idris Android example]]></title>
@@ -277,7 +362,10 @@ wrapping the function call is returned using lambda (which is compiled down to J
 
 <p>Idris JVM supports calling Java static methods, instance methods, constructors and also accessing static and instance fields from Idris.
 At the moment, except for Java arrays, all the Java types can be constructed from Idris and passed to Java methods.
-Support for handling nulls and exceptions is currently in progress and will soon be available.</p>
+Support for handling nulls and exceptions is currently in progress and will soon be available.
+(Update 01/10/2017: We can now
+<a href="http://mmhelloworld.github.io/blog/2017/01/10/idris-jvm-guarding-against-java-null-using-maybe-type/">use <code>Maybe</code> type to avoid Java nulls</a>
+in Idris code)</p>
 
 <p>To use Idris functions from Java, Idris JVM supports exporting Idris functions as static methods, instance methods,
 constructors of an exported Java class. The exported class can also extend a Java class or implement interfaces with Idris functions.</p>
