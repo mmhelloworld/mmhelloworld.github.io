@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Android | mmhelloworld]]></title>
   <link href="http://mmhelloworld.github.io/blog/categories/android/atom.xml" rel="self"/>
   <link href="http://mmhelloworld.github.io/"/>
-  <updated>2017-01-11T00:01:37-05:00</updated>
+  <updated>2017-09-17T18:11:27-04:00</updated>
   <id>http://mmhelloworld.github.io/</id>
   <author>
     <name><![CDATA[Marimuthu]]></name>
@@ -35,13 +35,12 @@ main = printLn &ldquo;Hello World&rdquo;
 <h6>Compile:</h6>
 
 <p><code>bash
-$ idrisjvm helloworld.idr -o target
+$ idris --portable-codegen jvm -p idrisjvmffi helloworld.idr -o target
 </code></p>
 
-<p>Here <code>idrisjvm</code> is just a wrapper around Idris command itself with few default options: <code>idris --codegen jvm -p idrisjvmruntime</code>.
-Dependencies are provided as Idris packages, not as Java dependencies like jar or class files.
-The overall process is that the compiler reads Idris files and converts them into Idris bytecode files (<code>*.ibc</code>) and
-the JVM bytecode generator takes the <code>ibc</code> files and converts them into JVM bytecode class files directly.
+<p>Dependencies are provided as Idris packages, not as Java dependencies like jar or class files.
+The overall process is that the compiler reads Idris files and converts them into an intermediate JSON representation and
+the JVM bytecode generator takes the JSON files and converts them into JVM bytecode class files directly.
 It is only when we run a Java class, we have to provide Java dependency jars. The output option <code>-o</code> represents a directory
 where the Java class files will be created.</p>
 
@@ -211,18 +210,18 @@ decompiled bytecode for the <code>evenT</code> function:</p>
     Object var4 = null;
     Integer var1 = null;
     Integer var2 = null;
-    Object[] var3 = null;
-    if(Util.equals(var0, new BigInteger("0"))) {
+    IdrisObject var3 = null;
+    if (Util.equals(var0, BigInteger.ZERO)) {
         var1 = Integer.valueOf(0);
         var2 = Integer.valueOf(0);
-        var3 = new Object[]{Integer.valueOf(1)};
-        var4 = new Object[]{Integer.valueOf(65648), var1, var2, var3};
+        var3 = new IdrisObject(1);
+        var4 = new IdrisObject(65653, new Object[]{var1, var2, var3});
     } else {
-        BigInteger var5 = new BigInteger("1");
+        BigInteger var5 = BigInteger.ONE;
         var5 = Util.asBigInt(var0).subtract(Util.asBigInt(var5));
-        var4 = Runtime.thunk((var0) -&gt; {
-            return oddT(var0[0]);
-        }, new Object[]{var5});
+        var4 = () -&gt; {
+            return oddT(var5);
+        };
     }
 
     return var4;
@@ -238,37 +237,20 @@ wrapping the function call is returned using lambda (which is compiled down to J
 
 <p>```java bytecode for evenT</p>
 
-<pre><code>    76: new           #61                 // class java/math/BigInteger
-    79: dup
-    80: ldc           #75                 // String 1
-    82: invokespecial #66                 // Method java/math/BigInteger."&lt;init&gt;":(Ljava/lang/String;)V
-    85: astore_1
-    86: aload_0
-    87: invokestatic  #79                 // Method mmhelloworld/idrisjvmruntime/Util.asBigInt:(Ljava/lang/Object;)
-</code></pre>
-
-<p>Ljava/math/BigInteger;</p>
-
-<pre><code>    90: aload_1
-    91: invokestatic  #79                 // Method mmhelloworld/idrisjvmruntime/Util.asBigInt:(Ljava/lang/Object;)
-</code></pre>
-
-<p>Ljava/math/BigInteger;</p>
-
-<pre><code>    94: invokevirtual #83                 // Method java/math/BigInteger.subtract:(Ljava/math/BigInteger;)Ljava/math/BigInteger;
-    97: astore_1
-    98: invokedynamic #88,  0             // InvokeDynamic #1:apply:()Lmmhelloworld/idrisjvmruntime/Function;
-   103: iconst_1
-   104: anewarray     #4                  // class java/lang/Object
-   107: dup
-   108: iconst_0
-   109: aload_1
-   110: aastore
-   111: invokestatic  #58                 // Method mmhelloworld/idrisjvmruntime/Runtime.thunk:(Lmmhelloworld/idrisjvmruntime/Function;[Ljava/lang/Object;)Lmmhelloworld/idrisjvmruntime/Thunk;
-   114: astore        4
-   116: goto          119
-   119: aload         4
-   121: areturn
+<pre><code>    68: getstatic     #64                 // Field java/math/BigInteger.ONE:Ljava/math/BigInteger;
+    71: astore_1
+    72: aload_0
+    73: invokestatic  #68                 // Method io/github/mmhelloworld/idrisjvm/runtime/Util.asBigInt:(Ljava/lang/Object;)Ljava/math/BigInteger;
+    76: aload_1
+    77: invokestatic  #68                 // Method io/github/mmhelloworld/idrisjvm/runtime/Util.asBigInt:(Ljava/lang/Object;)Ljava/math/BigInteger;
+    80: invokevirtual #72                 // Method java/math/BigInteger.subtract:(Ljava/math/BigInteger;)Ljava/math/BigInteger;
+    83: astore_1
+    84: aload_1
+    85: invokedynamic #79,  0             // InvokeDynamic #1:call:(Ljava/lang/Object;)Lio/github/mmhelloworld/idrisjvm/runtime/Thunk;
+    90: astore        4
+    92: goto          95
+    95: aload         4
+    97: areturn
 </code></pre>
 
 <p>```</p>
@@ -376,7 +358,7 @@ hello/IdrisAndroidActivity extends android/support/v7/app/AppCompatActivity impl
 
 <p>We can compile this as usual,</p>
 
-<p><code>idrisjvm idrisandroid.idr -o target</code></p>
+<p><code>idris --portable-codegen jvm -p idrisjvmffi idrisandroid.idr -o target</code></p>
 
 <p>It would produce the following class files:</p>
 

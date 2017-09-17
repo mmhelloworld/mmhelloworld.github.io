@@ -138,7 +138,7 @@ otherwise the value is wrapped in <code>Just</code>.</p>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>idrisjvm returningnull.idr -o target
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>idris --portable-codegen jvm -p idrisjvmffi returningnull.idr -o target
 </span><span class='line'>
 </span><span class='line'><span class="nv">$ </span>java -cp target:/path/to/idris-jvm-runtime-1.0-SNAPSHOT.jar main.Main
 </span><span class='line'>Nothing
@@ -198,7 +198,7 @@ takes a nullable parent component and a message. If the parent component is <cod
 <figure class='code'><figcaption><span>passingnull.idr</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="o">$</span> <span class="n">idrisjvm</span> <span class="n">passingnull</span><span class="o">.</span><span class="n">idr</span> <span class="o">-</span><span class="n">o</span> <span class="n">target</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="o">$</span> <span class="n">idris</span> <span class="c1">--portable-codegen jvm -p idrisjvmffi passingnull.idr -o target</span>
 </span><span class='line'>
 </span><span class='line'><span class="o">$</span> <span class="n">java</span> <span class="o">-</span><span class="n">cp</span> <span class="n">target</span><span class="kt">:/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">idris</span><span class="o">-</span><span class="n">jvm</span><span class="o">-</span><span class="n">runtime</span><span class="o">-</span><span class="mf">1.0</span><span class="o">-</span><span class="kt">SNAPSHOT</span><span class="o">.</span><span class="n">jar</span> <span class="n">main</span><span class="o">.</span><span class="kt">Main</span>
 </span></code></pre></td></tr></table></div></figure>

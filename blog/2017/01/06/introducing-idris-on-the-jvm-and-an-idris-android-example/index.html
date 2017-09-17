@@ -113,14 +113,13 @@ In this post, we will see how Idris works on the JVM and an example Android prog
 <h6>Compile:</h6>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>idrisjvm helloworld.idr -o target
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>idris --portable-codegen jvm -p idrisjvmffi helloworld.idr -o target
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Here <code>idrisjvm</code> is just a wrapper around Idris command itself with few default options: <code>idris --codegen jvm -p idrisjvmruntime</code>.
-Dependencies are provided as Idris packages, not as Java dependencies like jar or class files.
-The overall process is that the compiler reads Idris files and converts them into Idris bytecode files (<code>*.ibc</code>) and
-the JVM bytecode generator takes the <code>ibc</code> files and converts them into JVM bytecode class files directly.
+<p>Dependencies are provided as Idris packages, not as Java dependencies like jar or class files.
+The overall process is that the compiler reads Idris files and converts them into an intermediate JSON representation and
+the JVM bytecode generator takes the JSON files and converts them into JVM bytecode class files directly.
 It is only when we run a Java class, we have to provide Java dependency jars. The output option <code>-o</code> represents a directory
 where the Java class files will be created.</p>
 
@@ -411,18 +410,18 @@ decompiled bytecode for the <code>evenT</code> function:</p>
 </span><span class='line'>    <span class="n">Object</span> <span class="n">var4</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
 </span><span class='line'>    <span class="n">Integer</span> <span class="n">var1</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
 </span><span class='line'>    <span class="n">Integer</span> <span class="n">var2</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
-</span><span class='line'>    <span class="n">Object</span><span class="o">[]</span> <span class="n">var3</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
-</span><span class='line'>    <span class="k">if</span><span class="o">(</span><span class="n">Util</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">var0</span><span class="o">,</span> <span class="k">new</span> <span class="n">BigInteger</span><span class="o">(</span><span class="s">&quot;0&quot;</span><span class="o">)))</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">IdrisObject</span> <span class="n">var3</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+</span><span class='line'>    <span class="k">if</span> <span class="o">(</span><span class="n">Util</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">var0</span><span class="o">,</span> <span class="n">BigInteger</span><span class="o">.</span><span class="na">ZERO</span><span class="o">))</span> <span class="o">{</span>
 </span><span class='line'>        <span class="n">var1</span> <span class="o">=</span> <span class="n">Integer</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
 </span><span class='line'>        <span class="n">var2</span> <span class="o">=</span> <span class="n">Integer</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
-</span><span class='line'>        <span class="n">var3</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Object</span><span class="o">[]{</span><span class="n">Integer</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="mi">1</span><span class="o">)};</span>
-</span><span class='line'>        <span class="n">var4</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Object</span><span class="o">[]{</span><span class="n">Integer</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="mi">65648</span><span class="o">),</span> <span class="n">var1</span><span class="o">,</span> <span class="n">var2</span><span class="o">,</span> <span class="n">var3</span><span class="o">};</span>
+</span><span class='line'>        <span class="n">var3</span> <span class="o">=</span> <span class="k">new</span> <span class="n">IdrisObject</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+</span><span class='line'>        <span class="n">var4</span> <span class="o">=</span> <span class="k">new</span> <span class="n">IdrisObject</span><span class="o">(</span><span class="mi">65653</span><span class="o">,</span> <span class="k">new</span> <span class="n">Object</span><span class="o">[]{</span><span class="n">var1</span><span class="o">,</span> <span class="n">var2</span><span class="o">,</span> <span class="n">var3</span><span class="o">});</span>
 </span><span class='line'>    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
-</span><span class='line'>        <span class="n">BigInteger</span> <span class="n">var5</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BigInteger</span><span class="o">(</span><span class="s">&quot;1&quot;</span><span class="o">);</span>
+</span><span class='line'>        <span class="n">BigInteger</span> <span class="n">var5</span> <span class="o">=</span> <span class="n">BigInteger</span><span class="o">.</span><span class="na">ONE</span><span class="o">;</span>
 </span><span class='line'>        <span class="n">var5</span> <span class="o">=</span> <span class="n">Util</span><span class="o">.</span><span class="na">asBigInt</span><span class="o">(</span><span class="n">var0</span><span class="o">).</span><span class="na">subtract</span><span class="o">(</span><span class="n">Util</span><span class="o">.</span><span class="na">asBigInt</span><span class="o">(</span><span class="n">var5</span><span class="o">));</span>
-</span><span class='line'>        <span class="n">var4</span> <span class="o">=</span> <span class="n">Runtime</span><span class="o">.</span><span class="na">thunk</span><span class="o">((</span><span class="n">var0</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span>
-</span><span class='line'>            <span class="k">return</span> <span class="nf">oddT</span><span class="o">(</span><span class="n">var0</span><span class="o">[</span><span class="mi">0</span><span class="o">]);</span>
-</span><span class='line'>        <span class="o">},</span> <span class="k">new</span> <span class="n">Object</span><span class="o">[]{</span><span class="n">var5</span><span class="o">});</span>
+</span><span class='line'>        <span class="n">var4</span> <span class="o">=</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="nf">oddT</span><span class="o">(</span><span class="n">var5</span><span class="o">);</span>
+</span><span class='line'>        <span class="o">};</span>
 </span><span class='line'>    <span class="o">}</span>
 </span><span class='line'>
 </span><span class='line'>    <span class="k">return</span> <span class="n">var4</span><span class="o">;</span>
@@ -449,42 +448,20 @@ wrapping the function call is returned using lambda (which is compiled down to J
 <span class='line-number'>12</span>
 <span class='line-number'>13</span>
 <span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'>    <span class="mi">76</span><span class="o">:</span> <span class="k">new</span>           <span class="err">#</span><span class="mi">61</span>                 <span class="c1">// class java/math/BigInteger</span>
-</span><span class='line'>    <span class="mi">79</span><span class="o">:</span> <span class="n">dup</span>
-</span><span class='line'>    <span class="mi">80</span><span class="o">:</span> <span class="n">ldc</span>           <span class="err">#</span><span class="mi">75</span>                 <span class="c1">// String 1</span>
-</span><span class='line'>    <span class="mi">82</span><span class="o">:</span> <span class="n">invokespecial</span> <span class="err">#</span><span class="mi">66</span>                 <span class="c1">// Method java/math/BigInteger.&quot;&lt;init&gt;&quot;:(Ljava/lang/String;)V</span>
-</span><span class='line'>    <span class="mi">85</span><span class="o">:</span> <span class="n">astore_1</span>
-</span><span class='line'>    <span class="mi">86</span><span class="o">:</span> <span class="n">aload_0</span>
-</span><span class='line'>    <span class="mi">87</span><span class="o">:</span> <span class="n">invokestatic</span>  <span class="err">#</span><span class="mi">79</span>                 <span class="c1">// Method mmhelloworld/idrisjvmruntime/Util.asBigInt:(Ljava/lang/Object;)</span>
-</span><span class='line'><span class="n">Ljava</span><span class="o">/</span><span class="n">math</span><span class="o">/</span><span class="n">BigInteger</span><span class="o">;</span>
-</span><span class='line'>    <span class="mi">90</span><span class="o">:</span> <span class="n">aload_1</span>
-</span><span class='line'>    <span class="mi">91</span><span class="o">:</span> <span class="n">invokestatic</span>  <span class="err">#</span><span class="mi">79</span>                 <span class="c1">// Method mmhelloworld/idrisjvmruntime/Util.asBigInt:(Ljava/lang/Object;)</span>
-</span><span class='line'><span class="n">Ljava</span><span class="o">/</span><span class="n">math</span><span class="o">/</span><span class="n">BigInteger</span><span class="o">;</span>
-</span><span class='line'>    <span class="mi">94</span><span class="o">:</span> <span class="n">invokevirtual</span> <span class="err">#</span><span class="mi">83</span>                 <span class="c1">// Method java/math/BigInteger.subtract:(Ljava/math/BigInteger;)Ljava/math/BigInteger;</span>
-</span><span class='line'>    <span class="mi">97</span><span class="o">:</span> <span class="n">astore_1</span>
-</span><span class='line'>    <span class="mi">98</span><span class="o">:</span> <span class="n">invokedynamic</span> <span class="err">#</span><span class="mi">88</span><span class="o">,</span>  <span class="mi">0</span>             <span class="c1">// InvokeDynamic #1:apply:()Lmmhelloworld/idrisjvmruntime/Function;</span>
-</span><span class='line'>   <span class="mi">103</span><span class="o">:</span> <span class="n">iconst_1</span>
-</span><span class='line'>   <span class="mi">104</span><span class="o">:</span> <span class="n">anewarray</span>     <span class="err">#</span><span class="mi">4</span>                  <span class="c1">// class java/lang/Object</span>
-</span><span class='line'>   <span class="mi">107</span><span class="o">:</span> <span class="n">dup</span>
-</span><span class='line'>   <span class="mi">108</span><span class="o">:</span> <span class="n">iconst_0</span>
-</span><span class='line'>   <span class="mi">109</span><span class="o">:</span> <span class="n">aload_1</span>
-</span><span class='line'>   <span class="mi">110</span><span class="o">:</span> <span class="n">aastore</span>
-</span><span class='line'>   <span class="mi">111</span><span class="o">:</span> <span class="n">invokestatic</span>  <span class="err">#</span><span class="mi">58</span>                 <span class="c1">// Method mmhelloworld/idrisjvmruntime/Runtime.thunk:(Lmmhelloworld/idrisjvmruntime/Function;[Ljava/lang/Object;)Lmmhelloworld/idrisjvmruntime/Thunk;</span>
-</span><span class='line'>   <span class="mi">114</span><span class="o">:</span> <span class="n">astore</span>        <span class="mi">4</span>
-</span><span class='line'>   <span class="mi">116</span><span class="o">:</span> <span class="k">goto</span>          <span class="mi">119</span>
-</span><span class='line'>   <span class="mi">119</span><span class="o">:</span> <span class="n">aload</span>         <span class="mi">4</span>
-</span><span class='line'>   <span class="mi">121</span><span class="o">:</span> <span class="n">areturn</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'>    <span class="mi">68</span><span class="o">:</span> <span class="n">getstatic</span>     <span class="err">#</span><span class="mi">64</span>                 <span class="c1">// Field java/math/BigInteger.ONE:Ljava/math/BigInteger;</span>
+</span><span class='line'>    <span class="mi">71</span><span class="o">:</span> <span class="n">astore_1</span>
+</span><span class='line'>    <span class="mi">72</span><span class="o">:</span> <span class="n">aload_0</span>
+</span><span class='line'>    <span class="mi">73</span><span class="o">:</span> <span class="n">invokestatic</span>  <span class="err">#</span><span class="mi">68</span>                 <span class="c1">// Method io/github/mmhelloworld/idrisjvm/runtime/Util.asBigInt:(Ljava/lang/Object;)Ljava/math/BigInteger;</span>
+</span><span class='line'>    <span class="mi">76</span><span class="o">:</span> <span class="n">aload_1</span>
+</span><span class='line'>    <span class="mi">77</span><span class="o">:</span> <span class="n">invokestatic</span>  <span class="err">#</span><span class="mi">68</span>                 <span class="c1">// Method io/github/mmhelloworld/idrisjvm/runtime/Util.asBigInt:(Ljava/lang/Object;)Ljava/math/BigInteger;</span>
+</span><span class='line'>    <span class="mi">80</span><span class="o">:</span> <span class="n">invokevirtual</span> <span class="err">#</span><span class="mi">72</span>                 <span class="c1">// Method java/math/BigInteger.subtract:(Ljava/math/BigInteger;)Ljava/math/BigInteger;</span>
+</span><span class='line'>    <span class="mi">83</span><span class="o">:</span> <span class="n">astore_1</span>
+</span><span class='line'>    <span class="mi">84</span><span class="o">:</span> <span class="n">aload_1</span>
+</span><span class='line'>    <span class="mi">85</span><span class="o">:</span> <span class="n">invokedynamic</span> <span class="err">#</span><span class="mi">79</span><span class="o">,</span>  <span class="mi">0</span>             <span class="c1">// InvokeDynamic #1:call:(Ljava/lang/Object;)Lio/github/mmhelloworld/idrisjvm/runtime/Thunk;</span>
+</span><span class='line'>    <span class="mi">90</span><span class="o">:</span> <span class="n">astore</span>        <span class="mi">4</span>
+</span><span class='line'>    <span class="mi">92</span><span class="o">:</span> <span class="k">goto</span>          <span class="mi">95</span>
+</span><span class='line'>    <span class="mi">95</span><span class="o">:</span> <span class="n">aload</span>         <span class="mi">4</span>
+</span><span class='line'>    <span class="mi">97</span><span class="o">:</span> <span class="n">areturn</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -651,7 +628,7 @@ with Idris&#8217; <code>onCreate</code> function. The Java class can also implem
 
 <p>We can compile this as usual,</p>
 
-<p><code>idrisjvm idrisandroid.idr -o target</code></p>
+<p><code>idris --portable-codegen jvm -p idrisjvmffi idrisandroid.idr -o target</code></p>
 
 <p>It would produce the following class files:</p>
 
