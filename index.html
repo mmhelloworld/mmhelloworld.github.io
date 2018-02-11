@@ -9,8 +9,8 @@
   <meta name="author" content="Marimuthu">
 
   
-  <meta name="description" content="Idris JVM now helps avoiding nulls getting into Idris from FFI calls using Maybe type.
-FFI declarations can have Maybe type in any argument position &hellip;">
+  <meta name="description" content="Background Idris JVM backend has supported foreign function calls for some time now. For example, to invoke parseInt method on
+java.lang.Integer &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -66,6 +66,369 @@ FFI declarations can have Maybe type in any argument position &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2018/02/11/idris-jvm-automated-ffi-with-null-safety/">Idris JVM: Automated FFI with null safety and exception handling</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-02-11T00:03:00-05:00" pubdate data-updated="true">Feb 11<span>th</span>, 2018</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Background</h2>
+
+<p>Idris JVM backend has supported foreign function calls for some time now. For example, to invoke <code>parseInt</code> method on
+<code>java.lang.Integer</code> class,</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">invokeStatic</span> <span class="p">(</span><span class="kt">Class</span> <span class="s">&quot;java/lang/Integer&quot;</span><span class="p">)</span> <span class="s">&quot;parseInt&quot;</span> <span class="p">(</span><span class="kt">String</span> <span class="ow">-&gt;</span> <span class="kt">JVM_IO</span> <span class="kt">Int</span><span class="p">)</span> <span class="s">&quot;234&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Here since the Idris compiler doesn&rsquo;t know anything about Java&rsquo;s <code>Integer</code> class or its <code>parseInt</code> method, we have to
+explicitly provide the function signature. The function call also has the explicit <code>Class</code>
+before <code>java/lang/Integer</code> and the type of invocation <code>invokeStatic</code>.</p>
+
+<p>Since we are targeting JVM bytecode, JVM has to know whether a method call is a static method call or an interface
+method call or a virtual method call. It would be nice if we don&rsquo;t have to worry about any of these things and
+just call a FFI function with a class name, method name and the arguments. This is the motivation behind this
+new feature along with some other nice things like null safety, construtor and method overloading resolution
+and exception handling.</p>
+
+<h4>Maybe and Either in foreign function calls</h4>
+
+<p><code>Maybe</code> type and <code>Either</code> type can be used in foreign function calls for null safety and exception handling. <code>Maybe</code>
+type can be used for argument types and return types. <code>Maybe</code> type used in an argument position will pass <code>null</code>
+to the target foreign function if it is <code>Nothing</code> or the actual value if it is <code>Just</code>. Similarly, <code>Maybe</code> type
+used for return type will convert <code>null</code> returned from foreign function into <code>Nothing</code> and the non-null value into
+<code>Just.</code> At the bytecode level, <code>Maybe</code> wrapper doesn&rsquo;t exist. It gets compiled down to
+<code>null</code> or the actual value.</p>
+
+<p><code>Either</code> type can only be used in return types to indicate whether the foreign function can throw exceptions.
+At runtime, if the foreign function throws exception, it will be captured in the &ldquo;left&rdquo; of type <code>Throwable</code> or if the
+foreign function completes normally, the result will be stored in the &ldquo;right&rdquo; of result type. There are functions <code>try</code>
+and <code>catch</code> to handle exceptions which we will see later in the post.</p>
+
+<h2>How it works</h2>
+
+<p>Before we look at some examples, first let&rsquo;s declare some class names as we are going to use them in multiple places and
+we don&rsquo;t want to duplicate.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">stringClass</span><span class="kt">:</span> <span class="kt">String</span>
+</span><span class='line'><span class="nf">stringClass</span> <span class="ow">=</span> <span class="s">&quot;java/lang/String&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nf">listInterface</span><span class="kt">:</span> <span class="kt">String</span>
+</span><span class='line'><span class="nf">listInterface</span> <span class="ow">=</span> <span class="s">&quot;java/util/List&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nf">arrayListClass</span><span class="kt">:</span> <span class="kt">String</span>
+</span><span class='line'><span class="nf">arrayListClass</span> <span class="ow">=</span> <span class="s">&quot;java/util/ArrayList&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nf">collectionInterface</span> <span class="kt">:</span> <span class="kt">String</span>
+</span><span class='line'><span class="nf">collectionInterface</span> <span class="ow">=</span> <span class="s">&quot;java/util/Collection&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nf">systemClass</span><span class="kt">:</span> <span class="kt">String</span>
+</span><span class='line'><span class="nf">systemClass</span> <span class="ow">=</span> <span class="s">&quot;java/lang/System&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nf">comparatorClass</span> <span class="kt">:</span> <span class="kt">String</span>
+</span><span class='line'><span class="nf">comparatorClass</span> <span class="ow">=</span> <span class="s">&quot;java/util/Comparator&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nf">pointClass</span> <span class="kt">:</span> <span class="kt">String</span>
+</span><span class='line'><span class="nf">pointClass</span> <span class="ow">=</span> <span class="s">&quot;java/awt/Point&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nf">collectionsClass</span> <span class="kt">:</span> <span class="kt">String</span>
+</span><span class='line'><span class="nf">collectionsClass</span> <span class="ow">=</span> <span class="s">&quot;java/util/Collections&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nf">stringBuilderClass</span> <span class="kt">:</span> <span class="kt">String</span>
+</span><span class='line'><span class="nf">stringBuilderClass</span> <span class="ow">=</span> <span class="s">&quot;java/lang/StringBuilder&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nf">objectsClass</span> <span class="kt">:</span> <span class="kt">String</span>
+</span><span class='line'><span class="nf">objectsClass</span> <span class="ow">=</span> <span class="s">&quot;java/util/Objects&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nf">integerClass</span> <span class="kt">:</span> <span class="kt">String</span>
+</span><span class='line'><span class="nf">integerClass</span> <span class="ow">=</span> <span class="s">&quot;java/lang/Integer&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And &ldquo;import&rdquo; some methods:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">jdkimport</span> <span class="p">[</span>
+</span><span class='line'>    <span class="p">(</span><span class="n">systemClass</span><span class="p">,</span> <span class="p">[</span><span class="s">&quot;getProperty&quot;</span><span class="p">,</span> <span class="s">&quot;setProperty&quot;</span><span class="p">]),</span>
+</span><span class='line'>    <span class="p">(</span><span class="n">stringClass</span><span class="p">,</span> <span class="p">[</span><span class="s">&quot;substring&quot;</span><span class="p">,</span> <span class="s">&quot;CASE_INSENSITIVE_ORDER&quot;</span><span class="p">,</span> <span class="s">&quot;valueOf&quot;</span><span class="p">]),</span>
+</span><span class='line'>    <span class="p">(</span><span class="n">integerClass</span><span class="p">,</span> <span class="p">[</span><span class="s">&quot;parseInt&quot;</span><span class="p">]),</span>
+</span><span class='line'>    <span class="p">(</span><span class="n">comparatorClass</span><span class="p">,</span> <span class="p">[</span><span class="s">&quot;compare&quot;</span><span class="p">]),</span>
+</span><span class='line'>    <span class="p">(</span><span class="n">arrayListClass</span><span class="p">,</span> <span class="p">[</span><span class="s">&quot;&lt;init&gt;&quot;</span><span class="p">,</span> <span class="s">&quot;add&quot;</span><span class="p">]),</span>
+</span><span class='line'>    <span class="p">(</span><span class="n">listInterface</span><span class="p">,</span> <span class="p">[</span><span class="s">&quot;get&quot;</span><span class="p">]),</span>
+</span><span class='line'>    <span class="p">(</span><span class="n">collectionsClass</span><span class="p">,</span> <span class="p">[</span><span class="s">&quot;max&quot;</span><span class="p">]),</span>
+</span><span class='line'>    <span class="p">(</span><span class="n">stringBuilderClass</span><span class="p">,</span> <span class="p">[</span><span class="s">&quot;&lt;init&gt;&quot;</span><span class="p">,</span> <span class="s">&quot;toString&quot;</span><span class="p">]),</span>
+</span><span class='line'>    <span class="p">(</span><span class="n">objectsClass</span><span class="p">,</span> <span class="p">[</span><span class="s">&quot;toString&quot;</span><span class="p">]),</span>
+</span><span class='line'>    <span class="p">(</span><span class="n">pointClass</span><span class="p">,</span> <span class="p">[</span><span class="s">&quot;&lt;init&gt;&quot;</span><span class="p">,</span> <span class="s">&quot;x&quot;</span><span class="p">])</span>
+</span><span class='line'>  <span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Here <code>jdkimport</code> is just an additional syntax created using Idris syntax extensions. It just calls a type provider
+function written in Idris to know about these classes, methods and fields. Note that it imports fields such as
+<code>CASE_INSENSITIVE_ORDER</code>, <code>x</code> and also constructors in the name of <code>&lt;init&gt;</code> which is the JVM internal name for
+constructors. The <code>jdkimport</code> syntax launches a JVM during compilation without any classpath so it basically can import
+all the JDK classes and methods.</p>
+
+<p>There is also another syntax called <code>jvmimport</code> that can take an additional argument, a command, which could be just the
+JVM with correct classpath or could be a build tool that properly sets up the classpath from your project dependencies so
+that we can &ldquo;import&rdquo; classes and methods from external foreign libraries.</p>
+
+<p>Once the information about JVM classes and methods is collected using type provider, appropriate call site, Idris code
+similar to the one in the beginning of the post can be created using Idris elaborator reflection with just class name
+and member name from the user. As a user, we don&rsquo;t have to know much about these internals, we just need to import classes
+and members and can use them without having to explicitly provide foreign types. Now let&rsquo;s look at some examples on how we can
+actually make FFI calls in the new way.</p>
+
+<h2>Examples</h2>
+
+<h4>1. Safe static method call</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">main</span> <span class="kt">:</span> <span class="kt">JVM_IO</span> <span class="nb">()</span>
+</span><span class='line'><span class="nf">main</span> <span class="ow">=</span> <span class="kr">do</span>
+</span><span class='line'>  <span class="n">exceptionOrInt</span> <span class="ow">&lt;-</span> <span class="p">(</span><span class="n">integerClass</span> <span class="o">&lt;.&gt;</span> <span class="s">&quot;parseInt&quot;</span><span class="p">)</span> <span class="s">&quot;1234&quot;</span>
+</span><span class='line'>  <span class="n">printLn</span> <span class="o">$</span> <span class="n">either</span> <span class="p">(</span><span class="n">const</span> <span class="mi">0</span><span class="p">)</span> <span class="n">id</span> <span class="n">exceptionOrInt</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Here the type of <code>(integerClass &lt;.&gt; "parseInt")</code> is <code>String -&gt; JVM_IO (Either Throwable Int)</code>. Since the method can throw
+exceptions, it returns an <code>Either</code>. Here we return <code>0</code> in case of an exception. Later in the post, we will see a
+detailed example of exception handling. As the method returns an <code>Int</code> which is a primitive type in JVM, it cannot be
+null and the FFI call already knows that hence the result <code>Int</code> is not wrapped in a <code>Maybe</code>. We don&rsquo;t provide any
+explicit type signature for the foreign function. If we try to pass anything other than <code>String</code> for this foreign
+function, it will be a compilation error!</p>
+
+<h4>2. Unsafe static method call</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'>  <span class="kr">do</span>
+</span><span class='line'>    <span class="n">number</span> <span class="ow">&lt;-</span> <span class="p">(</span><span class="n">integerClass</span> <span class="o">&lt;.!&gt;</span> <span class="s">&quot;parseInt&quot;</span><span class="p">)</span> <span class="s">&quot;23&quot;</span>
+</span><span class='line'>    <span class="n">printLn</span> <span class="n">number</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Here we use <code>&lt;.!&gt;</code> with an <code>!</code> to indicate an unsafe method call instead of <code>&lt;.&gt;</code>. There is also <code>javaUnsafe</code> and <code>java</code>
+if you prefer names to operators. The type of <code>(integerClass &lt;.!&gt; "parseInt")</code> is <code>String -&gt; JVM_IO Int</code>.
+Sometimes if we are sure that the foreign function would not return null or throw exceptions, we can use unsafe method
+calls but as the name indicates, it would fail at runtime if null is returned or an exception is thrown.</p>
+
+<h4>3. Overloading resolution</h4>
+
+<p>We can pick which overloaded variant we want to use by passing appropriate types to the foreign function and
+the FFI call will automatically have corresponding types.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">printLn</span> <span class="o">!</span><span class="p">((</span><span class="n">stringClass</span> <span class="o">&lt;.!&gt;</span> <span class="s">&quot;valueOf(double)&quot;</span><span class="p">)</span> <span class="mf">2.5</span><span class="p">)</span>
+</span><span class='line'><span class="nf">printLn</span> <span class="o">!</span><span class="p">((</span><span class="n">stringClass</span> <span class="o">&lt;.!&gt;</span> <span class="s">&quot;valueOf(char)&quot;</span><span class="p">)</span> <span class="sc">&#39;H&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The first function takes an Idris <code>Double</code> and the second function takes Idris <code>Char</code>. The types passed to the foreign
+functions to resolve overloading are JVM types.</p>
+
+<h4>4. Safe instance method</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'>  <span class="kr">do</span>
+</span><span class='line'>    <span class="n">s</span> <span class="ow">&lt;-</span> <span class="p">(</span><span class="n">stringClass</span> <span class="o">&lt;.&gt;</span> <span class="s">&quot;substring(int)&quot;</span><span class="p">)</span> <span class="s">&quot;Foobar&quot;</span> <span class="mi">1</span>
+</span><span class='line'>    <span class="n">putStrLn</span> <span class="o">!</span><span class="p">(</span><span class="n">either</span> <span class="n">throw</span> <span class="p">(</span><span class="n">pure</span> <span class="o">.</span> <span class="n">show</span><span class="p">)</span> <span class="n">s</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Safe instance method calls are similar to static method calls except that the instance should be passed as the first
+argument. Here again, we don&rsquo;t provide any explicit type signature or the type of method invocation whether it is static or
+instance method but it all works out automatically in a type safe way. Here also we pick a particular overloaded version.</p>
+
+<p>The type of <code>(stringClass &lt;.&gt; "substring(int)")</code> is <code>String -&gt; Int -&gt; JVM_IO (Either Throwable (Maybe String))</code>.
+Since the return type is <code>String</code> and it can be null, it is in a <code>Maybe</code> and the method can throw exceptions so the
+overall type is in <code>Either</code>.</p>
+
+<h4>5. Exception handling</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="kr">do</span>
+</span><span class='line'>  <span class="n">propValue</span> <span class="ow">&lt;-</span> <span class="n">try</span> <span class="p">((</span><span class="n">systemClass</span> <span class="o">&lt;.&gt;</span> <span class="s">&quot;getProperty(?java/lang/String)&quot;</span><span class="p">)</span> <span class="kt">Nothing</span><span class="p">)</span> <span class="p">[</span>
+</span><span class='line'>    <span class="p">([</span><span class="n">catch</span> <span class="kt">IllegalArgumentExceptionClass</span><span class="p">,</span> <span class="n">catch</span> <span class="kt">NullPointerExceptionClass</span><span class="p">],</span> <span class="nf">\</span><span class="n">t</span> <span class="ow">=&gt;</span>
+</span><span class='line'>      <span class="kr">do</span>
+</span><span class='line'>        <span class="n">printLn</span> <span class="s">&quot;property name is null or empty&quot;</span>
+</span><span class='line'>        <span class="n">pure</span> <span class="kt">Nothing</span>
+</span><span class='line'>    <span class="p">),</span>
+</span><span class='line'>    <span class="p">([</span><span class="n">catchNonFatal</span><span class="p">],</span> <span class="nf">\</span><span class="n">t</span> <span class="ow">=&gt;</span>
+</span><span class='line'>      <span class="kr">do</span>
+</span><span class='line'>        <span class="n">printLn</span> <span class="s">&quot;unable to get property value&quot;</span>
+</span><span class='line'>        <span class="n">pure</span> <span class="kt">Nothing</span>
+</span><span class='line'>    <span class="p">)</span>
+</span><span class='line'>  <span class="p">]</span>
+</span><span class='line'>  <span class="n">printLn</span> <span class="n">propValue</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This example shows how to handle exceptions with different handlers and also shows how to pass a <code>null</code> to a foreign function.
+If a FFI function argument type is prefixed with <code>?</code>, then the idris type would be <code>Maybe nativeTy</code> and we can pass
+<code>Nothing</code> to pass a <code>null</code> to the foreign function. We can have handlers for single exception, multiple exceptions or
+for all non fatal errors similar to Scala&rsquo;s
+<a href="https://github.com/scala/scala/blob/2.12.x/src/library/scala/util/control/NonFatal.scala">NonFatal</a>.</p>
+
+<h4>6. Constructors</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="kr">do</span>
+</span><span class='line'>  <span class="n">arrayList1</span> <span class="ow">&lt;-</span> <span class="p">(</span><span class="n">arrayListClass</span> <span class="o">&lt;.&gt;</span> <span class="s">&quot;&lt;init&gt;(int)&quot;</span><span class="p">)</span> <span class="mi">10</span>
+</span><span class='line'>  <span class="n">putStrLn</span> <span class="o">!</span><span class="p">(</span><span class="n">either</span> <span class="n">throw</span> <span class="n">toString</span> <span class="n">arrayList1</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">-- Unsafe constructor</span>
+</span><span class='line'>  <span class="n">arrayList2</span> <span class="ow">&lt;-</span> <span class="n">arrayListClass</span> <span class="o">&lt;.!&gt;</span> <span class="s">&quot;&lt;init&gt;()&quot;</span>
+</span><span class='line'>  <span class="n">putStrLn</span> <span class="o">!</span><span class="p">(</span><span class="n">toString</span> <span class="n">arrayList2</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Similar to methods, constructors can be overloaded and we can select a particular overload variant by explicitly
+specifying the foreign type. Constructors can also be invoked in a safe or unsafe way. As constructors cannot return
+null, when invoked in a safe way, the result type will only be in <code>Either</code> and not wrapped in a <code>Maybe</code>.</p>
+
+<h4>7. Fields</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="kr">do</span>
+</span><span class='line'>  <span class="c1">-- static field getter</span>
+</span><span class='line'>  <span class="n">caseInsensitiveComparator</span> <span class="ow">&lt;-</span> <span class="n">stringClass</span> <span class="o">&lt;.#!&gt;</span> <span class="s">&quot;CASE_INSENSITIVE_ORDER&quot;</span>
+</span><span class='line'>  <span class="n">printLn</span> <span class="o">!</span><span class="p">((</span><span class="n">comparatorClass</span> <span class="o">&lt;.!&gt;</span> <span class="s">&quot;compare&quot;</span><span class="p">)</span> <span class="n">caseInsensitiveComparator</span> <span class="s">&quot;Bar&quot;</span> <span class="s">&quot;august&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">point</span> <span class="ow">&lt;-</span> <span class="p">(</span><span class="n">pointClass</span> <span class="o">&lt;.!&gt;</span> <span class="s">&quot;&lt;init&gt;(int,int)&quot;</span><span class="p">)</span> <span class="mi">2</span> <span class="mi">3</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">-- instance field getter</span>
+</span><span class='line'>  <span class="n">printLn</span> <span class="o">!</span><span class="p">((</span><span class="n">pointClass</span> <span class="o">&lt;.#&gt;</span> <span class="s">&quot;x&quot;</span><span class="p">)</span> <span class="n">point</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">-- instance field setter</span>
+</span><span class='line'>  <span class="p">(</span><span class="n">pointClass</span> <span class="o">&lt;.=&gt;</span> <span class="s">&quot;x&quot;</span><span class="p">)</span> <span class="n">point</span> <span class="mi">34</span>
+</span><span class='line'>  <span class="n">printLn</span> <span class="o">!</span><span class="p">((</span><span class="n">pointClass</span> <span class="o">&lt;.#&gt;</span> <span class="s">&quot;x&quot;</span><span class="p">)</span> <span class="n">point</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Similar to methods and constructors, fields can also be accessed either in a safe or unsafe way using <code>&lt;.#&gt;</code> for safe
+getter, <code>&lt;.=&gt;</code> for safe setter, <code>&lt;.#!&gt;</code> for unsafe getter and <code>&lt;.=!&gt;</code> for unsafe setter. Since field access
+cannot throw a exception, the return type is automatically just <code>Maybe nativeTy</code>. The field types are automatically
+determined without the user having to provide the foreign types of the fields.</p>
+
+<h2>Summary</h2>
+
+<p>This post demonstrated how with Idris&#8217; powerful features FFI, type provider and elaborator reflection, we can safely and
+easily access JVM foreign functions. We can access fields, methods and constructors without having to explicitly provide
+foreign types and we can access them in safe way without <code>null</code> getting into Idris code and handle exceptions thrown by
+foreign functions. It also showed how to call overloaded methods and constructors and how <code>Maybe</code> and <code>Either</code> types are
+used with foreign functions.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1899,6 +2262,10 @@ future post.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2018/02/11/idris-jvm-automated-ffi-with-null-safety/">Idris JVM: Automated FFI with null safety and exception handling</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/01/10/idris-jvm-guarding-against-java-null-using-maybe-type/">Idris JVM: Guarding against Java null using Maybe type</a>
       </li>
     
@@ -1941,7 +2308,7 @@ future post.</p>
 
         github.showRepos({
             user: 'mmhelloworld',
-            count: 4,
+            count: 10,
             skip_forks: true,
             target: '#gh_repos'
         });
@@ -1960,7 +2327,7 @@ future post.</p>
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2017 - Marimuthu -
+  Copyright &copy; 2018 - Marimuthu -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 
