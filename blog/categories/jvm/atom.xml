@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Jvm | mmhelloworld]]></title>
   <link href="http://mmhelloworld.github.io/blog/categories/jvm/atom.xml" rel="self"/>
   <link href="http://mmhelloworld.github.io/"/>
-  <updated>2020-12-30T19:03:32-05:00</updated>
+  <updated>2020-12-30T19:05:23-05:00</updated>
   <id>http://mmhelloworld.github.io/</id>
   <author>
     <name><![CDATA[Marimuthu Madasamy]]></name>
@@ -152,7 +152,7 @@ main = do
 </span><span class='line'>├── Prelude.class
 </span><span class='line'>└── PrimIO.class&lt;/p&gt;
 </span><span class='line'>
-</span><span class='line'>&lt;pre&gt;&lt;code&gt;It compiles down to three main modules `Main`, `Prelude` and `PrimIO`. Rest of the classes are data classes for Idris constructors like `Just`, `Nothing`, Nil`, `::` etc.
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;It compiles down to three main modules `Main`, `Prelude` and `PrimIO`. Rest of the classes are data classes for Idris constructors like `Just`, `Nothing`, `Nil`, `::` etc.
 </span><span class='line'>
 </span><span class='line'>#### Run
 </span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
@@ -180,6 +180,8 @@ The above example demonstrates tail recursion, mutual recursion, Java FFI instan
     }
 </code></pre>
 
+<p>As we can see here, the tail recursive function call is removed in the <code>default</code> block instead the arguments are updated for next iteration. The loop would continue to run until the base case is reached where the result is returned.</p>
+
 <p>For <code>isEven</code> and <code>isOdd</code>, the tail calls would be trampolined using JVM&rsquo;s <code>invokedynamic</code>. Here is the decompiled bytecode.</p>
 
 <pre><code class="java">    public static Object isOdd(int arg$0) {
@@ -205,7 +207,9 @@ The above example demonstrates tail recursion, mutual recursion, Java FFI instan
     }
 </code></pre>
 
-<p><code>jvmStringLength</code> function is an example for Java FFI instance method call. It calls <code>length</code> function on Java&rsquo;s <code>java.lang.String</code> instance. Similarly <code>intToBinaryString</code> calls <code>toBinaryString</code> static function on class <code>java.lang.Integer</code>. Function name starting with a dot denotes an instance method call differentiating it from a static method call. Precise types can also be passed explicitly as in the example below with argument types and return type (full code <a href="https://github.com/mmhelloworld/Idris2-boot/blob/master/libs/base/System/File.idr#L37">here</a>).</p>
+<p>Here since the tail call is not to itself, function call is turned into a thunk which would be eventually unwrapped in a loop.</p>
+
+<p>Now let&rsquo;s look at FFI calls in the above example. <code>jvmStringLength</code> function is an example for Java FFI instance method call. It calls <code>length</code> function on Java&rsquo;s <code>java.lang.String</code> instance. Similarly <code>intToBinaryString</code> calls <code>toBinaryString</code> static function on class <code>java.lang.Integer</code>. Function name starting with a dot denotes an instance method call differentiating it from a static method call. Precise types can also be passed explicitly as in the example below with argument types and return type (full code <a href="https://github.com/mmhelloworld/Idris2-boot/blob/master/libs/base/System/File.idr#L37">here</a>).</p>
 
 <pre><code class="haskell">%foreign jvm' fileClass "getLine" fileClass "String"
 prim__readLine : FilePtr -&gt; PrimIO (Ptr String)
