@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: GHCJS | mmhelloworld]]></title>
+  <title><![CDATA[Category: Ghcjs | mmhelloworld]]></title>
   <link href="http://mmhelloworld.github.io/blog/categories/ghcjs/atom.xml" rel="self"/>
   <link href="http://mmhelloworld.github.io/"/>
-  <updated>2018-02-11T02:28:20-05:00</updated>
+  <updated>2020-12-30T19:03:32-05:00</updated>
   <id>http://mmhelloworld.github.io/</id>
   <author>
-    <name><![CDATA[Marimuthu]]></name>
+    <name><![CDATA[Marimuthu Madasamy]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
@@ -31,7 +31,7 @@
 <p>In this post, I am going to explore another interesting option: Haskell itself on the JVM. Haskell can be compiled to JavaScript using GHCJS and Java has an inbuilt JavaScript engine, called Nashorn so it is actually possible to compile Haskell to JavaScript and run the resulting JavaScript on the JVM.</p>
 
 <p>Here is a simple Haskell code that can be run on the JVM:
-<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -52,55 +52,49 @@
 <span class='line-number'>19</span>
 <span class='line-number'>20</span>
 <span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
 </pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="kr">module</span> <span class="nn">Main</span> <span class="kr">where</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;&amp;</span><span class="n">mdash</span><span class="p">;</span> <span class="kt">Nashorn</span> <span class="n">doesn</span><span class="o">&amp;</span><span class="n">rsquo</span><span class="p">;</span><span class="n">t</span> <span class="n">provide</span> <span class="kr">default</span> <span class="n">console</span> <span class="n">object</span><span class="o">.</span> <span class="kt">Haskell</span><span class="o">&amp;</span><span class="n">rsquo</span><span class="p">;</span><span class="n">s</span> <span class="n">putStrLn</span> <span class="n">logs</span> <span class="n">to</span> <span class="n">the</span> <span class="n">console</span><span class="o">.</span>
-</span><span class='line'><span class="nf">foreign</span> <span class="kr">import</span> <span class="nn">javascript</span> <span class="n">unsafe</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">console</span><span class="ow">=</span><span class="p">{</span> <span class="o">\&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;&amp;</span><span class="n">ndash</span><span class="p">;</span> <span class="kt">Nashorn</span> <span class="n">doesn</span><span class="o">&amp;</span><span class="n">rsquo</span><span class="p">;</span><span class="n">t</span> <span class="n">provide</span> <span class="kr">default</span> <span class="n">console</span> <span class="n">object</span><span class="o">.</span> <span class="kt">Haskell</span><span class="o">&amp;</span><span class="n">rsquo</span><span class="p">;</span><span class="n">s</span> <span class="n">putStrLn</span> <span class="n">logs</span> <span class="n">to</span> <span class="n">the</span> <span class="n">console</span><span class="o">.</span>
+</span><span class='line'><span class="nf">foreign</span> <span class="kr">import</span> <span class="nn">javascript</span> <span class="n">unsafe</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">console</span><span class="ow">=</span><span class="p">{</span> <span class="nf">\</span>
+</span><span class='line'>    <span class="nf">\</span> <span class="n">log</span><span class="kt">:</span> <span class="n">function</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="p">{</span> <span class="n">java</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="kt">System</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">s</span><span class="p">);</span> <span class="p">},</span><span class="nf">\</span>
+</span><span class='line'>    <span class="nf">\</span> <span class="n">info</span><span class="kt">:</span> <span class="n">function</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="p">{</span> <span class="n">java</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="kt">System</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">s</span><span class="p">);</span> <span class="p">},</span><span class="nf">\</span>
+</span><span class='line'>    <span class="nf">\</span> <span class="n">warn</span><span class="kt">:</span> <span class="n">function</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="p">{</span> <span class="n">java</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="kt">System</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">s</span><span class="p">);</span> <span class="p">},</span><span class="nf">\</span>
+</span><span class='line'>    <span class="nf">\</span> <span class="n">debug</span><span class="kt">:</span> <span class="n">function</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="p">{</span> <span class="n">java</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="kt">System</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">s</span><span class="p">);</span> <span class="p">},</span><span class="nf">\</span>
+</span><span class='line'>    <span class="nf">\</span> <span class="ne">error</span><span class="kt">:</span> <span class="n">function</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="p">{</span> <span class="n">java</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="kt">System</span><span class="o">.</span><span class="n">err</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">s</span><span class="p">);</span> <span class="p">}</span><span class="nf">\</span>
+</span><span class='line'>    <span class="nf">\</span> <span class="p">}</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">setupConsole</span> <span class="ow">::</span> <span class="kt">IO</span> <span class="nb">()</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;\</span> <span class="n">log</span><span class="kt">:</span> <span class="n">function</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="p">{</span> <span class="n">java</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="kt">System</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">s</span><span class="p">);</span> <span class="p">},</span><span class="nf">\</span>
-</span><span class='line'><span class="nf">\</span> <span class="n">info</span><span class="kt">:</span> <span class="n">function</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="p">{</span> <span class="n">java</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="kt">System</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">s</span><span class="p">);</span> <span class="p">},</span><span class="nf">\</span>
-</span><span class='line'><span class="nf">\</span> <span class="n">warn</span><span class="kt">:</span> <span class="n">function</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="p">{</span> <span class="n">java</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="kt">System</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">s</span><span class="p">);</span> <span class="p">},</span><span class="nf">\</span>
-</span><span class='line'><span class="nf">\</span> <span class="n">debug</span><span class="kt">:</span> <span class="n">function</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="p">{</span> <span class="n">java</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="kt">System</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">s</span><span class="p">);</span> <span class="p">},</span><span class="nf">\</span>
-</span><span class='line'><span class="nf">\</span> <span class="ne">error</span><span class="kt">:</span> <span class="n">function</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="p">{</span> <span class="n">java</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="kt">System</span><span class="o">.</span><span class="n">err</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">s</span><span class="p">);</span> <span class="p">}</span><span class="nf">\</span>
-</span><span class='line'><span class="nf">\</span> <span class="p">}</span><span class="s">&quot;</span>
-</span><span class='line'><span class="s">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">foreign</span> <span class="kr">import</span> <span class="nn">javascript</span> <span class="n">unsafe</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">java</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="kt">System</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="o">$</span><span class="mi">1</span><span class="p">)</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">sysexit</span> <span class="ow">::</span> <span class="kt">Int</span> <span class="ow">-&gt;</span> <span class="kt">IO</span> <span class="nb">()</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
-</span><span class='line'><span class="s">&lt;p&gt;  setupConsole :: IO ()&lt;/p&gt;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">main</span> <span class="ow">=</span> <span class="kr">do</span>
+</span><span class='line'>  <span class="n">setupConsole</span>
+</span><span class='line'>  <span class="n">putStrLn</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="kt">Hello</span> <span class="n">from</span> <span class="kt">Haskell</span><span class="o">!&amp;</span><span class="n">rdquo</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">sysexit</span> <span class="mi">0</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
-</span><span class='line'><span class="s">&lt;p&gt;foreign import javascript unsafe &amp;ldquo;java.lang.System.exit($1)&amp;rdquo;</span>
-</span><span class='line'><span class="s">  sysexit :: Int &amp;ndash;&gt; IO ()&lt;/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="s">&lt;p&gt;main = do</span>
-</span><span class='line'><span class="s">  setupConsole</span>
-</span><span class='line'><span class="s">  putStrLn &amp;ldquo;Hello from Haskell!&amp;rdquo;</span>
-</span><span class='line'><span class="s">  sysexit 0&lt;/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="s">&lt;p&gt;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Nashorn doesn&rsquo;t have an inbuilt <code>console</code> object and Haskell&rsquo;s <code>putStrLn</code> prints to the console so we have to provide an implementation of console. The implementation, as can be seen from the code above, is actually backed by Java&rsquo;s <code>System.out.print</code>. That is our first example of calling Java from Haskell. <code>sysexit</code> is another function calling Java. <code>sysexit</code> is needed here as otherwise the program just keeps on running which I think is because of JavaScript event loop or something similar that prevents the JVM from shutting down.</p>
 
 <h3>Compiling Haskell with GHCJS and running on JVM</h3>
 
-<p>```
-$ ghcjs -o HelloJava HelloJava.hs
+<pre><code>$ ghcjs -o HelloJava HelloJava.hs
 [1 of 1] Compiling Main             ( HelloJava.hs, HelloJava.js_o )
-Linking HelloJava.jsexe (Main)</p>
+Linking HelloJava.jsexe (Main)
 
-<p>$ jjs HelloJava.jsexe/all.js
+$ jjs HelloJava.jsexe/all.js 
 Hello from Haskell!
-<code>``
-</code>jjs<code>is a JVM laucher for JavaScript code similar to Node. It is also possible to run this as a regular Java program along with other Java classes without</code>jjs<code>.</code>jjs<code>is just a convenient way  to run just JavaScript code on the JVM. Above GHCJS compiles the Haskell code to JavaScript in one file</code>all.js<code>and the JVM runs the JavaScript code from</code>all.js`.</p>
+</code></pre>
+
+<p><code>jjs</code> is a JVM laucher for JavaScript code similar to Node. It is also possible to run this as a regular Java program along with other Java classes without <code>jjs</code>. <code>jjs</code> is just a convenient way  to run just JavaScript code on the JVM. Above GHCJS compiles the Haskell code to JavaScript in one file <code>all.js</code> and the JVM runs the JavaScript code from <code>all.js</code>.</p>
 
 <h3>Example 2</h3>
 
 <p>Now let&rsquo;s look at another example that shows how to convert between Haskell and Java lists:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Converstion between Haskell and Java Lists  (HaskellJavaListsConversion.hs)</span> <a href='/downloads/code/HaskellJavaListsConversion.hs'>download</a></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><figcaption><span>Converstion between Haskell and Java Lists  (HaskellJavaListsConversion.hs)</span> <a href='/downloads/code/HaskellJavaListsConversion.hs'>download</a></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -350,7 +344,7 @@ Hello from Haskell!
 </span><span class='line'>  <span class="n">mapM_</span> <span class="p">(</span><span class="n">putStrLn</span> <span class="o">.</span> <span class="n">show</span> <span class="o">.</span> <span class="n">fromJSInt</span><span class="p">)</span> <span class="n">demo</span>
 </span><span class='line'>  <span class="n">sysexit</span> <span class="mi">0</span>
 </span><span class='line'>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>In the code above, two Java types are used: <code>java.util.ArrayList</code> and <code>java.util.Iterator</code>.</p>
 
@@ -358,11 +352,10 @@ Hello from Haskell!
 
 <p>A Java class can be imported with <code>Java.type(className)</code> Nashorn JavaScript code. Line 80 defines the corresponding Haskell FFI function:</p>
 
-<p><code>haskell
--- Imports a Java class
+<pre><code class="haskell">-- Imports a Java class
 foreign import javascript unsafe "Java.type($1)"
   jimport :: JSVal -&gt; JType
-</code></p>
+</code></pre>
 
 <h4>Creating an instance of a Java class</h4>
 
@@ -382,14 +375,13 @@ It takes the <code>ArrayList</code> class and invokes the dafault <code>ArrayLis
 
 <p>It is easy to <a href="http://docs.haskellstack.org/en/stable/ghcjs/">setup a GHCJS project with <code>Stack</code></a> so that we can add other dependencies easily and build it for GHCJS. With the above code in a stack project &ldquo;haskell-jvm-hello&rdquo;, we can build it with <code>stack build</code> and run it with <code>jjs</code>:</p>
 
-<p>```
-$ stack build
+<pre><code>$ stack build
 haskell-jvm-hello-0.1.0.0: unregistering (local file changes: app/Main.hs)
 haskell-jvm-hello-0.1.0.0: build
-Preprocessing library haskell-jvm-hello-0.1.0.0&hellip;
-In-place registering haskell-jvm-hello-0.1.0.0&hellip;
-Preprocessing executable &lsquo;haskell-jvm-hello-exe&rsquo; for
-haskell-jvm-hello-0.1.0.0&hellip;
+Preprocessing library haskell-jvm-hello-0.1.0.0...
+In-place registering haskell-jvm-hello-0.1.0.0...
+Preprocessing executable 'haskell-jvm-hello-exe' for
+haskell-jvm-hello-0.1.0.0...
 [1 of 1] Compiling Main             ( app/Main.hs, .stack-work/dist/x86_64-linux/Cabal-1.22.4.0_ghcjs/build/haskell-jvm-hello-exe/haskell-jvm-hello-exe-tmp/Main.js_o )
 Linking .stack-work/dist/x86_64-linux/Cabal-1.22.4.0_ghcjs/build/haskell-jvm-hello-exe/haskell-jvm-hello-exe.jsexe (Main)
 haskell-jvm-hello-0.1.0.0: copy/register
@@ -398,15 +390,15 @@ Installing library in
 Installing executable(s) in
 /workspace/haskell-jvm-hello/.stack-work/install/x86_64-linux/lts-3.12/ghcjs-0.2.0_ghc-7.10.3/bin
 Warning: the following files would be used as linker inputs, but linking is not being done: .stack-work/dist/x86_64-linux/Cabal-1.22.4.0_ghcjs/build/haskell-jvm-hello-exe/haskell-jvm-hello-exe
-Registering haskell-jvm-hello-0.1.0.0&hellip;</p>
+Registering haskell-jvm-hello-0.1.0.0...
 
-<p>$ jjs .stack-work/dist/x86_64-linux/Cabal-1.22.4.0_ghcjs/build/haskell-jvm-hello-exe/haskell-jvm-hello-exe.jsexe/all.js
+$ jjs .stack-work/dist/x86_64-linux/Cabal-1.22.4.0_ghcjs/build/haskell-jvm-hello-exe/haskell-jvm-hello-exe.jsexe/all.js
 1
 2
 3
 4
 5
-```</p>
+</code></pre>
 
 <p>Java&rsquo;s Nashorn JavaScript engine opens up few more ways for the JVM to be polyglot and it is so good to have one of the best languages, Haskell, on the JVM. Actually it should also be possible to run PureScript as well in this way on the JVM but that is for another day. Happy Haskelling!</p>
 ]]></content>

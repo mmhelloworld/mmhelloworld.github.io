@@ -6,10 +6,11 @@
 <head>
   <meta charset="utf-8">
   <title>Frege: Hello Java - mmhelloworld</title>
-  <meta name="author" content="Marimuthu">
+  <meta name="author" content="Marimuthu Madasamy">
 
   
-  <meta name="description" content="Here is a small code demonstrating Java interoperability in Frege: Calling Java from Frege (HelloJava.fr) download 1
+  <meta name="description" content="Here is a small code demonstrating Java interoperability in Frege: Calling Java from Frege (HelloJava.fr) download
+1
 2
 3
 4
@@ -31,17 +32,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://mmhelloworld.github.io/blog/2013/07/10/frege-hello-java">
+  <link rel="canonical" href="http://mmhelloworld.github.io/blog/2013/07/10/frege-hello-java/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="mmhelloworld" type="application/atom+xml">
   <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 
   
 
@@ -61,9 +62,9 @@
   
 </ul>
   
-<form action="http://google.com/search" method="get">
+<form action="https://www.google.com/search" method="get">
   <fieldset role="search">
-    <input type="hidden" name="q" value="site:mmhelloworld.github.io" />
+    <input type="hidden" name="sitesearch" value="mmhelloworld.github.io">
     <input class="search" type="text" name="q" results="0" placeholder="Search"/>
   </fieldset>
 </form>
@@ -90,14 +91,7 @@
 
 
 
-
-
-
-
-  
-
-
-<time datetime="2013-07-10T11:00:00-04:00" pubdate data-updated="true">Jul 10<span>th</span>, 2013</time>
+<time class='entry-date' datetime='2013-07-10T11:00:00-04:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>11:00 am</span></time>
         
       </p>
     
@@ -107,7 +101,7 @@
 <div class="entry-content"><p>Here is a small code demonstrating Java interoperability in Frege:</p>
 
 <figure class='code'><figcaption><span>Calling Java from Frege  (HelloJava.fr)</span> <a href='/downloads/code/HelloJava.fr'>download</a></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -194,7 +188,7 @@
 
 <p>If a Java class is pure then without much effort, we can use that class in Frege. For example,</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -234,14 +228,14 @@ a mutable object, a new <code>LinkedList</code> instance, so the return type is 
 declared in Frege in some module but the function that we are looking
 for is missing in the <code>data</code> declaration.</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">pure</span> <span class="n">native</span> <span class="n">showThrowable</span> <span class="n">toString</span> <span class="ow">::</span> <span class="kt">Throwable</span> <span class="ow">-&gt;</span> <span class="kt">String</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
 <p>Here <code>showThrowable</code> is the Frege function name for <code>Throwable.toString()</code>. Since it is an
 instance method on <code>Throwable</code>, the first argument is of type
-<code>Throwable</code> and then the formal arguments&#8217; types (in this case, none) and return type.</p>
+<code>Throwable</code> and then the formal arguments' types (in this case, none) and return type.</p>
 
 <h3>2. Using a Java object in a Frege function</h3>
 
@@ -263,7 +257,7 @@ module. It is the same as declaring native declaration for a Java class but
 additionally we need to derive the <code>Exceptional</code> type class so that the exception can later be handled with
 <code>catch</code>.</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="kr">data</span> <span class="kt">IndexOutOfBoundsException</span> <span class="ow">=</span> <span class="n">native</span> <span class="n">java</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="kt">IndexOutOfBoundsException</span>
@@ -274,7 +268,7 @@ additionally we need to derive the <code>Exceptional</code> type class so that t
 
 <p>The exceptions can then be used in native declarations as in <code>get</code> function in our example:</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">native</span> <span class="n">get</span> <span class="ow">::</span> <span class="kt">Mutable</span> <span class="n">s</span> <span class="p">(</span><span class="kt">LinkedList</span> <span class="n">a</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="kt">Int</span> <span class="ow">-&gt;</span> <span class="kt">ST</span> <span class="n">s</span> <span class="p">(</span><span class="kt">Maybe</span> <span class="n">a</span><span class="p">)</span> <span class="n">throws</span>
 </span><span class='line'>    <span class="kt">IndexOutOfBoundsException</span>
@@ -320,12 +314,13 @@ monad which can then be passed to <code>catch</code> to handle those
 exceptions. In our example, <code>\xs -&gt; plusTop xs &gt;&gt;= (println . maybe "Got a null pointer"
 show)</code> is the function which when applied to a
 <code>java.util.LinkedList</code> might throw a <code>NullPointerException</code> or
-<code>IndexOutOfBoundsException</code>:</p></li>
+<code>IndexOutOfBoundsException</code>:</p>
+
+<p><figure class='code'><figcaption><span>Using try </span></figcaption></p></li>
 </ol>
 
 
-<figure class='code'><figcaption><span>Using try </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -333,8 +328,10 @@ show)</code> is the function which when applied to a
 </span><span class='line'>        <span class="n">catch</span><span class="p">`</span> <span class="p">(</span><span class="nf">\</span><span class="p">(</span><span class="n">npe</span> <span class="ow">::</span> <span class="kt">NullPointerException</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="n">println</span> <span class="o">$</span> <span class="n">showThrowable</span> <span class="n">npe</span><span class="p">)</span>
 </span><span class='line'>        <span class="n">catch</span><span class="p">`</span> <span class="p">(</span><span class="nf">\</span><span class="p">(</span><span class="n">exception</span> <span class="ow">::</span> <span class="kt">Exception</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="n">println</span> <span class="o">$</span> <span class="n">showThrowable</span> <span class="n">exception</span><span class="p">)</span>
 </span><span class='line'>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div>
 
+
+<p></figure></p>
 
 <p>Since the construction of action is deferred through a lambda
 here, <code>try</code> eliminates the issue with <code>catch</code> mentioned in the above note.</p>
@@ -362,26 +359,19 @@ future post.</p>
       
   
 
-<span class="byline author vcard">Posted by <span class="fn">Marimuthu</span></span>
+<span class="byline author vcard">Posted by <span class="fn">Marimuthu Madasamy</span></span>
 
       
 
 
 
 
-
-
-
-
-  
-
-
-<time datetime="2013-07-10T11:00:00-04:00" pubdate data-updated="true">Jul 10<span>th</span>, 2013</time>
+<time class='entry-date' datetime='2013-07-10T11:00:00-04:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>11:00 am</span></time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/frege/'>Frege</a>, <a class='category' href='/blog/categories/java/'>Java</a>
+    <a class='category' href='/blog/categories/frege/'>frege</a>, <a class='category' href='/blog/categories/java/'>java</a>
   
 </span>
 
@@ -390,10 +380,8 @@ future post.</p>
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://mmhelloworld.github.io/blog/2013/07/10/frege-hello-java/" data-via="marimuthum" data-counturl="http://mmhelloworld.github.io/blog/2013/07/10/frege-hello-java/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://mmhelloworld.github.io/blog/2013/07/10/frege-hello-java/" data-via="marimuthum" data-counturl="http://mmhelloworld.github.io/blog/2013/07/10/frege-hello-java/" >Tweet</a>
   
-  
-  <div class="g-plusone" data-size="medium"></div>
   
   
     <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
@@ -425,27 +413,23 @@ future post.</p>
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2018/02/11/idris-jvm-automated-ffi-with-null-safety/">Idris JVM: Automated FFI with null safety and exception handling</a>
+        <a href="/blog/2020/12/30/idris-2-bootstrap-compiler-on-the-jvm-with-a-jvm-backend/">Idris 2 Bootstrap Compiler on the JVM With a JVM Backend</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2017/01/10/idris-jvm-guarding-against-java-null-using-maybe-type/">Idris JVM: Guarding against Java null using Maybe type</a>
+        <a href="/blog/2018/02/11/idris-jvm-automated-ffi-with-null-safety/">Idris JVM: Automated FFI With Null Safety and Exception Handling</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2017/01/06/introducing-idris-on-the-jvm-and-an-idris-android-example/">Introducing Idris on the JVM and an Idris Android example</a>
+        <a href="/blog/2017/01/10/idris-jvm-guarding-against-java-null-using-maybe-type/">Idris JVM: Guarding Against Java Null Using Maybe Type</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/01/06/introducing-idris-on-the-jvm-and-an-idris-android-example/">Introducing Idris on the JVM and an Idris Android Example</a>
       </li>
     
       <li class="post">
         <a href="/blog/2016/02/27/haskell-on-the-jvm-via-ghcjs-and-nashorn/">Haskell on the JVM via GHCJS and Nashorn</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/03/15/frege-record-accessors-and-mutators/">Frege: Record accessors and mutators</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/07/10/frege-hello-java/">Frege: Hello Java</a>
       </li>
     
   </ul>
@@ -491,7 +475,7 @@ future post.</p>
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2018 - Marimuthu -
+  Copyright &copy; 2020 - Marimuthu Madasamy -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 
@@ -509,7 +493,7 @@ future post.</p>
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     }());
 </script>
@@ -527,14 +511,6 @@ future post.</p>
 
 
 
-  <script type="text/javascript">
-    (function() {
-      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
-      script.src = 'https://apis.google.com/js/plusone.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
-    })();
-  </script>
-
 
 
   <script type="text/javascript">
@@ -542,7 +518,7 @@ future post.</p>
       var twitterWidgets = document.createElement('script');
       twitterWidgets.type = 'text/javascript';
       twitterWidgets.async = true;
-      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
       document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
     })();
   </script>

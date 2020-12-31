@@ -5,8 +5,8 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Introducing Idris on the JVM and an Idris Android example - mmhelloworld</title>
-  <meta name="author" content="Marimuthu">
+  <title>Introducing Idris on the JVM and an Idris Android Example - mmhelloworld</title>
+  <meta name="author" content="Marimuthu Madasamy">
 
   
   <meta name="description" content="Idris on the JVM! Yes, a dependently typed language on the JVM!
@@ -19,17 +19,17 @@ I have been working on a JVM bytecode backend for Idris for the past few months 
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://mmhelloworld.github.io/blog/2017/01/06/introducing-idris-on-the-jvm-and-an-idris-android-example">
+  <link rel="canonical" href="http://mmhelloworld.github.io/blog/2017/01/06/introducing-idris-on-the-jvm-and-an-idris-android-example/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="mmhelloworld" type="application/atom+xml">
   <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 
   
 
@@ -49,9 +49,9 @@ I have been working on a JVM bytecode backend for Idris for the past few months 
   
 </ul>
   
-<form action="http://google.com/search" method="get">
+<form action="https://www.google.com/search" method="get">
   <fieldset role="search">
-    <input type="hidden" name="q" value="site:mmhelloworld.github.io" />
+    <input type="hidden" name="sitesearch" value="mmhelloworld.github.io">
     <input class="search" type="text" name="q" results="0" placeholder="Search"/>
   </fieldset>
 </form>
@@ -69,7 +69,7 @@ I have been working on a JVM bytecode backend for Idris for the past few months 
   
   <header>
     
-      <h1 class="entry-title">Introducing Idris on the JVM and an Idris Android example</h1>
+      <h1 class="entry-title">Introducing Idris on the JVM and an Idris Android Example</h1>
     
     
       <p class="meta">
@@ -78,14 +78,7 @@ I have been working on a JVM bytecode backend for Idris for the past few months 
 
 
 
-
-
-
-
-  
-
-
-<time datetime="2017-01-06T22:51:00-05:00" pubdate data-updated="true">Jan 6<span>th</span>, 2017</time>
+<time class='entry-date' datetime='2017-01-06T22:51:00-05:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>10:51 pm</span></time>
         
       </p>
     
@@ -276,7 +269,7 @@ Here is the relevant section from bytecode:</p>
 <span class='line-number'>71</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>javap -c -cp target:/path/to/idris-jvm-runtime-1.0-SNAPSHOT.jar main.Main
 </span><span class='line'>
-</span><span class='line'>  public static java.lang.Object sum<span class="nv">$whr$go$colon$0</span><span class="o">(</span>java.lang.Object, java.lang.Object, java.lang.Object<span class="o">)</span>;
+</span><span class='line'>  public static java.lang.Object sum<span class="nv">$whr$go$colon$0</span><span class="o">(</span>java.lang.Object, java.lang.Object, java.lang.Object<span class="o">)</span><span class="p">;</span>
 </span><span class='line'>    Code:
 </span><span class='line'>       0: aconst_null
 </span><span class='line'>       1: astore        7
@@ -414,8 +407,8 @@ decompiled bytecode for the <code>evenT</code> function:</p>
 </span><span class='line'>    <span class="k">if</span> <span class="o">(</span><span class="n">Util</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">var0</span><span class="o">,</span> <span class="n">BigInteger</span><span class="o">.</span><span class="na">ZERO</span><span class="o">))</span> <span class="o">{</span>
 </span><span class='line'>        <span class="n">var1</span> <span class="o">=</span> <span class="n">Integer</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
 </span><span class='line'>        <span class="n">var2</span> <span class="o">=</span> <span class="n">Integer</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
-</span><span class='line'>        <span class="n">var3</span> <span class="o">=</span> <span class="k">new</span> <span class="n">IdrisObject</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
-</span><span class='line'>        <span class="n">var4</span> <span class="o">=</span> <span class="k">new</span> <span class="n">IdrisObject</span><span class="o">(</span><span class="mi">65653</span><span class="o">,</span> <span class="k">new</span> <span class="n">Object</span><span class="o">[]{</span><span class="n">var1</span><span class="o">,</span> <span class="n">var2</span><span class="o">,</span> <span class="n">var3</span><span class="o">});</span>
+</span><span class='line'>        <span class="n">var3</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">IdrisObject</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+</span><span class='line'>        <span class="n">var4</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">IdrisObject</span><span class="o">(</span><span class="mi">65653</span><span class="o">,</span> <span class="k">new</span> <span class="n">Object</span><span class="o">[]{</span><span class="n">var1</span><span class="o">,</span> <span class="n">var2</span><span class="o">,</span> <span class="n">var3</span><span class="o">});</span>
 </span><span class='line'>    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
 </span><span class='line'>        <span class="n">BigInteger</span> <span class="n">var5</span> <span class="o">=</span> <span class="n">BigInteger</span><span class="o">.</span><span class="na">ONE</span><span class="o">;</span>
 </span><span class='line'>        <span class="n">var5</span> <span class="o">=</span> <span class="n">Util</span><span class="o">.</span><span class="na">asBigInt</span><span class="o">(</span><span class="n">var0</span><span class="o">).</span><span class="na">subtract</span><span class="o">(</span><span class="n">Util</span><span class="o">.</span><span class="na">asBigInt</span><span class="o">(</span><span class="n">var5</span><span class="o">));</span>
@@ -617,7 +610,7 @@ mention that to Idris via <code>Inherits View TextView where {}</code>.</p>
 <p>It also demonstrates how we can create a Java class that extends another class and override methods with Idris functions.
 The last section <code>androidExport</code> creates a Java class named <code>hello/IdrisAndroidActivity</code> that extends <code>android/support/v7/app/AppCompatActivity</code>.
 The Java class also creates a wrapper method <code>superOnCreate</code> that just delegates to <code>super.OnCreate</code> and the class also overrides <code>onCreate</code> method
-with Idris&#8217; <code>onCreate</code> function. The Java class can also implement one or more Java interfaces with something like,</p>
+with Idris' <code>onCreate</code> function. The Java class can also implement one or more Java interfaces with something like,</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'>hello/IdrisAndroidActivity extends android/support/v7/app/AppCompatActivity implements java/lang/Runnable, java/lang/Comparable
@@ -695,26 +688,19 @@ android project&rsquo;s <code>app/libs</code> directory.</li>
       
   
 
-<span class="byline author vcard">Posted by <span class="fn">Marimuthu</span></span>
+<span class="byline author vcard">Posted by <span class="fn">Marimuthu Madasamy</span></span>
 
       
 
 
 
 
-
-
-
-
-  
-
-
-<time datetime="2017-01-06T22:51:00-05:00" pubdate data-updated="true">Jan 6<span>th</span>, 2017</time>
+<time class='entry-date' datetime='2017-01-06T22:51:00-05:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>10:51 pm</span></time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/android/'>Android</a>, <a class='category' href='/blog/categories/idris/'>Idris</a>, <a class='category' href='/blog/categories/jvm/'>JVM</a>, <a class='category' href='/blog/categories/java/'>Java</a>
+    <a class='category' href='/blog/categories/android/'>android</a>, <a class='category' href='/blog/categories/idris/'>idris</a>, <a class='category' href='/blog/categories/java/'>java</a>, <a class='category' href='/blog/categories/jvm/'>jvm</a>
   
 </span>
 
@@ -723,10 +709,8 @@ android project&rsquo;s <code>app/libs</code> directory.</li>
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://mmhelloworld.github.io/blog/2017/01/06/introducing-idris-on-the-jvm-and-an-idris-android-example/" data-via="marimuthum" data-counturl="http://mmhelloworld.github.io/blog/2017/01/06/introducing-idris-on-the-jvm-and-an-idris-android-example/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://mmhelloworld.github.io/blog/2017/01/06/introducing-idris-on-the-jvm-and-an-idris-android-example/" data-via="marimuthum" data-counturl="http://mmhelloworld.github.io/blog/2017/01/06/introducing-idris-on-the-jvm-and-an-idris-android-example/" >Tweet</a>
   
-  
-  <div class="g-plusone" data-size="medium"></div>
   
   
     <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
@@ -760,27 +744,23 @@ android project&rsquo;s <code>app/libs</code> directory.</li>
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2018/02/11/idris-jvm-automated-ffi-with-null-safety/">Idris JVM: Automated FFI with null safety and exception handling</a>
+        <a href="/blog/2020/12/30/idris-2-bootstrap-compiler-on-the-jvm-with-a-jvm-backend/">Idris 2 Bootstrap Compiler on the JVM With a JVM Backend</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2017/01/10/idris-jvm-guarding-against-java-null-using-maybe-type/">Idris JVM: Guarding against Java null using Maybe type</a>
+        <a href="/blog/2018/02/11/idris-jvm-automated-ffi-with-null-safety/">Idris JVM: Automated FFI With Null Safety and Exception Handling</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2017/01/06/introducing-idris-on-the-jvm-and-an-idris-android-example/">Introducing Idris on the JVM and an Idris Android example</a>
+        <a href="/blog/2017/01/10/idris-jvm-guarding-against-java-null-using-maybe-type/">Idris JVM: Guarding Against Java Null Using Maybe Type</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/01/06/introducing-idris-on-the-jvm-and-an-idris-android-example/">Introducing Idris on the JVM and an Idris Android Example</a>
       </li>
     
       <li class="post">
         <a href="/blog/2016/02/27/haskell-on-the-jvm-via-ghcjs-and-nashorn/">Haskell on the JVM via GHCJS and Nashorn</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/03/15/frege-record-accessors-and-mutators/">Frege: Record accessors and mutators</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/07/10/frege-hello-java/">Frege: Hello Java</a>
       </li>
     
   </ul>
@@ -826,7 +806,7 @@ android project&rsquo;s <code>app/libs</code> directory.</li>
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2018 - Marimuthu -
+  Copyright &copy; 2020 - Marimuthu Madasamy -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 
@@ -844,7 +824,7 @@ android project&rsquo;s <code>app/libs</code> directory.</li>
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     }());
 </script>
@@ -862,14 +842,6 @@ android project&rsquo;s <code>app/libs</code> directory.</li>
 
 
 
-  <script type="text/javascript">
-    (function() {
-      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
-      script.src = 'https://apis.google.com/js/plusone.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
-    })();
-  </script>
-
 
 
   <script type="text/javascript">
@@ -877,7 +849,7 @@ android project&rsquo;s <code>app/libs</code> directory.</li>
       var twitterWidgets = document.createElement('script');
       twitterWidgets.type = 'text/javascript';
       twitterWidgets.async = true;
-      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
       document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
     })();
   </script>

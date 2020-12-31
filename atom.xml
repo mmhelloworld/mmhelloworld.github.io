@@ -4,17 +4,314 @@
   <title><![CDATA[mmhelloworld]]></title>
   <link href="http://mmhelloworld.github.io/atom.xml" rel="self"/>
   <link href="http://mmhelloworld.github.io/"/>
-  <updated>2018-02-11T02:28:20-05:00</updated>
+  <updated>2020-12-30T19:03:32-05:00</updated>
   <id>http://mmhelloworld.github.io/</id>
   <author>
-    <name><![CDATA[Marimuthu]]></name>
+    <name><![CDATA[Marimuthu Madasamy]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
   
   <entry>
-    <title type="html"><![CDATA[Idris JVM: Automated FFI with null safety and exception handling]]></title>
+    <title type="html"><![CDATA[Idris 2 Bootstrap Compiler on the JVM With a JVM Backend]]></title>
+    <link href="http://mmhelloworld.github.io/blog/2020/12/30/idris-2-bootstrap-compiler-on-the-jvm-with-a-jvm-backend/"/>
+    <updated>2020-12-30T13:34:21-05:00</updated>
+    <id>http://mmhelloworld.github.io/blog/2020/12/30/idris-2-bootstrap-compiler-on-the-jvm-with-a-jvm-backend</id>
+    <content type="html"><![CDATA[<p>I am excited to announce that Idris 2 bootstrap compiler can now run on the JVM along with a JVM backend. Here is a REPL session:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="o">$</span> <span class="n">idris2</span>
+</span><span class='line'>     <span class="n">____</span>    <span class="n">__</span>     <span class="kr">_</span>         <span class="n">___</span>
+</span><span class='line'>    <span class="o">/</span>  <span class="kr">_</span><span class="o">/</span><span class="n">___</span><span class="o">/</span> <span class="o">/</span><span class="n">____</span><span class="p">(</span><span class="kr">_</span><span class="p">)</span><span class="n">____</span>   <span class="o">|</span><span class="n">__</span> <span class="nf">\</span>
+</span><span class='line'>    <span class="o">/</span> <span class="o">//</span> <span class="n">__</span>  <span class="o">/</span> <span class="n">___</span><span class="o">/</span> <span class="o">/</span> <span class="n">___</span><span class="o">/</span>   <span class="n">__</span><span class="o">/</span> <span class="o">/</span>     <span class="kt">Version</span> <span class="mf">0.1</span><span class="o">.</span><span class="mi">1</span><span class="o">-</span><span class="mi">786152</span><span class="n">de1</span>
+</span><span class='line'>  <span class="kr">_</span><span class="o">/</span> <span class="o">//</span> <span class="o">/</span><span class="kr">_</span><span class="o">/</span> <span class="o">/</span> <span class="o">/</span>  <span class="o">/</span> <span class="p">(</span><span class="n">__</span>  <span class="p">)</span>   <span class="o">/</span> <span class="n">__</span><span class="o">/</span>      <span class="n">https</span><span class="kt">://</span><span class="n">www</span><span class="o">.</span><span class="n">idris</span><span class="o">-</span><span class="n">lang</span><span class="o">.</span><span class="n">org</span>
+</span><span class='line'> <span class="o">/</span><span class="n">___</span><span class="o">/\</span><span class="n">__</span><span class="p">,</span><span class="kr">_</span><span class="o">/</span><span class="kr">_</span><span class="o">/</span>  <span class="o">/</span><span class="kr">_</span><span class="o">/</span><span class="n">____</span><span class="o">/</span>   <span class="o">/</span><span class="n">____</span><span class="o">/</span>      <span class="kt">Type</span> <span class="kt">:?</span> <span class="n">for</span> <span class="n">help</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">[</span><span class="kt">BOOTSTRAP</span> <span class="kt">VERSION:</span> <span class="kt">No</span> <span class="n">longer</span> <span class="n">developed</span><span class="p">,</span> <span class="n">except</span> <span class="n">as</span> <span class="n">a</span> <span class="n">bootstrapping</span> <span class="n">step</span><span class="o">.</span><span class="p">]</span>
+</span><span class='line'><span class="kt">Welcome</span> <span class="n">to</span> <span class="kt">Idris</span> <span class="mi">2</span> <span class="n">on</span> <span class="n">the</span> <span class="kt">JVM</span> <span class="p">(</span><span class="kt">Private</span> <span class="kt">Build</span> <span class="kt">OpenJDK</span> <span class="mi">64</span><span class="o">-</span><span class="kt">Bit</span> <span class="kt">Server</span> <span class="kt">VM</span><span class="p">,</span> <span class="mf">1.8</span><span class="o">.</span><span class="mi">0</span><span class="n">_275</span><span class="p">)</span><span class="o">.</span>  <span class="kt">Enjoy</span> <span class="n">yourself</span><span class="o">!</span>
+</span><span class='line'><span class="kt">Main</span><span class="o">&gt;</span> <span class="s">&quot;hello world&quot;</span>
+</span><span class='line'><span class="s">&quot;hello world&quot;</span>
+</span><span class='line'><span class="kt">Main</span><span class="o">&gt;</span> <span class="n">take</span> <span class="mi">10</span> <span class="p">[</span><span class="mi">25</span><span class="o">..</span><span class="p">]</span>
+</span><span class='line'><span class="p">[</span><span class="mi">25</span><span class="p">,</span> <span class="mi">26</span><span class="p">,</span> <span class="mi">27</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">29</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">33</span><span class="p">,</span> <span class="mi">34</span><span class="p">]</span>
+</span><span class='line'><span class="kt">Main</span><span class="o">&gt;</span> <span class="kt">:</span><span class="n">t</span> <span class="n">map</span>
+</span><span class='line'><span class="kt">Prelude</span><span class="o">.</span><span class="n">map</span> <span class="kt">:</span> <span class="kt">Functor</span> <span class="n">f</span> <span class="ow">=&gt;</span> <span class="p">(</span><span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">b</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="n">f</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">f</span> <span class="n">b</span>
+</span><span class='line'><span class="kt">Main</span><span class="o">&gt;</span> <span class="kt">:</span><span class="n">exec</span> <span class="n">printLn</span> <span class="s">&quot;Hello Idris 2 on the JVM - this is printed from executing JVM bytecode from memory&quot;</span>
+</span><span class='line'><span class="s">&quot;Hello Idris 2 on the JVM - this is printed from executing JVM bytecode from memory&quot;</span>
+</span><span class='line'><span class="kt">Main</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You may notice that the banner includes the JVM version the Idris compiler is running on. Idris 2 for JVM can run on Java 8 or above. Since the compiler itself runs on the JVM, the last <code>:exec</code> command above can directly interpret the generated bytecode on the compiler JVM, and the generated bytecode is loaded from memory without any file system footprint.</p>
+
+<h3>To try it out</h3>
+
+<p>Prerequisite: Java 8 or above</p>
+
+<ul>
+<li>Extract the zip from <a href="https://github.com/mmhelloworld/Idris2-boot/releases/tag/v0.2.0">here</a></li>
+<li>Add <code>idris2-boot-jvm/bin</code> from extracted directory to <code>PATH</code></li>
+<li>Run <code>idris2</code>. That&rsquo;s all!</li>
+</ul>
+
+
+<h3>Features</h3>
+
+<ul>
+<li>Eliminate tail recursion using JVM&rsquo;s GOTO</li>
+<li>Trampoline non-self tail calls</li>
+<li>Support file, directory, array, IORef and buffer primitives.</li>
+<li>Analyse function dependencies to generate bytecode for only used functions from <code>main</code></li>
+<li>Limited type inference on Idris IR to avoid boxing and typecasting in the generated bytecode</li>
+<li>Static and instance Java FFI method calls.</li>
+<li>Debug information (Idris source file and line numbers) in the bytecode from Idris IR</li>
+</ul>
+
+
+<p>Currently the goal for this bootstrap compiler is to be able to compile current <a href="https://github.com/idris-lang/Idris2">Idris 2</a> so the items here could definitely be improved a lot and other features may be added to support the absolute minimum for building Idris 2.</p>
+
+<h3>Example</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="kr">module</span> <span class="nn">Main</span>
+</span><span class='line'>
+</span><span class='line'><span class="kr">import</span> <span class="nn">System.FFI</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">-- Tail call is eliminated with GOTO</span>
+</span><span class='line'><span class="nf">sum</span> <span class="kt">:</span> <span class="kt">Int</span> <span class="ow">-&gt;</span> <span class="kt">Int</span>
+</span><span class='line'><span class="nf">sum</span> <span class="n">n</span> <span class="ow">=</span> <span class="n">go</span> <span class="mi">0</span> <span class="n">n</span> <span class="kr">where</span>
+</span><span class='line'>  <span class="n">go</span> <span class="kt">:</span> <span class="kt">Int</span> <span class="ow">-&gt;</span> <span class="kt">Int</span> <span class="ow">-&gt;</span> <span class="kt">Int</span>
+</span><span class='line'>  <span class="n">go</span> <span class="n">acc</span> <span class="mi">0</span> <span class="ow">=</span> <span class="n">acc</span>
+</span><span class='line'>  <span class="n">go</span> <span class="n">acc</span> <span class="n">n</span> <span class="ow">=</span> <span class="n">go</span> <span class="p">(</span><span class="n">acc</span> <span class="o">+</span> <span class="n">n</span><span class="p">)</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="nf">mutual</span>
+</span><span class='line'>  <span class="c1">-- Mutually recursive functions are trampolined</span>
+</span><span class='line'>  <span class="c1">-- keeping it simple with int instead of Nat which is compiled to Java BigInteger</span>
+</span><span class='line'>  <span class="n">isOdd</span> <span class="kt">:</span> <span class="kt">Int</span> <span class="ow">-&gt;</span> <span class="kt">Bool</span>
+</span><span class='line'>  <span class="n">isOdd</span> <span class="mi">0</span> <span class="ow">=</span> <span class="kt">False</span>
+</span><span class='line'>  <span class="n">isOdd</span> <span class="n">n</span> <span class="ow">=</span> <span class="n">isEven</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">isEven</span> <span class="kt">:</span> <span class="kt">Int</span> <span class="ow">-&gt;</span> <span class="kt">Bool</span>
+</span><span class='line'>  <span class="n">isEven</span> <span class="mi">0</span> <span class="ow">=</span> <span class="kt">True</span>
+</span><span class='line'>  <span class="n">isEven</span> <span class="n">n</span> <span class="ow">=</span> <span class="n">isOdd</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">-- Java instance method calls</span>
+</span><span class='line'><span class="o">%</span><span class="n">foreign</span> <span class="n">jvm</span> <span class="s">&quot;java/lang/String&quot;</span> <span class="s">&quot;.length&quot;</span>
+</span><span class='line'><span class="nf">jvmStringLength</span> <span class="kt">:</span> <span class="kt">String</span> <span class="ow">-&gt;</span> <span class="kt">Int</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">-- Java static method calls</span>
+</span><span class='line'><span class="o">%</span><span class="n">foreign</span> <span class="n">jvm</span> <span class="s">&quot;java/lang/Integer&quot;</span> <span class="s">&quot;toBinaryString&quot;</span>
+</span><span class='line'><span class="nf">intToBinaryString</span> <span class="kt">:</span> <span class="kt">Int</span> <span class="ow">-&gt;</span> <span class="kt">String</span>
+</span><span class='line'>
+</span><span class='line'><span class="nf">main</span> <span class="kt">:</span> <span class="kt">IO</span> <span class="nb">()</span>
+</span><span class='line'><span class="nf">main</span> <span class="ow">=</span> <span class="kr">do</span>
+</span><span class='line'>  <span class="n">printLn</span> <span class="o">$</span> <span class="n">sum</span> <span class="mi">5000</span>
+</span><span class='line'>  <span class="n">printLn</span> <span class="o">$</span> <span class="n">isEven</span> <span class="mi">100000</span>
+</span><span class='line'>  <span class="n">printLn</span> <span class="o">$</span> <span class="n">intToBinaryString</span> <span class="mi">512</span>
+</span><span class='line'>  <span class="n">printLn</span> <span class="o">$</span> <span class="n">jvmStringLength</span> <span class="s">&quot;hello&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Compile</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">idris2</span> <span class="kt">Main</span><span class="o">.</span><span class="n">idr</span> <span class="o">-</span><span class="n">o</span> <span class="n">main</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The classes will be compiled into <code>build/exec/main_app</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>$ tree build/exec/main_app/
+</span><span class='line'>build/exec/main_app/
+</span><span class='line'>├── Main.class
+</span><span class='line'>├── Prelude
+</span><span class='line'>│   ├── $col$col.class
+</span><span class='line'>│   ├── Just.class
+</span><span class='line'>│   ├── Nil.class
+</span><span class='line'>│   ├── Nothing.class
+</span><span class='line'>│   ├── Open.class
+</span><span class='line'>│   ├── PrefixMinus.class
+</span><span class='line'>│   └── Show$spcat$spcPrelude$dotidr$col1260$col1--1284$col1__mkShow.class
+</span><span class='line'>├── Prelude.class
+</span><span class='line'>└── PrimIO.class
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>It compiles down to three main modules <code>Main</code>, <code>Prelude</code> and <code>PrimIO</code>. Rest of the classes are data classes for Idris constructors like <code>Just</code>, <code>Nothing</code>, Nil<code>,</code>::` etc.</p>
+
+<h4>Run</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>$ java -cp /path/to/idris2-boot-jvm/lib/runtime-1.0-SNAPSHOT.jar:build/exec/main_app Main
+</span><span class='line'>12502500
+</span><span class='line'>True
+</span><span class='line'>&quot;1000000000&quot;
+</span><span class='line'>5
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The above example demonstrates tail recursion, mutual recursion, Java FFI instance and static method calls.</p>
+
+<p><code>sum</code> a tail recursive function, would be compiled into a loop.  Here is the decompiled code for the nested <code>go</code> function inside <code>sum</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">static</span> <span class="n">Object</span> <span class="nf">$nested1201$307$go</span><span class="o">(</span><span class="n">Object</span> <span class="n">arg$0</span><span class="o">,</span> <span class="kt">int</span> <span class="n">arg$1</span><span class="o">,</span> <span class="kt">int</span> <span class="n">arg$2</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>    <span class="k">while</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">switch</span><span class="o">(</span><span class="n">arg$2</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">case</span> <span class="mi">0</span><span class="o">:</span>
+</span><span class='line'>            <span class="k">return</span> <span class="n">arg$1</span><span class="o">;</span>
+</span><span class='line'>        <span class="k">default</span><span class="o">:</span>
+</span><span class='line'>            <span class="n">arg$1</span> <span class="o">=</span> <span class="n">Prelude</span><span class="o">.++</span><span class="n">_Num__Int</span><span class="o">(</span><span class="n">arg$1</span><span class="o">,</span> <span class="n">arg$2</span><span class="o">);</span>
+</span><span class='line'>            <span class="n">arg$2</span> <span class="o">=</span> <span class="n">Prelude</span><span class="o">.--</span><span class="n">_Neg__Int</span><span class="o">(</span><span class="n">arg$2</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>For <code>isEven</code> and <code>isOdd</code>, the tail calls would be trampolined using JVM&rsquo;s <code>invokedynamic</code>. Here is the decompiled bytecode.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">static</span> <span class="n">Object</span> <span class="nf">isOdd</span><span class="o">(</span><span class="kt">int</span> <span class="n">arg$0</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>    <span class="k">switch</span><span class="o">(</span><span class="n">arg$0</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>    <span class="k">case</span> <span class="mi">0</span><span class="o">:</span>
+</span><span class='line'>        <span class="k">return</span> <span class="mi">1</span><span class="o">;</span>
+</span><span class='line'>    <span class="k">default</span><span class="o">:</span>
+</span><span class='line'>        <span class="k">return</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="n">Runtime</span><span class="o">.</span><span class="na">createThunk</span><span class="o">(</span><span class="n">isEven</span><span class="o">(</span><span class="n">Prelude</span><span class="o">.--</span><span class="n">_Neg__Int</span><span class="o">(</span><span class="n">arg$0</span><span class="o">,</span> <span class="mi">1</span><span class="o">)));</span>
+</span><span class='line'>        <span class="o">};</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">public</span> <span class="kd">static</span> <span class="n">Object</span> <span class="nf">isEven</span><span class="o">(</span><span class="kt">int</span> <span class="n">arg$0</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>    <span class="k">switch</span><span class="o">(</span><span class="n">arg$0</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>    <span class="k">case</span> <span class="mi">0</span><span class="o">:</span>
+</span><span class='line'>        <span class="k">return</span> <span class="mi">0</span><span class="o">;</span>
+</span><span class='line'>    <span class="k">default</span><span class="o">:</span>
+</span><span class='line'>        <span class="k">return</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="n">Runtime</span><span class="o">.</span><span class="na">createThunk</span><span class="o">(</span><span class="n">isOdd</span><span class="o">(</span><span class="n">Prelude</span><span class="o">.--</span><span class="n">_Neg__Int</span><span class="o">(</span><span class="n">arg$0</span><span class="o">,</span> <span class="mi">1</span><span class="o">)));</span>
+</span><span class='line'>        <span class="o">};</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>jvmStringLength</code> function is an example for Java FFI instance method call. It calls <code>length</code> function on Java&rsquo;s <code>java.lang.String</code> instance. Similarly <code>intToBinaryString</code> calls <code>toBinaryString</code> static function on class <code>java.lang.Integer</code>. Function name starting with a dot denotes an instance method call differentiating it from a static method call. Precise types can also be passed explicitly as in the example below with argument types and return type (full code <a href="https://github.com/mmhelloworld/Idris2-boot/blob/master/libs/base/System/File.idr#L37">here</a>).</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="o">%</span><span class="n">foreign</span> <span class="n">jvm&#39;</span> <span class="n">fileClass</span> <span class="s">&quot;getLine&quot;</span> <span class="n">fileClass</span> <span class="s">&quot;String&quot;</span>
+</span><span class='line'><span class="nf">prim__readLine</span> <span class="kt">:</span> <span class="kt">FilePtr</span> <span class="ow">-&gt;</span> <span class="kt">PrimIO</span> <span class="p">(</span><span class="kt">Ptr</span> <span class="kt">String</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Next steps</h3>
+
+<p>Next step would be to use this bootstrap version to compile current <a href="https://github.com/idris-lang/Idris2">Idris 2</a> and then porting the JVM backend from here which is on Idris 1 to Idris 2 so there are some interesting things ahead to work on. Meanwhile, if anyone gets a chance to use this boostrap JVM version, please share any feedback or any issues <a href="https://github.com/mmhelloworld/idris-jvm/discussions">here</a> that can help while we try to compile mainstream Idris 2 for the JVM. Thank you for reading and happy coding!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Idris JVM: Automated FFI With Null Safety and Exception Handling]]></title>
     <link href="http://mmhelloworld.github.io/blog/2018/02/11/idris-jvm-automated-ffi-with-null-safety/"/>
     <updated>2018-02-11T00:03:00-05:00</updated>
     <id>http://mmhelloworld.github.io/blog/2018/02/11/idris-jvm-automated-ffi-with-null-safety</id>
@@ -215,7 +512,7 @@ the FFI call will automatically have corresponding types.</p>
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">printLn</span> <span class="o">!</span><span class="p">((</span><span class="n">stringClass</span> <span class="o">&lt;.!&gt;</span> <span class="s">&quot;valueOf(double)&quot;</span><span class="p">)</span> <span class="mf">2.5</span><span class="p">)</span>
-</span><span class='line'><span class="nf">printLn</span> <span class="o">!</span><span class="p">((</span><span class="n">stringClass</span> <span class="o">&lt;.!&gt;</span> <span class="s">&quot;valueOf(char)&quot;</span><span class="p">)</span> <span class="sc">&#39;H&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="nf">printLn</span> <span class="o">!</span><span class="p">((</span><span class="n">stringClass</span> <span class="o">&lt;.!&gt;</span> <span class="s">&quot;valueOf(char)&quot;</span><span class="p">)</span> <span class="n">&#39;H&#39;</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -341,7 +638,7 @@ determined without the user having to provide the foreign types of the fields.</
 
 <h2>Summary</h2>
 
-<p>This post demonstrated how with Idris&#8217; powerful features FFI, type provider and elaborator reflection, we can safely and
+<p>This post demonstrated how with Idris' powerful features FFI, type provider and elaborator reflection, we can safely and
 easily access JVM foreign functions. We can access fields, methods and constructors without having to explicitly provide
 foreign types and we can access them in safe way without <code>null</code> getting into Idris code and handle exceptions thrown by
 foreign functions. It also showed how to call overloaded methods and constructors and how <code>Maybe</code> and <code>Either</code> types are
@@ -350,7 +647,7 @@ used with foreign functions.</p>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Idris JVM: Guarding against Java null using Maybe type]]></title>
+    <title type="html"><![CDATA[Idris JVM: Guarding Against Java Null Using Maybe Type]]></title>
     <link href="http://mmhelloworld.github.io/blog/2017/01/10/idris-jvm-guarding-against-java-null-using-maybe-type/"/>
     <updated>2017-01-10T21:08:00-05:00</updated>
     <id>http://mmhelloworld.github.io/blog/2017/01/10/idris-jvm-guarding-against-java-null-using-maybe-type</id>
@@ -472,7 +769,7 @@ takes a nullable parent component and a message. If the parent component is <cod
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Introducing Idris on the JVM and an Idris Android example]]></title>
+    <title type="html"><![CDATA[Introducing Idris on the JVM and an Idris Android Example]]></title>
     <link href="http://mmhelloworld.github.io/blog/2017/01/06/introducing-idris-on-the-jvm-and-an-idris-android-example/"/>
     <updated>2017-01-06T22:51:00-05:00</updated>
     <id>http://mmhelloworld.github.io/blog/2017/01/06/introducing-idris-on-the-jvm-and-an-idris-android-example</id>
@@ -660,7 +957,7 @@ Here is the relevant section from bytecode:</p>
 <span class='line-number'>71</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>javap -c -cp target:/path/to/idris-jvm-runtime-1.0-SNAPSHOT.jar main.Main
 </span><span class='line'>
-</span><span class='line'>  public static java.lang.Object sum<span class="nv">$whr$go$colon$0</span><span class="o">(</span>java.lang.Object, java.lang.Object, java.lang.Object<span class="o">)</span>;
+</span><span class='line'>  public static java.lang.Object sum<span class="nv">$whr$go$colon$0</span><span class="o">(</span>java.lang.Object, java.lang.Object, java.lang.Object<span class="o">)</span><span class="p">;</span>
 </span><span class='line'>    Code:
 </span><span class='line'>       0: aconst_null
 </span><span class='line'>       1: astore        7
@@ -798,8 +1095,8 @@ decompiled bytecode for the <code>evenT</code> function:</p>
 </span><span class='line'>    <span class="k">if</span> <span class="o">(</span><span class="n">Util</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">var0</span><span class="o">,</span> <span class="n">BigInteger</span><span class="o">.</span><span class="na">ZERO</span><span class="o">))</span> <span class="o">{</span>
 </span><span class='line'>        <span class="n">var1</span> <span class="o">=</span> <span class="n">Integer</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
 </span><span class='line'>        <span class="n">var2</span> <span class="o">=</span> <span class="n">Integer</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
-</span><span class='line'>        <span class="n">var3</span> <span class="o">=</span> <span class="k">new</span> <span class="n">IdrisObject</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
-</span><span class='line'>        <span class="n">var4</span> <span class="o">=</span> <span class="k">new</span> <span class="n">IdrisObject</span><span class="o">(</span><span class="mi">65653</span><span class="o">,</span> <span class="k">new</span> <span class="n">Object</span><span class="o">[]{</span><span class="n">var1</span><span class="o">,</span> <span class="n">var2</span><span class="o">,</span> <span class="n">var3</span><span class="o">});</span>
+</span><span class='line'>        <span class="n">var3</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">IdrisObject</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+</span><span class='line'>        <span class="n">var4</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">IdrisObject</span><span class="o">(</span><span class="mi">65653</span><span class="o">,</span> <span class="k">new</span> <span class="n">Object</span><span class="o">[]{</span><span class="n">var1</span><span class="o">,</span> <span class="n">var2</span><span class="o">,</span> <span class="n">var3</span><span class="o">});</span>
 </span><span class='line'>    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
 </span><span class='line'>        <span class="n">BigInteger</span> <span class="n">var5</span> <span class="o">=</span> <span class="n">BigInteger</span><span class="o">.</span><span class="na">ONE</span><span class="o">;</span>
 </span><span class='line'>        <span class="n">var5</span> <span class="o">=</span> <span class="n">Util</span><span class="o">.</span><span class="na">asBigInt</span><span class="o">(</span><span class="n">var0</span><span class="o">).</span><span class="na">subtract</span><span class="o">(</span><span class="n">Util</span><span class="o">.</span><span class="na">asBigInt</span><span class="o">(</span><span class="n">var5</span><span class="o">));</span>
@@ -1001,7 +1298,7 @@ mention that to Idris via <code>Inherits View TextView where {}</code>.</p>
 <p>It also demonstrates how we can create a Java class that extends another class and override methods with Idris functions.
 The last section <code>androidExport</code> creates a Java class named <code>hello/IdrisAndroidActivity</code> that extends <code>android/support/v7/app/AppCompatActivity</code>.
 The Java class also creates a wrapper method <code>superOnCreate</code> that just delegates to <code>super.OnCreate</code> and the class also overrides <code>onCreate</code> method
-with Idris&#8217; <code>onCreate</code> function. The Java class can also implement one or more Java interfaces with something like,</p>
+with Idris' <code>onCreate</code> function. The Java class can also implement one or more Java interfaces with something like,</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'>hello/IdrisAndroidActivity extends android/support/v7/app/AppCompatActivity implements java/lang/Runnable, java/lang/Comparable
@@ -1093,7 +1390,7 @@ android project&rsquo;s <code>app/libs</code> directory.</li>
 
 <p>Here is a simple Haskell code that can be run on the JVM:</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -1161,7 +1458,7 @@ android project&rsquo;s <code>app/libs</code> directory.</li>
 <p>Now let&rsquo;s look at another example that shows how to convert between Haskell and Java lists:</p>
 
 <figure class='code'><figcaption><span>Converstion between Haskell and Java Lists  (HaskellJavaListsConversion.hs)</span> <a href='http://mmhelloworld.github.io/downloads/code/HaskellJavaListsConversion.hs'>download</a></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -1506,7 +1803,7 @@ android project&rsquo;s <code>app/libs</code> directory.</li>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Frege: Record accessors and mutators]]></title>
+    <title type="html"><![CDATA[Frege: Record Accessors and Mutators]]></title>
     <link href="http://mmhelloworld.github.io/blog/2014/03/15/frege-record-accessors-and-mutators/"/>
     <updated>2014-03-15T20:41:00-04:00</updated>
     <id>http://mmhelloworld.github.io/blog/2014/03/15/frege-record-accessors-and-mutators</id>
@@ -1514,7 +1811,7 @@ android project&rsquo;s <code>app/libs</code> directory.</li>
 
 <p>Consider the following type in Frege:</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -1529,7 +1826,7 @@ android project&rsquo;s <code>app/libs</code> directory.</li>
 
 <p>Now we can use the following functions to get and set record fields:</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -1559,7 +1856,7 @@ android project&rsquo;s <code>app/libs</code> directory.</li>
 
 <p>We can use the functions like this:</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -1592,7 +1889,7 @@ android project&rsquo;s <code>app/libs</code> directory.</li>
 
 <p>Frege also provides some shortcuts to apply these functions:</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -1619,7 +1916,7 @@ android project&rsquo;s <code>app/libs</code> directory.</li>
 
 <p>Multiple updates can be combined:</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">frege</span><span class="o">&gt;</span> <span class="n">p</span><span class="o">.</span><span class="p">{</span><span class="n">x</span> <span class="ow">&lt;-</span> <span class="p">(</span><span class="o">+</span><span class="mi">8</span><span class="p">),</span> <span class="n">y</span> <span class="ow">=</span> <span class="mi">20</span><span class="p">}</span> <span class="c1">-- Increment x by 8 and set y to 20</span>
 </span><span class='line'><span class="kt">Point</span> <span class="mi">11</span> <span class="mi">20</span>
@@ -1629,7 +1926,7 @@ android project&rsquo;s <code>app/libs</code> directory.</li>
 <p>Accessors and updates can be at any level deep.
 Let&rsquo;s create another type:</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -1655,7 +1952,7 @@ Let&rsquo;s create another type:</p>
 <p>Here we have an aggregate type <code>Circle</code> which composes another type <code>Point</code> for it&rsquo;s field <code>center</code>.
 Now we can update and select fields at different levels:</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -1689,7 +1986,7 @@ Now we can update and select fields at different levels:</p>
 <p>In the latest version, Frege provides syntactic sugar for lambdas using underscores. For example, <code>T.foo</code> can be written
 as <code>_.foo</code> if the type can be deduced from the context the lambda is applied. Hence the following two are equivalent.</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -1705,7 +2002,7 @@ as <code>_.foo</code> if the type can be deduced from the context the lambda is 
 <p>Frege provides another utility to check for a field&rsquo;s existence. This would be useful if we have multiple constructors
 with different set of fields.</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -1733,7 +2030,7 @@ with different set of fields.</p>
 <p>In the above code, we have two constructors <code>Point2d</code> and <code>Point3d</code> where the field <code>z</code> exists only for <code>Point3d</code>.
 We can check for the existence of field <code>z</code> like this:</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -1783,7 +2080,7 @@ here is the link to Frege language reference: <a href="http://www.frege-lang.org
     <content type="html"><![CDATA[<p>Here is a small code demonstrating Java interoperability in Frege:</p>
 
 <figure class='code'><figcaption><span>Calling Java from Frege  (HelloJava.fr)</span> <a href='http://mmhelloworld.github.io/downloads/code/HelloJava.fr'>download</a></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -1870,7 +2167,7 @@ here is the link to Frege language reference: <a href="http://www.frege-lang.org
 
 <p>If a Java class is pure then without much effort, we can use that class in Frege. For example,</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -1910,14 +2207,14 @@ a mutable object, a new <code>LinkedList</code> instance, so the return type is 
 declared in Frege in some module but the function that we are looking
 for is missing in the <code>data</code> declaration.</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">pure</span> <span class="n">native</span> <span class="n">showThrowable</span> <span class="n">toString</span> <span class="ow">::</span> <span class="kt">Throwable</span> <span class="ow">-&gt;</span> <span class="kt">String</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
 <p>Here <code>showThrowable</code> is the Frege function name for <code>Throwable.toString()</code>. Since it is an
 instance method on <code>Throwable</code>, the first argument is of type
-<code>Throwable</code> and then the formal arguments&#8217; types (in this case, none) and return type.</p>
+<code>Throwable</code> and then the formal arguments' types (in this case, none) and return type.</p>
 
 <h3>2. Using a Java object in a Frege function</h3>
 
@@ -1939,7 +2236,7 @@ module. It is the same as declaring native declaration for a Java class but
 additionally we need to derive the <code>Exceptional</code> type class so that the exception can later be handled with
 <code>catch</code>.</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="kr">data</span> <span class="kt">IndexOutOfBoundsException</span> <span class="ow">=</span> <span class="n">native</span> <span class="n">java</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="kt">IndexOutOfBoundsException</span>
@@ -1950,7 +2247,7 @@ additionally we need to derive the <code>Exceptional</code> type class so that t
 
 <p>The exceptions can then be used in native declarations as in <code>get</code> function in our example:</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">native</span> <span class="n">get</span> <span class="ow">::</span> <span class="kt">Mutable</span> <span class="n">s</span> <span class="p">(</span><span class="kt">LinkedList</span> <span class="n">a</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="kt">Int</span> <span class="ow">-&gt;</span> <span class="kt">ST</span> <span class="n">s</span> <span class="p">(</span><span class="kt">Maybe</span> <span class="n">a</span><span class="p">)</span> <span class="n">throws</span>
 </span><span class='line'>    <span class="kt">IndexOutOfBoundsException</span>
@@ -1996,12 +2293,13 @@ monad which can then be passed to <code>catch</code> to handle those
 exceptions. In our example, <code>\xs -&gt; plusTop xs &gt;&gt;= (println . maybe "Got a null pointer"
 show)</code> is the function which when applied to a
 <code>java.util.LinkedList</code> might throw a <code>NullPointerException</code> or
-<code>IndexOutOfBoundsException</code>:</p></li>
+<code>IndexOutOfBoundsException</code>:</p>
+
+<p><figure class='code'><figcaption><span>Using try </span></figcaption></p></li>
 </ol>
 
 
-<figure class='code'><figcaption><span>Using try </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -2009,8 +2307,10 @@ show)</code> is the function which when applied to a
 </span><span class='line'>        <span class="n">catch</span><span class="p">`</span> <span class="p">(</span><span class="nf">\</span><span class="p">(</span><span class="n">npe</span> <span class="ow">::</span> <span class="kt">NullPointerException</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="n">println</span> <span class="o">$</span> <span class="n">showThrowable</span> <span class="n">npe</span><span class="p">)</span>
 </span><span class='line'>        <span class="n">catch</span><span class="p">`</span> <span class="p">(</span><span class="nf">\</span><span class="p">(</span><span class="n">exception</span> <span class="ow">::</span> <span class="kt">Exception</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="n">println</span> <span class="o">$</span> <span class="n">showThrowable</span> <span class="n">exception</span><span class="p">)</span>
 </span><span class='line'>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div>
 
+
+<p></figure></p>
 
 <p>Since the construction of action is deferred through a lambda
 here, <code>try</code> eliminates the issue with <code>catch</code> mentioned in the above note.</p>

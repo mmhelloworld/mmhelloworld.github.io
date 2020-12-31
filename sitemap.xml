@@ -1,49 +1,64 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
-    <url>
-        <loc>http://mmhelloworld.github.io/blog/2013/07/10/frege-hello-java/</loc>
-        <lastmod>2014-03-16T10:21:30-04:00</lastmod>
-    </url>
-    <url>
-        <loc>
-            http://mmhelloworld.github.io/blog/2014/03/15/frege-record-accessors-and-mutators/
-        </loc>
-        <lastmod>2014-03-16T12:47:22-04:00</lastmod>
-    </url>
-    <url>
-        <loc>
-            http://mmhelloworld.github.io/blog/2016/02/27/haskell-on-the-jvm-via-ghcjs-and-nashorn/
-        </loc>
-        <lastmod>2016-02-28T12:58:59-05:00</lastmod>
-    </url>
-    <url>
-        <loc>
-            http://mmhelloworld.github.io/blog/2017/01/06/introducing-idris-on-the-jvm-and-an-idris-android-example/
-        </loc>
-        <lastmod>2017-09-17T17:45:55-04:00</lastmod>
-    </url>
-    <url>
-        <loc>
-            http://mmhelloworld.github.io/blog/2017/01/10/idris-jvm-guarding-against-java-null-using-maybe-type/
-        </loc>
-        <lastmod>2017-09-17T17:48:46-04:00</lastmod>
-    </url>
-    <url>
-        <loc>
-            http://mmhelloworld.github.io/blog/2018/02/11/idris-jvm-automated-ffi-with-null-safety/
-        </loc>
-        <lastmod>2018-02-11T02:26:05-05:00</lastmod>
-    </url>
-    <url>
-        <loc>http://mmhelloworld.github.io/blog/archives/</loc>
-        <lastmod>2018-02-11T02:26:05-05:00</lastmod>
-    </url>
-    <url>
-        <loc>http://mmhelloworld.github.io/</loc>
-        <lastmod>2018-02-11T02:26:05-05:00</lastmod>
-    </url>
-    <url>
-        <loc>http://mmhelloworld.github.io/robots.txt</loc>
-        <lastmod>2013-06-23T02:40:16-04:00</lastmod>
-    </url>
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<url>
+<loc>http://mmhelloworld.github.io/blog/2020/12/30/idris-2-bootstrap-compiler-on-the-jvm-with-a-jvm-backend/</loc>
+<lastmod>2020-12-30T13:34:21-05:00</lastmod>
+</url>
+<url>
+<loc>http://mmhelloworld.github.io/blog/2018/02/11/idris-jvm-automated-ffi-with-null-safety/</loc>
+<lastmod>2018-02-11T00:03:00-05:00</lastmod>
+</url>
+<url>
+<loc>http://mmhelloworld.github.io/blog/2017/01/10/idris-jvm-guarding-against-java-null-using-maybe-type/</loc>
+<lastmod>2017-01-10T21:08:00-05:00</lastmod>
+</url>
+<url>
+<loc>http://mmhelloworld.github.io/blog/2017/01/06/introducing-idris-on-the-jvm-and-an-idris-android-example/</loc>
+<lastmod>2017-01-06T22:51:00-05:00</lastmod>
+</url>
+<url>
+<loc>http://mmhelloworld.github.io/blog/2016/02/27/haskell-on-the-jvm-via-ghcjs-and-nashorn/</loc>
+<lastmod>2016-02-27T19:56:00-05:00</lastmod>
+</url>
+<url>
+<loc>http://mmhelloworld.github.io/blog/2014/03/15/frege-record-accessors-and-mutators/</loc>
+<lastmod>2014-03-15T20:41:00-04:00</lastmod>
+</url>
+<url>
+<loc>http://mmhelloworld.github.io/blog/2013/07/10/frege-hello-java/</loc>
+<lastmod>2013-07-10T11:00:00-04:00</lastmod>
+</url>
+<url>
+<loc>http://mmhelloworld.github.io/blog/archives/</loc>
+</url>
+<url>
+<loc>http://mmhelloworld.github.io/</loc>
+</url>
+<url>
+<loc>http://mmhelloworld.github.io/blog/categories/frege/</loc>
+</url>
+<url>
+<loc>http://mmhelloworld.github.io/blog/categories/java/</loc>
+</url>
+<url>
+<loc>http://mmhelloworld.github.io/blog/categories/haskell/</loc>
+</url>
+<url>
+<loc>http://mmhelloworld.github.io/blog/categories/jvm/</loc>
+</url>
+<url>
+<loc>http://mmhelloworld.github.io/blog/categories/nashorn/</loc>
+</url>
+<url>
+<loc>http://mmhelloworld.github.io/blog/categories/ghcjs/</loc>
+</url>
+<url>
+<loc>http://mmhelloworld.github.io/blog/categories/idris/</loc>
+</url>
+<url>
+<loc>http://mmhelloworld.github.io/blog/categories/android/</loc>
+</url>
+<url>
+<loc>http://mmhelloworld.github.io/blog/categories/idris-2/</loc>
+</url>
 </urlset>

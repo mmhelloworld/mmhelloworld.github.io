@@ -4,17 +4,17 @@
   <title><![CDATA[Category: Frege | mmhelloworld]]></title>
   <link href="http://mmhelloworld.github.io/blog/categories/frege/atom.xml" rel="self"/>
   <link href="http://mmhelloworld.github.io/"/>
-  <updated>2018-02-11T02:28:20-05:00</updated>
+  <updated>2020-12-30T19:03:32-05:00</updated>
   <id>http://mmhelloworld.github.io/</id>
   <author>
-    <name><![CDATA[Marimuthu]]></name>
+    <name><![CDATA[Marimuthu Madasamy]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
   
   <entry>
-    <title type="html"><![CDATA[Frege: Record accessors and mutators]]></title>
+    <title type="html"><![CDATA[Frege: Record Accessors and Mutators]]></title>
     <link href="http://mmhelloworld.github.io/blog/2014/03/15/frege-record-accessors-and-mutators/"/>
     <updated>2014-03-15T20:41:00-04:00</updated>
     <id>http://mmhelloworld.github.io/blog/2014/03/15/frege-record-accessors-and-mutators</id>
@@ -22,7 +22,7 @@
 
 <p>Consider the following type in Frege:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -32,11 +32,11 @@
 </span><span class='line'>
 </span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">frege</span><span class="o">&gt;</span> <span class="n">derive</span> <span class="kt">Show</span> <span class="kt">Point</span>
 </span><span class='line'><span class="kr">instance</span> <span class="kt">Show</span>  <span class="kt">Point</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Now we can use the following functions to get and set record fields:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -45,14 +45,14 @@
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 </pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">frege</span><span class="o">&gt;</span> <span class="kt">Point</span><span class="o">.</span><span class="n">x</span>
-</span><span class='line'><span class="ow">::</span> <span class="kt">Point</span> <span class="o">&amp;</span><span class="n">ndash</span><span class="p">;</span><span class="o">&gt;</span> <span class="kt">Int</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'><span class="ow">::</span> <span class="kt">Point</span> <span class="ow">-&gt;</span> <span class="kt">Int</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">frege</span><span class="o">&gt;</span> <span class="kt">Point</span><span class="o">.</span><span class="p">{</span><span class="n">x</span> <span class="ow">=</span> <span class="p">}</span>
-</span><span class='line'><span class="ow">::</span> <span class="kt">Point</span> <span class="o">&amp;</span><span class="n">ndash</span><span class="p">;</span><span class="o">&gt;</span> <span class="kt">Int</span> <span class="o">&amp;</span><span class="n">ndash</span><span class="p">;</span><span class="o">&gt;</span> <span class="kt">Point</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'><span class="ow">::</span> <span class="kt">Point</span> <span class="ow">-&gt;</span> <span class="kt">Int</span> <span class="ow">-&gt;</span> <span class="kt">Point</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">frege</span><span class="o">&gt;</span> <span class="kt">Point</span><span class="o">.</span><span class="p">{</span><span class="n">x</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">ndash</span><span class="p">;</span> <span class="p">}</span>
-</span><span class='line'><span class="ow">::</span> <span class="kt">Point</span> <span class="o">&amp;</span><span class="n">ndash</span><span class="p">;</span><span class="o">&gt;</span> <span class="p">(</span><span class="kt">Int</span><span class="ow">-&gt;</span><span class="kt">Int</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">ndash</span><span class="p">;</span><span class="o">&gt;</span> <span class="kt">Point</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">frege</span><span class="o">&gt;</span> <span class="kt">Point</span><span class="o">.</span><span class="p">{</span><span class="n">x</span> <span class="ow">&lt;-</span> <span class="p">}</span>
+</span><span class='line'><span class="ow">::</span> <span class="kt">Point</span> <span class="ow">-&gt;</span> <span class="p">(</span><span class="kt">Int</span><span class="ow">-&gt;</span><span class="kt">Int</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="kt">Point</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>For Field <code>x</code>,</p>
 
@@ -65,7 +65,7 @@
 
 <p>We can use the functions like this:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -91,13 +91,13 @@
 </span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">frege</span><span class="o">&gt;</span> <span class="kt">Point</span><span class="o">.</span><span class="p">{</span><span class="n">x</span> <span class="ow">=</span><span class="p">}</span> <span class="n">p</span> <span class="mi">13</span>
 </span><span class='line'><span class="kt">Point</span> <span class="mi">13</span> <span class="mi">4</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">frege</span><span class="o">&gt;</span> <span class="kt">Point</span><span class="o">.</span><span class="p">{</span><span class="n">x</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">ndash</span><span class="p">;}</span> <span class="n">p</span> <span class="p">(</span><span class="o">+</span><span class="mi">15</span><span class="p">)</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">frege</span><span class="o">&gt;</span> <span class="kt">Point</span><span class="o">.</span><span class="p">{</span><span class="n">x</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">-</span><span class="p">}</span> <span class="n">p</span> <span class="p">(</span><span class="o">+</span><span class="mi">15</span><span class="p">)</span>
 </span><span class='line'><span class="kt">Point</span> <span class="mi">18</span> <span class="mi">4</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Frege also provides some shortcuts to apply these functions:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -108,31 +108,31 @@
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">frege</span><span class="o">&gt;</span> <span class="n">p</span><span class="o">.</span><span class="n">x</span> <span class="o">&amp;</span><span class="n">mdash</span><span class="p">;</span> <span class="kt">Same</span> <span class="n">as</span> <span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="kt">Point</span><span class="o">.</span><span class="n">x</span> <span class="n">p</span><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">frege</span><span class="o">&gt;</span> <span class="n">p</span><span class="o">.</span><span class="n">x</span> <span class="o">&amp;</span><span class="n">ndash</span><span class="p">;</span> <span class="kt">Same</span> <span class="n">as</span> <span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="kt">Point</span><span class="o">.</span><span class="n">x</span> <span class="n">p</span><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;</span>
 </span><span class='line'><span class="mi">3</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">frege</span><span class="o">&gt;</span> <span class="n">p</span><span class="o">.</span><span class="p">{</span><span class="n">x</span> <span class="ow">=</span> <span class="mi">10</span><span class="p">}</span> <span class="o">&amp;</span><span class="n">mdash</span><span class="p">;</span> <span class="kt">Same</span> <span class="n">as</span> <span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="kt">Point</span><span class="o">.</span><span class="p">{</span><span class="n">x</span> <span class="ow">=</span> <span class="p">}</span> <span class="n">p</span> <span class="mi">10</span><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">frege</span><span class="o">&gt;</span> <span class="n">p</span><span class="o">.</span><span class="p">{</span><span class="n">x</span> <span class="ow">=</span> <span class="mi">10</span><span class="p">}</span> <span class="o">&amp;</span><span class="n">ndash</span><span class="p">;</span> <span class="kt">Same</span> <span class="n">as</span> <span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="kt">Point</span><span class="o">.</span><span class="p">{</span><span class="n">x</span> <span class="ow">=</span> <span class="p">}</span> <span class="n">p</span> <span class="mi">10</span><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;</span>
 </span><span class='line'><span class="kt">Point</span> <span class="mi">10</span> <span class="mi">4</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">frege</span><span class="o">&gt;</span> <span class="n">p</span><span class="o">.</span><span class="p">{</span><span class="n">x</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">ndash</span><span class="p">;}</span> <span class="o">&amp;</span><span class="n">mdash</span><span class="p">;</span> <span class="kt">Same</span> <span class="n">as</span> <span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="kt">Point</span><span class="o">.</span><span class="p">{</span><span class="n">x</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">-</span><span class="p">}</span> <span class="n">p</span><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;</span>
-</span><span class='line'><span class="ow">::</span> <span class="p">(</span><span class="kt">Int</span><span class="ow">-&gt;</span><span class="kt">Int</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">ndash</span><span class="p">;</span><span class="o">&gt;</span> <span class="kt">Point</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">frege</span><span class="o">&gt;</span> <span class="n">p</span><span class="o">.</span><span class="p">{</span><span class="n">x</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">-</span><span class="p">}</span> <span class="o">&amp;</span><span class="n">ndash</span><span class="p">;</span> <span class="kt">Same</span> <span class="n">as</span> <span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="kt">Point</span><span class="o">.</span><span class="p">{</span><span class="n">x</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">-</span><span class="p">}</span> <span class="n">p</span><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;</span>
+</span><span class='line'><span class="ow">::</span> <span class="p">(</span><span class="kt">Int</span><span class="ow">-&gt;</span><span class="kt">Int</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="kt">Point</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">frege</span><span class="o">&gt;</span> <span class="n">p</span><span class="o">.</span><span class="p">{</span><span class="n">x</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">ndash</span><span class="p">;</span> <span class="p">(</span><span class="o">+</span><span class="mi">10</span><span class="p">)}</span> <span class="o">&amp;</span><span class="n">mdash</span><span class="p">;</span> <span class="kt">Same</span> <span class="n">as</span> <span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="kt">Point</span><span class="o">.</span><span class="p">{</span><span class="n">x</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">-</span> <span class="p">}</span> <span class="n">p</span> <span class="p">(</span><span class="o">+</span><span class="mi">10</span><span class="p">)</span><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">frege</span><span class="o">&gt;</span> <span class="n">p</span><span class="o">.</span><span class="p">{</span><span class="n">x</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">-</span> <span class="p">(</span><span class="o">+</span><span class="mi">10</span><span class="p">)}</span> <span class="o">&amp;</span><span class="n">ndash</span><span class="p">;</span> <span class="kt">Same</span> <span class="n">as</span> <span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="kt">Point</span><span class="o">.</span><span class="p">{</span><span class="n">x</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">-</span> <span class="p">}</span> <span class="n">p</span> <span class="p">(</span><span class="o">+</span><span class="mi">10</span><span class="p">)</span><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;</span>
 </span><span class='line'><span class="kt">Point</span> <span class="mi">13</span> <span class="mi">4</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Multiple updates can be combined:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">frege</span><span class="o">&gt;</span> <span class="n">p</span><span class="o">.</span><span class="p">{</span><span class="n">x</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">ndash</span><span class="p">;</span> <span class="p">(</span><span class="o">+</span><span class="mi">8</span><span class="p">),</span> <span class="n">y</span> <span class="ow">=</span> <span class="mi">20</span><span class="p">}</span> <span class="o">&amp;</span><span class="n">mdash</span><span class="p">;</span> <span class="kt">Increment</span> <span class="n">x</span> <span class="n">by</span> <span class="mi">8</span> <span class="n">and</span> <span class="n">set</span> <span class="n">y</span> <span class="n">to</span> <span class="mi">20</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">frege</span><span class="o">&gt;</span> <span class="n">p</span><span class="o">.</span><span class="p">{</span><span class="n">x</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">-</span> <span class="p">(</span><span class="o">+</span><span class="mi">8</span><span class="p">),</span> <span class="n">y</span> <span class="ow">=</span> <span class="mi">20</span><span class="p">}</span> <span class="o">&amp;</span><span class="n">ndash</span><span class="p">;</span> <span class="kt">Increment</span> <span class="n">x</span> <span class="n">by</span> <span class="mi">8</span> <span class="n">and</span> <span class="n">set</span> <span class="n">y</span> <span class="n">to</span> <span class="mi">20</span>
 </span><span class='line'><span class="kt">Point</span> <span class="mi">11</span> <span class="mi">20</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Accessors and updates can be at any level deep.
 Let&rsquo;s create another type:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -154,12 +154,12 @@ Let&rsquo;s create another type:</p>
 </span><span class='line'><span class="kr">instance</span> <span class="kt">Show</span>  <span class="kt">Circle</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">frege</span><span class="o">&gt;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Here we have an aggregate type <code>Circle</code> which composes another type <code>Point</code> for it&rsquo;s field <code>center</code>.
 Now we can update and select fields at different levels:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -182,32 +182,32 @@ Now we can update and select fields at different levels:</p>
 </span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">frege</span><span class="o">&gt;</span> <span class="n">c</span><span class="o">.</span><span class="n">center</span><span class="o">.</span><span class="n">x</span>
 </span><span class='line'><span class="mi">4</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">frege</span><span class="o">&gt;</span> <span class="n">c</span><span class="o">.</span><span class="p">{</span><span class="n">center</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">ndash</span><span class="p">;</span> <span class="kt">Point</span><span class="o">.</span><span class="p">{</span><span class="n">x</span> <span class="ow">=</span> <span class="mi">8</span><span class="p">}}</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">frege</span><span class="o">&gt;</span> <span class="n">c</span><span class="o">.</span><span class="p">{</span><span class="n">center</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">-</span> <span class="kt">Point</span><span class="o">.</span><span class="p">{</span><span class="n">x</span> <span class="ow">=</span> <span class="mi">8</span><span class="p">}}</span>
 </span><span class='line'><span class="kt">Circle</span> <span class="p">(</span><span class="kt">Point</span> <span class="mi">8</span> <span class="mi">5</span><span class="p">)</span> <span class="mi">10</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">frege</span><span class="o">&gt;</span> <span class="n">c</span><span class="o">.</span><span class="p">{</span><span class="n">center</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">ndash</span><span class="p">;</span> <span class="kt">Point</span><span class="o">.</span><span class="p">{</span><span class="n">y</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">ndash</span><span class="p">;</span> <span class="p">(</span><span class="o">+</span><span class="mi">20</span><span class="p">)},</span> <span class="n">radius</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">ndash</span><span class="p">;</span> <span class="p">(</span><span class="o">*</span><span class="mi">5</span><span class="p">)}</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">frege</span><span class="o">&gt;</span> <span class="n">c</span><span class="o">.</span><span class="p">{</span><span class="n">center</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">-</span> <span class="kt">Point</span><span class="o">.</span><span class="p">{</span><span class="n">y</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">-</span> <span class="p">(</span><span class="o">+</span><span class="mi">20</span><span class="p">)},</span> <span class="n">radius</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">-</span> <span class="p">(</span><span class="o">*</span><span class="mi">5</span><span class="p">)}</span>
 </span><span class='line'><span class="kt">Circle</span> <span class="p">(</span><span class="kt">Point</span> <span class="mi">4</span> <span class="mi">25</span><span class="p">)</span> <span class="mi">50</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>In the latest version, Frege provides syntactic sugar for lambdas using underscores. For example, <code>T.foo</code> can be written
 as <code>_.foo</code> if the type can be deduced from the context the lambda is applied. Hence the following two are equivalent.</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">frege</span><span class="o">&gt;</span> <span class="n">c</span><span class="o">.</span><span class="p">{</span><span class="n">center</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">ndash</span><span class="p">;</span> <span class="kt">Point</span><span class="o">.</span><span class="p">{</span><span class="n">x</span> <span class="ow">=</span> <span class="mi">25</span><span class="p">}}</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">frege</span><span class="o">&gt;</span> <span class="n">c</span><span class="o">.</span><span class="p">{</span><span class="n">center</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">-</span> <span class="kt">Point</span><span class="o">.</span><span class="p">{</span><span class="n">x</span> <span class="ow">=</span> <span class="mi">25</span><span class="p">}}</span>
 </span><span class='line'><span class="kt">Circle</span> <span class="p">(</span><span class="kt">Point</span> <span class="mi">25</span> <span class="mi">5</span><span class="p">)</span> <span class="mi">10</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">frege</span><span class="o">&gt;</span> <span class="n">c</span><span class="o">.</span><span class="p">{</span><span class="n">center</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">ndash</span><span class="p">;</span> <span class="kr">_</span><span class="o">.</span><span class="p">{</span><span class="n">x</span> <span class="ow">=</span> <span class="mi">25</span><span class="p">}}</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">frege</span><span class="o">&gt;</span> <span class="n">c</span><span class="o">.</span><span class="p">{</span><span class="n">center</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">-</span> <span class="kr">_</span><span class="o">.</span><span class="p">{</span><span class="n">x</span> <span class="ow">=</span> <span class="mi">25</span><span class="p">}}</span>
 </span><span class='line'><span class="kt">Circle</span> <span class="p">(</span><span class="kt">Point</span> <span class="mi">25</span> <span class="mi">5</span><span class="p">)</span> <span class="mi">10</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Frege provides another utility to check for a field&rsquo;s existence. This would be useful if we have multiple constructors
 with different set of fields.</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -219,14 +219,10 @@ with different set of fields.</p>
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
 <span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
 </pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">frege</span><span class="o">&gt;</span> <span class="kt">:</span><span class="p">{</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">blockquote</span><span class="o">&gt;&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="kr">data</span> <span class="kt">Point</span> <span class="ow">=</span> <span class="kt">Point2d</span> <span class="p">{</span><span class="n">x</span> <span class="ow">::</span> <span class="kt">Int</span><span class="p">,</span> <span class="n">y</span> <span class="ow">::</span> <span class="kt">Int</span><span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span>       <span class="o">|</span> <span class="kt">Point3d</span> <span class="p">{</span><span class="n">x</span> <span class="ow">::</span> <span class="kt">Int</span><span class="p">,</span> <span class="n">y</span> <span class="ow">::</span> <span class="kt">Int</span><span class="p">,</span> <span class="n">z</span> <span class="ow">::</span> <span class="kt">Int</span><span class="p">}</span>
-</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">blockquote</span><span class="o">&gt;&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="kr">data</span> <span class="kt">Point</span> <span class="ow">=</span> <span class="kt">Point2d</span> <span class="p">{</span><span class="n">x</span> <span class="ow">::</span> <span class="kt">Int</span><span class="p">,</span> <span class="n">y</span> <span class="ow">::</span> <span class="kt">Int</span><span class="p">}</span>
+</span><span class='line'>           <span class="o">|</span> <span class="kt">Point3d</span> <span class="p">{</span><span class="n">x</span> <span class="ow">::</span> <span class="kt">Int</span><span class="p">,</span> <span class="n">y</span> <span class="ow">::</span> <span class="kt">Int</span><span class="p">,</span> <span class="n">z</span> <span class="ow">::</span> <span class="kt">Int</span><span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">derive</span> <span class="kt">Show</span> <span class="kt">Point</span>
 </span><span class='line'><span class="kt">:</span><span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;&lt;/</span><span class="n">blockquote</span><span class="o">&gt;</span>
@@ -235,12 +231,12 @@ with different set of fields.</p>
 </span><span class='line'><span class="kr">instance</span> <span class="kt">Show</span>  <span class="kt">Point</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">frege</span><span class="o">&gt;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>In the above code, we have two constructors <code>Point2d</code> and <code>Point3d</code> where the field <code>z</code> exists only for <code>Point3d</code>.
 We can check for the existence of field <code>z</code> like this:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -259,7 +255,7 @@ We can check for the existence of field <code>z</code> like this:</p>
 <span class='line-number'>17</span>
 <span class='line-number'>18</span>
 </pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">frege</span><span class="o">&gt;</span> <span class="kt">Point</span><span class="o">.</span><span class="p">{</span><span class="n">z</span><span class="o">?</span><span class="p">}</span>
-</span><span class='line'><span class="ow">::</span> <span class="kt">Point</span> <span class="o">&amp;</span><span class="n">ndash</span><span class="p">;</span><span class="o">&gt;</span> <span class="kt">Bool</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'><span class="ow">::</span> <span class="kt">Point</span> <span class="ow">-&gt;</span> <span class="kt">Bool</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">frege</span><span class="o">&gt;</span> <span class="n">hasZ</span> <span class="ow">=</span> <span class="kt">Point</span><span class="o">.</span><span class="p">{</span><span class="n">z</span><span class="o">?</span><span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
@@ -276,7 +272,7 @@ We can check for the existence of field <code>z</code> like this:</p>
 </span><span class='line'><span class="nf">true</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>For more details on how these field existence check, accessor and mutator functions are generated for a record type,
 here is the link to Frege language reference: <a href="http://www.frege-lang.org/doc/Language.pdf.">http://www.frege-lang.org/doc/Language.pdf.</a></p>
@@ -292,8 +288,8 @@ here is the link to Frege language reference: <a href="http://www.frege-lang.org
     <id>http://mmhelloworld.github.io/blog/2013/07/10/frege-hello-java</id>
     <content type="html"><![CDATA[<p>Here is a small code demonstrating Java interoperability in Frege:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Calling Java from Frege  (HelloJava.fr)</span> <a href='/downloads/code/HelloJava.fr'>download</a></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><figcaption><span>Calling Java from Frege  (HelloJava.fr)</span> <a href='/downloads/code/HelloJava.fr'>download</a></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -363,7 +359,7 @@ here is the link to Frege language reference: <a href="http://www.frege-lang.org
 </span><span class='line'>    <span class="n">try</span> <span class="p">(</span><span class="nf">\</span><span class="n">xs</span> <span class="ow">-&gt;</span> <span class="n">plusTop</span> <span class="n">xs</span> <span class="o">&gt;&gt;=</span> <span class="p">(</span><span class="n">println</span> <span class="o">.</span> <span class="n">maybe</span> <span class="s">&quot;Got a null pointer&quot;</span> <span class="n">show</span><span class="p">))</span> <span class="n">javaList</span>
 </span><span class='line'>        <span class="p">`</span><span class="n">catch</span><span class="p">`</span> <span class="p">(</span><span class="nf">\</span><span class="p">(</span><span class="n">npe</span> <span class="ow">::</span> <span class="kt">NullPointerException</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="n">println</span> <span class="o">$</span> <span class="n">showThrowable</span> <span class="n">npe</span><span class="p">)</span>
 </span><span class='line'>        <span class="p">`</span><span class="n">catch</span><span class="p">`</span> <span class="p">(</span><span class="nf">\</span><span class="p">(</span><span class="n">exception</span> <span class="ow">::</span> <span class="kt">Exception</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="n">println</span> <span class="o">$</span> <span class="n">showThrowable</span> <span class="n">exception</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>We can observe the following things from the above code:</p>
 
@@ -379,23 +375,15 @@ here is the link to Frege language reference: <a href="http://www.frege-lang.org
 
 <p>If a Java class is pure then without much effort, we can use that class in Frege. For example,</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="kr">data</span> <span class="kt">Integer</span> <span class="ow">=</span> <span class="n">native</span> <span class="n">java</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="kt">BigInteger</span> <span class="kr">where</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">pure</span>  <span class="n">native</span> <span class="n">abs</span>                                  <span class="ow">::</span> <span class="kt">Integer</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="kt">Integer</span>
-</span><span class='line'><span class="nf">pure</span>  <span class="n">native</span> <span class="n">negate</span>                               <span class="ow">::</span> <span class="kt">Integer</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="kt">Integer</span>
-</span><span class='line'><span class="nf">pure</span>  <span class="n">native</span> <span class="n">valueOf</span> <span class="n">java</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="kt">BigInteger</span><span class="o">.</span><span class="n">valueOf</span> <span class="ow">::</span> <span class="kt">Long</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="kt">Integer</span>
-</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="kr">data</span> <span class="kt">Integer</span> <span class="ow">=</span> <span class="n">native</span> <span class="n">java</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="kt">BigInteger</span> <span class="kr">where</span>
+</span><span class='line'>    <span class="n">pure</span>  <span class="n">native</span> <span class="n">abs</span>                                  <span class="ow">::</span> <span class="kt">Integer</span> <span class="ow">-&gt;</span> <span class="kt">Integer</span>
+</span><span class='line'>    <span class="n">pure</span>  <span class="n">native</span> <span class="n">negate</span>                               <span class="ow">::</span> <span class="kt">Integer</span> <span class="ow">-&gt;</span> <span class="kt">Integer</span>
+</span><span class='line'>    <span class="n">pure</span>  <span class="n">native</span> <span class="n">valueOf</span> <span class="n">java</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="kt">BigInteger</span><span class="o">.</span><span class="n">valueOf</span> <span class="ow">::</span> <span class="kt">Long</span> <span class="ow">-&gt;</span> <span class="kt">Integer</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>A Java class is declared with <code>data</code> declaration in Frege. The identifier after the <code>data</code> keyword
 is the corresponding type for the Java class in Frege and the qualified Java class is identified after the <code>native</code>
@@ -426,9 +414,9 @@ a mutable object, a new <code>LinkedList</code> instance, so the return type is 
 declared in Frege in some module but the function that we are looking
 for is missing in the <code>data</code> declaration.</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">pure</span> <span class="n">native</span> <span class="n">showThrowable</span> <span class="n">toString</span> <span class="ow">::</span> <span class="kt">Throwable</span> <span class="o">&amp;</span><span class="n">ndash</span><span class="p">;</span><span class="o">&gt;</span> <span class="kt">String</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">pure</span> <span class="n">native</span> <span class="n">showThrowable</span> <span class="n">toString</span> <span class="ow">::</span> <span class="kt">Throwable</span> <span class="ow">-&gt;</span> <span class="kt">String</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Here <code>showThrowable</code> is the Frege function name for <code>Throwable.toString()</code>. Since it is an
 instance method on <code>Throwable</code>, the first argument is of type
@@ -454,29 +442,21 @@ module. It is the same as declaring native declaration for a Java class but
 additionally we need to derive the <code>Exceptional</code> type class so that the exception can later be handled with
 <code>catch</code>.</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="kr">data</span> <span class="kt">IndexOutOfBoundsException</span> <span class="ow">=</span> <span class="n">native</span> <span class="n">java</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="kt">IndexOutOfBoundsException</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">derive</span> <span class="kt">Exceptional</span> <span class="kt">IndexOutOfBoundsException</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>The exceptions can then be used in native declarations as in <code>get</code> function in our example:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">native</span> <span class="n">get</span> <span class="ow">::</span> <span class="kt">Mutable</span> <span class="n">s</span> <span class="p">(</span><span class="kt">LinkedList</span> <span class="n">a</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">ndash</span><span class="p">;</span><span class="o">&gt;</span> <span class="kt">Int</span> <span class="o">&amp;</span><span class="n">ndash</span><span class="p">;</span><span class="o">&gt;</span> <span class="kt">ST</span> <span class="n">s</span> <span class="p">(</span><span class="kt">Maybe</span> <span class="n">a</span><span class="p">)</span> <span class="n">throws</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="kt">IndexOutOfBoundsException</span>
-</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">native</span> <span class="n">get</span> <span class="ow">::</span> <span class="kt">Mutable</span> <span class="n">s</span> <span class="p">(</span><span class="kt">LinkedList</span> <span class="n">a</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="kt">Int</span> <span class="ow">-&gt;</span> <span class="kt">ST</span> <span class="n">s</span> <span class="p">(</span><span class="kt">Maybe</span> <span class="n">a</span><span class="p">)</span> <span class="n">throws</span>
+</span><span class='line'>    <span class="kt">IndexOutOfBoundsException</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <h3>4. Handling Java exceptions</h3>
 
@@ -519,14 +499,14 @@ show)</code> is the function which when applied to a
 <code>java.util.LinkedList</code> might throw a <code>NullPointerException</code> or
 <code>IndexOutOfBoundsException</code>:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Using try </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><figcaption><span>Using try </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">try</span> <span class="p">(</span><span class="nf">\</span><span class="n">xs</span> <span class="o">&amp;</span><span class="n">ndash</span><span class="p">;</span><span class="o">&gt;</span> <span class="n">plusTop</span> <span class="n">xs</span> <span class="o">&gt;&gt;=</span> <span class="p">(</span><span class="n">println</span> <span class="o">.</span> <span class="n">maybe</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="kt">Got</span> <span class="n">a</span> <span class="n">null</span> <span class="n">pointer</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span> <span class="n">show</span><span class="p">))</span> <span class="n">javaList</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">try</span> <span class="p">(</span><span class="nf">\</span><span class="n">xs</span> <span class="ow">-&gt;</span> <span class="n">plusTop</span> <span class="n">xs</span> <span class="o">&gt;&gt;=</span> <span class="p">(</span><span class="n">println</span> <span class="o">.</span> <span class="n">maybe</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="kt">Got</span> <span class="n">a</span> <span class="n">null</span> <span class="n">pointer</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span> <span class="n">show</span><span class="p">))</span> <span class="n">javaList</span>
 </span><span class='line'>    <span class="n">catch</span><span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="p">(</span><span class="nf">\</span><span class="p">(</span><span class="n">npe</span> <span class="ow">::</span> <span class="kt">NullPointerException</span><span class="p">)</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">println</span> <span class="o">$</span> <span class="n">showThrowable</span> <span class="n">npe</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">catch</span><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;</span> <span class="p">((</span><span class="n">exception</span> <span class="ow">::</span> <span class="kt">Exception</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">ndash</span><span class="p">;</span><span class="o">&gt;</span> <span class="n">println</span> <span class="o">$</span> <span class="n">showThrowable</span> <span class="n">exception</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p></li>
+</span><span class='line'>    <span class="n">catch</span><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;</span> <span class="p">((</span><span class="n">exception</span> <span class="ow">::</span> <span class="kt">Exception</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="n">println</span> <span class="o">$</span> <span class="n">showThrowable</span> <span class="n">exception</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></p></li>
 </ol>
 
 
