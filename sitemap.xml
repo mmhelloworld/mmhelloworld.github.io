@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://mmhelloworld.github.io/blog/2021/07/24/idris-2-initial-release-0-dot-2-1-for-the-jvm/</loc>
+<lastmod>2021-07-24T10:32:32-04:00</lastmod>
+</url>
+<url>
 <loc>http://mmhelloworld.github.io/blog/2020/12/30/idris-2-bootstrap-compiler-on-the-jvm-with-a-jvm-backend/</loc>
 <lastmod>2020-12-30T13:34:21-05:00</lastmod>
 </url>
