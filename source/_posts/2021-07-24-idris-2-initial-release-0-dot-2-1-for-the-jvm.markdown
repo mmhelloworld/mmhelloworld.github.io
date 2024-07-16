@@ -3,7 +3,7 @@ layout: post
 title: "Idris 2 Initial Release 0.2.1 for the JVM"
 date: 2021-07-24 10:32:32 -0400
 comments: true
-categories: [Idris, Idris 2, JVM]
+tags: [Idris, JVM]
 ---
 
 There is now an initial version for Idris 2 - 0.2.1 for the JVM. This is compiled from Idris 2 JVM bootstrap version.

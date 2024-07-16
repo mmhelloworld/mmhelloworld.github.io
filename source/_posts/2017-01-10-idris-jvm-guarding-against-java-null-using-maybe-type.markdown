@@ -3,7 +3,7 @@ layout: post
 title: "Idris JVM: Guarding against Java null using Maybe type"
 date: 2017-01-10 21:08
 comments: true
-categories: [Idris, JVM, Java]
+tags: [Idris, JVM, Java]
 ---
 Idris JVM now helps avoiding nulls getting into Idris from FFI calls using `Maybe` type.
 FFI declarations can have `Maybe` type in any argument position or in the return type.
@@ -24,7 +24,7 @@ otherwise the value is wrapped in `Just`.
 
 ###### Example
 
-``` haskell returningnull.idr
+```haskell
 module Main
 
 import IdrisJvm.IO
@@ -47,7 +47,7 @@ Just "hello"
 
 ## Passing `Maybe` values for nullable values in FFI calls
 
-``` haskell passingnull.idr
+``` haskell
 module Main
 
 import IdrisJvm.IO
@@ -80,4 +80,4 @@ $ idris --portable-codegen jvm -p idrisjvmffi passingnull.idr -o target
 $ java -cp target:/path/to/idris-jvm-runtime-1.0-SNAPSHOT.jar main.Main
 ```
 Idris code passes `Nothing` in the above code so `null` is passed for the Java method that displays the message in a default frame as shown below.
-{% img center /images/idris-passing-null.png %}
+![Idris Passing Null](/images/idris-passing-null.png)

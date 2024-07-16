@@ -3,7 +3,7 @@ layout: post
 title: "Idris 2 Bootstrap Compiler on the JVM with a JVM backend"
 date: 2020-12-30 13:34:21 -0500
 comments: true
-categories: [Idris, Idris 2, JVM]
+tags: [Idris, JVM]
 ---
 I am excited to announce that Idris 2 bootstrap compiler can now run on the JVM along with a JVM backend. Here is a REPL session:
 
