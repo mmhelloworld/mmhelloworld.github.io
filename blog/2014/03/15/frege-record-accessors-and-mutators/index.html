@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+  <link href="https://gmpg.org/xfn/11" rel="profile" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+
+  <title>
+    
+      Frege: Record accessors and mutators &middot; mmhelloworld
+    
+  </title>
+
+  
+
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/assets/css/main.css" />
+  
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface" />
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/favicon.png" />
+<link rel="shortcut icon" href="/favicon.ico" />
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/feed.xml" />
+
+  <!-- Additional head bits without overriding original head -->
+</head>
+
+
+  <body class="post">
+
+    <div id="sidebar">
+  <header>
+    <div class="site-title">
+      <a href="/">
+        
+          <span class="back-arrow icon"><svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+  <path d="M0 0h24v24H0z" fill="none"/>
+  <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+</svg></span>
+        
+        mmhelloworld
+      </a>
+    </div>
+    <p class="lead">Marimuthu Blog</p>
+  </header>
+  <nav id="sidebar-nav-links">
+  
+    <a class="home-link "
+        href="/">Home</a>
+  
+  
+
+  
+
+  
+
+
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+
+
+  
+
+
+  
+
+  
+    
+      <a class="category-link "
+          href="/category/frege/">Frege</a>
+    
+  
+
+  
+    
+      <a class="category-link "
+          href="/category/idris/">Idris</a>
+    
+  
+
+  
+    
+  
+
+  
+    
+      <a class="category-link "
+          href="/category/java/">Java</a>
+    
+  
+
+  
+    
+      <a class="category-link "
+          href="/category/jvm/">JVM</a>
+    
+  
+
+  
+
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+
+
+  <!-- Optional additional links to insert in sidebar nav -->
+<section>
+    <h3>Recent Posts</h3>
+    <ul id="recent_posts">
+        
+        <li class="post">
+            <a style="font-size: 0.65rem" href="/blog/2024/07/15/idris-jvm-0-7-0-release/">Idris JVM 0.7.0 Release</a>
+        </li>
+        
+        <li class="post">
+            <a style="font-size: 0.65rem" href="/blog/2021/07/24/idris-2-initial-release-0-dot-2-1-for-the-jvm/">Idris 2 Initial Release 0.2.1 for the JVM</a>
+        </li>
+        
+        <li class="post">
+            <a style="font-size: 0.65rem" href="/blog/2020/12/30/idris-2-bootstrap-compiler-on-the-jvm-with-a-jvm-backend/">Idris 2 Bootstrap Compiler on the JVM with a JVM backend</a>
+        </li>
+        
+        <li class="post">
+            <a style="font-size: 0.65rem" href="/blog/2018/02/11/idris-jvm-automated-ffi-with-null-safety/">Idris JVM: Automated FFI with null safety and exception handling</a>
+        </li>
+        
+        <li class="post">
+            <a style="font-size: 0.65rem" href="/blog/2017/01/10/idris-jvm-guarding-against-java-null-using-maybe-type/">Idris JVM: Guarding against Java null using Maybe type</a>
+        </li>
+        
+    </ul>
+</section>
+</nav>
+
+
+  
+
+  <nav id="sidebar-icon-links">
+  
+
+  <a id="subscribe-link"
+     class="icon" title="Subscribe" aria-label="Subscribe"
+     href="/feed.xml">
+    <svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 0h24v24H0z" fill="none"/>
+    <circle cx="6.18" cy="17.82" r="2.18"/>
+    <path d="M4 4.44v2.83c7.03 0 12.73 5.7 12.73 12.73h2.83c0-8.59-6.97-15.56-15.56-15.56zm0 5.66v2.83c3.9 0 7.07 3.17 7.07 7.07h2.83c0-5.47-4.43-9.9-9.9-9.9z"/>
+</svg>
+  </a>
+
+  
+  
+  
+  
+
+  
+    <a id="tags-link"
+       class="icon"
+       title="Tags" aria-label="Tags"
+       href="/tags/">
+      <svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 0h24v24H0z" fill="none"/>
+    <path d="M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7v10c0 1.1.9 1.99 2 1.99L16 19c.67 0 1.27-.33 1.63-.84L22 12l-4.37-6.16z"/>
+</svg>
+    </a>
+  
+
+  
+    <a id="search-link"
+       class="icon"
+       title="Search" aria-label="Search"
+       href="/search/">
+      <svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+    <path d="M0 0h24v24H0z" fill="none"/>
+</svg>
+    </a>
+  
+
+  <!-- Optional additional links to insert for icons links -->
+</nav>
+
+  <p style="font-size: 0.5rem">
+  &copy; Marimuthu Madasamy 2024.
+  <a href="/LICENSE">BSD 3-Clause License</a>
+</p>
+
+</div>
+
+    <main class="container">
+      <header>
+  <h1 class="post-title">Frege: Record accessors and mutators</h1>
+</header>
+<div class="content">
+  <div class="post-meta">
+  <span class="post-date">15 Mar 2014</span>
+  <span class="post-categories">
+    
+      &bull;
+
+      
+      
+      
+
+      
+        <a href="/category/frege/">
+          Frege
+        </a>
+      
+    
+  </span>
+</div>
+
+
+  <div class="post-body">
+    <p>Frege has built-in mechanism to access and mutate (non-destructive) record fields.</p>
+
+<p>Consider the following type in Frege:</p>
+
+<div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">frege</span><span class="o">&gt;</span> <span class="kr">data</span> <span class="kt">Point</span> <span class="o">=</span> <span class="kt">Point</span> <span class="p">{</span><span class="n">x</span> <span class="o">::</span> <span class="kt">Int</span><span class="p">,</span> <span class="n">y</span> <span class="o">::</span> <span class="kt">Int</span><span class="p">}</span>
+<span class="kr">data</span> <span class="kr">type</span> <span class="kt">Point</span> <span class="o">::</span> <span class="o">*</span>
+
+<span class="n">frege</span><span class="o">&gt;</span> <span class="n">derive</span> <span class="kt">Show</span> <span class="kt">Point</span>
+<span class="kr">instance</span> <span class="kt">Show</span>  <span class="kt">Point</span>
+</code></pre></div></div>
+
+<p>Now we can use the following functions to get and set record fields:</p>
+
+<div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">frege</span><span class="o">&gt;</span> <span class="kt">Point</span><span class="o">.</span><span class="n">x</span>
+<span class="o">::</span> <span class="kt">Point</span> <span class="o">-&gt;</span> <span class="kt">Int</span>
+
+<span class="n">frege</span><span class="o">&gt;</span> <span class="kt">Point</span><span class="o">.</span><span class="p">{</span><span class="n">x</span> <span class="o">=</span> <span class="p">}</span>
+<span class="o">::</span> <span class="kt">Point</span> <span class="o">-&gt;</span> <span class="kt">Int</span> <span class="o">-&gt;</span> <span class="kt">Point</span>
+
+<span class="n">frege</span><span class="o">&gt;</span> <span class="kt">Point</span><span class="o">.</span><span class="p">{</span><span class="n">x</span> <span class="o">&lt;-</span> <span class="p">}</span>
+<span class="o">::</span> <span class="kt">Point</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="kt">Int</span><span class="o">-&gt;</span><span class="kt">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Point</span>
+</code></pre></div></div>
+
+<p>For Field <code class="language-plaintext highlighter-rouge">x</code>,</p>
+
+<ol>
+  <li>The function <code class="language-plaintext highlighter-rouge">Point.x</code> is the getter.</li>
+  <li>The function <code class="language-plaintext highlighter-rouge">Point.{x = }</code> is a setter which sets the field <code class="language-plaintext highlighter-rouge">x</code> with a new value.</li>
+  <li>The function <code class="language-plaintext highlighter-rouge">Point.{x &lt;- }</code> is also a setter but applies a function to update the current value.</li>
+</ol>
+
+<p>We can use the functions like this:</p>
+
+<div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">frege</span><span class="o">&gt;</span> <span class="n">p</span> <span class="o">=</span> <span class="kt">Point</span> <span class="mi">3</span> <span class="mi">4</span>
+<span class="n">value</span> <span class="n">p</span> <span class="o">::</span> <span class="kt">Point</span>
+
+<span class="n">frege</span><span class="o">&gt;</span> <span class="n">p</span>
+<span class="kt">Point</span> <span class="mi">3</span> <span class="mi">4</span>
+
+<span class="n">frege</span><span class="o">&gt;</span> <span class="kt">Point</span><span class="o">.</span><span class="n">x</span> <span class="n">p</span>
+<span class="mi">3</span>
+
+<span class="n">frege</span><span class="o">&gt;</span> <span class="kt">Point</span><span class="o">.</span><span class="p">{</span><span class="n">x</span> <span class="o">=</span><span class="p">}</span> <span class="n">p</span> <span class="mi">13</span>
+<span class="kt">Point</span> <span class="mi">13</span> <span class="mi">4</span>
+
+<span class="n">frege</span><span class="o">&gt;</span> <span class="kt">Point</span><span class="o">.</span><span class="p">{</span><span class="n">x</span> <span class="o">&lt;-</span><span class="p">}</span> <span class="n">p</span> <span class="p">(</span><span class="o">+</span><span class="mi">15</span><span class="p">)</span>
+<span class="kt">Point</span> <span class="mi">18</span> <span class="mi">4</span>
+</code></pre></div></div>
+
+<p>Frege also provides some shortcuts to apply these functions:</p>
+
+<div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">frege</span><span class="o">&gt;</span> <span class="n">p</span><span class="o">.</span><span class="n">x</span> <span class="c1">-- Same as `Point.x p`</span>
+<span class="mi">3</span>
+
+<span class="n">frege</span><span class="o">&gt;</span> <span class="n">p</span><span class="o">.</span><span class="p">{</span><span class="n">x</span> <span class="o">=</span> <span class="mi">10</span><span class="p">}</span> <span class="c1">-- Same as `Point.{x = } p 10`</span>
+<span class="kt">Point</span> <span class="mi">10</span> <span class="mi">4</span>
+
+<span class="n">frege</span><span class="o">&gt;</span> <span class="n">p</span><span class="o">.</span><span class="p">{</span><span class="n">x</span> <span class="o">&lt;-</span><span class="p">}</span> <span class="c1">-- Same as `Point.{x &lt;-} p`</span>
+<span class="o">::</span> <span class="p">(</span><span class="kt">Int</span><span class="o">-&gt;</span><span class="kt">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Point</span>
+
+<span class="n">frege</span><span class="o">&gt;</span> <span class="n">p</span><span class="o">.</span><span class="p">{</span><span class="n">x</span> <span class="o">&lt;-</span> <span class="p">(</span><span class="o">+</span><span class="mi">10</span><span class="p">)}</span> <span class="c1">-- Same as `Point.{x &lt;- } p (+10)`</span>
+<span class="kt">Point</span> <span class="mi">13</span> <span class="mi">4</span>
+</code></pre></div></div>
+
+<p>Multiple updates can be combined:</p>
+
+<div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">frege</span><span class="o">&gt;</span> <span class="n">p</span><span class="o">.</span><span class="p">{</span><span class="n">x</span> <span class="o">&lt;-</span> <span class="p">(</span><span class="o">+</span><span class="mi">8</span><span class="p">),</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">20</span><span class="p">}</span> <span class="c1">-- Increment x by 8 and set y to 20</span>
+<span class="kt">Point</span> <span class="mi">11</span> <span class="mi">20</span>
+</code></pre></div></div>
+
+<p>Accessors and updates can be at any level deep.
+Let’s create another type:</p>
+
+<div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">frege</span><span class="o">&gt;</span> <span class="o">:</span><span class="p">{</span>
+<span class="o">&gt;</span> <span class="kr">data</span> <span class="kt">Circle</span> <span class="o">=</span> <span class="kt">Circle</span> <span class="p">{</span><span class="n">center</span> <span class="o">::</span> <span class="kt">Point</span><span class="p">,</span> <span class="n">radius</span> <span class="o">::</span> <span class="kt">Int</span><span class="p">}</span>
+<span class="o">&gt;</span>
+<span class="o">&gt;</span> <span class="n">derive</span> <span class="kt">Show</span> <span class="kt">Circle</span>
+<span class="o">&gt;</span> <span class="o">:</span><span class="p">}</span>
+
+<span class="kr">data</span> <span class="kr">type</span> <span class="kt">Circle</span> <span class="o">::</span> <span class="o">*</span>
+<span class="kr">instance</span> <span class="kt">Show</span>  <span class="kt">Circle</span>
+
+<span class="n">frege</span><span class="o">&gt;</span>
+</code></pre></div></div>
+
+<p>Here we have an aggregate type <code class="language-plaintext highlighter-rouge">Circle</code> which composes another type <code class="language-plaintext highlighter-rouge">Point</code> for it’s field <code class="language-plaintext highlighter-rouge">center</code>.
+Now we can update and select fields at different levels:</p>
+
+<div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">frege</span><span class="o">&gt;</span> <span class="n">c</span> <span class="o">=</span> <span class="kt">Circle</span> <span class="p">{</span><span class="n">center</span> <span class="o">=</span> <span class="kt">Point</span> <span class="mi">4</span> <span class="mi">5</span><span class="p">,</span> <span class="n">radius</span> <span class="o">=</span> <span class="mi">10</span><span class="p">}</span>
+<span class="n">value</span> <span class="n">c</span> <span class="o">::</span> <span class="kt">Circle</span>
+
+<span class="n">frege</span><span class="o">&gt;</span> <span class="n">c</span>
+<span class="kt">Circle</span> <span class="p">(</span><span class="kt">Point</span> <span class="mi">4</span> <span class="mi">5</span><span class="p">)</span> <span class="mi">10</span>
+
+<span class="n">frege</span><span class="o">&gt;</span> <span class="n">c</span><span class="o">.</span><span class="n">center</span><span class="o">.</span><span class="n">x</span>
+<span class="mi">4</span>
+
+<span class="n">frege</span><span class="o">&gt;</span> <span class="n">c</span><span class="o">.</span><span class="p">{</span><span class="n">center</span> <span class="o">&lt;-</span> <span class="kt">Point</span><span class="o">.</span><span class="p">{</span><span class="n">x</span> <span class="o">=</span> <span class="mi">8</span><span class="p">}}</span>
+<span class="kt">Circle</span> <span class="p">(</span><span class="kt">Point</span> <span class="mi">8</span> <span class="mi">5</span><span class="p">)</span> <span class="mi">10</span>
+
+<span class="n">frege</span><span class="o">&gt;</span> <span class="n">c</span><span class="o">.</span><span class="p">{</span><span class="n">center</span> <span class="o">&lt;-</span> <span class="kt">Point</span><span class="o">.</span><span class="p">{</span><span class="n">y</span> <span class="o">&lt;-</span> <span class="p">(</span><span class="o">+</span><span class="mi">20</span><span class="p">)},</span> <span class="n">radius</span> <span class="o">&lt;-</span> <span class="p">(</span><span class="o">*</span><span class="mi">5</span><span class="p">)}</span>
+<span class="kt">Circle</span> <span class="p">(</span><span class="kt">Point</span> <span class="mi">4</span> <span class="mi">25</span><span class="p">)</span> <span class="mi">50</span>
+</code></pre></div></div>
+
+<p>In the latest version, Frege provides syntactic sugar for lambdas using underscores. For example, <code class="language-plaintext highlighter-rouge">T.foo</code> can be written
+as <code class="language-plaintext highlighter-rouge">_.foo</code> if the type can be deduced from the context the lambda is applied. Hence the following two are equivalent.</p>
+
+<div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">frege</span><span class="o">&gt;</span> <span class="n">c</span><span class="o">.</span><span class="p">{</span><span class="n">center</span> <span class="o">&lt;-</span> <span class="kt">Point</span><span class="o">.</span><span class="p">{</span><span class="n">x</span> <span class="o">=</span> <span class="mi">25</span><span class="p">}}</span>
+<span class="kt">Circle</span> <span class="p">(</span><span class="kt">Point</span> <span class="mi">25</span> <span class="mi">5</span><span class="p">)</span> <span class="mi">10</span>
+
+<span class="n">frege</span><span class="o">&gt;</span> <span class="n">c</span><span class="o">.</span><span class="p">{</span><span class="n">center</span> <span class="o">&lt;-</span> <span class="kr">_</span><span class="o">.</span><span class="p">{</span><span class="n">x</span> <span class="o">=</span> <span class="mi">25</span><span class="p">}}</span>
+<span class="kt">Circle</span> <span class="p">(</span><span class="kt">Point</span> <span class="mi">25</span> <span class="mi">5</span><span class="p">)</span> <span class="mi">10</span>
+</code></pre></div></div>
+
+<p>Frege provides another utility to check for a field’s existence. This would be useful if we have multiple constructors
+with different set of fields.</p>
+
+<div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">frege</span><span class="o">&gt;</span> <span class="o">:</span><span class="p">{</span>
+<span class="o">&gt;</span> <span class="kr">data</span> <span class="kt">Point</span> <span class="o">=</span> <span class="kt">Point2d</span> <span class="p">{</span><span class="n">x</span> <span class="o">::</span> <span class="kt">Int</span><span class="p">,</span> <span class="n">y</span> <span class="o">::</span> <span class="kt">Int</span><span class="p">}</span>
+<span class="o">&gt;</span>            <span class="o">|</span> <span class="kt">Point3d</span> <span class="p">{</span><span class="n">x</span> <span class="o">::</span> <span class="kt">Int</span><span class="p">,</span> <span class="n">y</span> <span class="o">::</span> <span class="kt">Int</span><span class="p">,</span> <span class="n">z</span> <span class="o">::</span> <span class="kt">Int</span><span class="p">}</span>
+<span class="o">&gt;</span>
+<span class="o">&gt;</span> <span class="n">derive</span> <span class="kt">Show</span> <span class="kt">Point</span>
+<span class="o">&gt;</span> <span class="o">:</span><span class="p">}</span>
+
+<span class="kr">data</span> <span class="kr">type</span> <span class="kt">Point</span> <span class="o">::</span> <span class="o">*</span>
+<span class="kr">instance</span> <span class="kt">Show</span>  <span class="kt">Point</span>
+
+<span class="n">frege</span><span class="o">&gt;</span>
+</code></pre></div></div>
+
+<p>In the above code, we have two constructors <code class="language-plaintext highlighter-rouge">Point2d</code> and <code class="language-plaintext highlighter-rouge">Point3d</code> where the field <code class="language-plaintext highlighter-rouge">z</code> exists only for <code class="language-plaintext highlighter-rouge">Point3d</code>.
+We can check for the existence of field <code class="language-plaintext highlighter-rouge">z</code> like this:</p>
+
+<div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">frege</span><span class="o">&gt;</span> <span class="kt">Point</span><span class="o">.</span><span class="p">{</span><span class="n">z</span><span class="o">?</span><span class="p">}</span>
+<span class="o">::</span> <span class="kt">Point</span> <span class="o">-&gt;</span> <span class="kt">Bool</span>
+
+<span class="n">frege</span><span class="o">&gt;</span> <span class="n">hasZ</span> <span class="o">=</span> <span class="kt">Point</span><span class="o">.</span><span class="p">{</span><span class="n">z</span><span class="o">?</span><span class="p">}</span>
+
+<span class="n">frege</span><span class="o">&gt;</span> <span class="n">hasZ</span> <span class="o">$</span> <span class="kt">Point3d</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span>
+<span class="n">true</span>
+
+<span class="n">frege</span><span class="o">&gt;</span> <span class="n">hasZ</span> <span class="o">$</span> <span class="kt">Point2d</span> <span class="mi">3</span> <span class="mi">4</span>
+<span class="n">false</span>
+
+<span class="n">frege</span><span class="o">&gt;</span> <span class="n">p</span> <span class="o">=</span> <span class="kt">Point3d</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span>
+<span class="n">value</span> <span class="n">p</span> <span class="o">::</span> <span class="kt">Point</span>
+
+<span class="n">frege</span><span class="o">&gt;</span> <span class="n">p</span><span class="o">.</span><span class="p">{</span><span class="n">z</span><span class="o">?</span><span class="p">}</span>
+<span class="n">true</span>
+
+</code></pre></div></div>
+
+<p>For more details on how these field existence check, accessor and mutator functions are generated for a record type,
+here is the link to Frege language reference: http://www.frege-lang.org/doc/Language.pdf.</p>
+
+<p>Happy coding!</p>
+
+    
+
+
+
+<div class="post-tags">
+  
+    
+    <a href="/tags/#frege">
+    
+      <span class="icon">
+        <svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 0h24v24H0z" fill="none"/>
+    <path d="M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7v10c0 1.1.9 1.99 2 1.99L16 19c.67 0 1.27-.33 1.63-.84L22 12l-4.37-6.16z"/>
+</svg>
+      </span>&nbsp;<span class="tag-name">Frege</span>
+    </a>
+  
+</div>
+  </div>
+
+  
+  <section class="comments">
+    <h2>Comments</h2>
+    
+  <div id="disqus_thread">
+    <button class="disqus-load" onClick="loadDisqusComments()">
+      Load Comments
+    </button>
+  </div>
+  <script>
+
+  /**
+  *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW
+  *  TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+  *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT:s
+  *  https://disqus.com/admin/universalcode/#configuration-variables
+  */
+  var disqus_config = function () {
+    this.page.url = "http://localhost:4000/blog/2014/03/15/frege-record-accessors-and-mutators/";
+    this.page.identifier = "" ||
+                           "http://localhost:4000/blog/2014/03/15/frege-record-accessors-and-mutators/";
+  }
+  function loadDisqusComments() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = '//mmhelloworld.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+  }
+  </script>
+  <noscript>
+    Please enable JavaScript to view the
+    <a href="https://disqus.com/?ref_noscript">comments powered by Disqus</a>.
+  </noscript>
+
+
+
+  </section>
+
+  <section class="related">
+  <h2>Related Posts</h2>
+  <ul class="posts-list">
+    
+      <li>
+        <h3>
+          <a href="/blog/2024/07/15/idris-jvm-0-7-0-release/">
+            Idris JVM 0.7.0 Release
+            <small>15 Jul 2024</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/blog/2021/07/24/idris-2-initial-release-0-dot-2-1-for-the-jvm/">
+            Idris 2 Initial Release 0.2.1 for the JVM
+            <small>24 Jul 2021</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/blog/2020/12/30/idris-2-bootstrap-compiler-on-the-jvm-with-a-jvm-backend/">
+            Idris 2 Bootstrap Compiler on the JVM with a JVM backend
+            <small>30 Dec 2020</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</section>
+
+</div>
+
+    </main>
+
+    <!-- Optional footer content -->
+
+  </body>
+</html>

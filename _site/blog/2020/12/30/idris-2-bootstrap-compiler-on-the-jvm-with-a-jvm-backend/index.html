@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+  <link href="https://gmpg.org/xfn/11" rel="profile" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+
+  <title>
+    
+      Idris 2 Bootstrap Compiler on the JVM with a JVM backend &middot; mmhelloworld
+    
+  </title>
+
+  
+
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/assets/css/main.css" />
+  
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface" />
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/favicon.png" />
+<link rel="shortcut icon" href="/favicon.ico" />
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/feed.xml" />
+
+  <!-- Additional head bits without overriding original head -->
+</head>
+
+
+  <body class="post">
+
+    <div id="sidebar">
+  <header>
+    <div class="site-title">
+      <a href="/">
+        
+          <span class="back-arrow icon"><svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+  <path d="M0 0h24v24H0z" fill="none"/>
+  <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+</svg></span>
+        
+        mmhelloworld
+      </a>
+    </div>
+    <p class="lead">Marimuthu Blog</p>
+  </header>
+  <nav id="sidebar-nav-links">
+  
+    <a class="home-link "
+        href="/">Home</a>
+  
+  
+
+  
+
+  
+
+
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+
+
+  
+
+
+  
+
+  
+    
+      <a class="category-link "
+          href="/category/frege/">Frege</a>
+    
+  
+
+  
+    
+      <a class="category-link "
+          href="/category/idris/">Idris</a>
+    
+  
+
+  
+    
+  
+
+  
+    
+      <a class="category-link "
+          href="/category/java/">Java</a>
+    
+  
+
+  
+    
+      <a class="category-link "
+          href="/category/jvm/">JVM</a>
+    
+  
+
+  
+
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+
+
+  <!-- Optional additional links to insert in sidebar nav -->
+<section>
+    <h3>Recent Posts</h3>
+    <ul id="recent_posts">
+        
+        <li class="post">
+            <a style="font-size: 0.65rem" href="/blog/2024/07/15/idris-jvm-0-7-0-release/">Idris JVM 0.7.0 Release</a>
+        </li>
+        
+        <li class="post">
+            <a style="font-size: 0.65rem" href="/blog/2021/07/24/idris-2-initial-release-0-dot-2-1-for-the-jvm/">Idris 2 Initial Release 0.2.1 for the JVM</a>
+        </li>
+        
+        <li class="post">
+            <a style="font-size: 0.65rem" href="/blog/2020/12/30/idris-2-bootstrap-compiler-on-the-jvm-with-a-jvm-backend/">Idris 2 Bootstrap Compiler on the JVM with a JVM backend</a>
+        </li>
+        
+        <li class="post">
+            <a style="font-size: 0.65rem" href="/blog/2018/02/11/idris-jvm-automated-ffi-with-null-safety/">Idris JVM: Automated FFI with null safety and exception handling</a>
+        </li>
+        
+        <li class="post">
+            <a style="font-size: 0.65rem" href="/blog/2017/01/10/idris-jvm-guarding-against-java-null-using-maybe-type/">Idris JVM: Guarding against Java null using Maybe type</a>
+        </li>
+        
+    </ul>
+</section>
+</nav>
+
+
+  
+
+  <nav id="sidebar-icon-links">
+  
+
+  <a id="subscribe-link"
+     class="icon" title="Subscribe" aria-label="Subscribe"
+     href="/feed.xml">
+    <svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 0h24v24H0z" fill="none"/>
+    <circle cx="6.18" cy="17.82" r="2.18"/>
+    <path d="M4 4.44v2.83c7.03 0 12.73 5.7 12.73 12.73h2.83c0-8.59-6.97-15.56-15.56-15.56zm0 5.66v2.83c3.9 0 7.07 3.17 7.07 7.07h2.83c0-5.47-4.43-9.9-9.9-9.9z"/>
+</svg>
+  </a>
+
+  
+  
+  
+  
+
+  
+    <a id="tags-link"
+       class="icon"
+       title="Tags" aria-label="Tags"
+       href="/tags/">
+      <svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 0h24v24H0z" fill="none"/>
+    <path d="M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7v10c0 1.1.9 1.99 2 1.99L16 19c.67 0 1.27-.33 1.63-.84L22 12l-4.37-6.16z"/>
+</svg>
+    </a>
+  
+
+  
+    <a id="search-link"
+       class="icon"
+       title="Search" aria-label="Search"
+       href="/search/">
+      <svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+    <path d="M0 0h24v24H0z" fill="none"/>
+</svg>
+    </a>
+  
+
+  <!-- Optional additional links to insert for icons links -->
+</nav>
+
+  <p style="font-size: 0.5rem">
+  &copy; Marimuthu Madasamy 2024.
+  <a href="/LICENSE">BSD 3-Clause License</a>
+</p>
+
+</div>
+
+    <main class="container">
+      <header>
+  <h1 class="post-title">Idris 2 Bootstrap Compiler on the JVM with a JVM backend</h1>
+</header>
+<div class="content">
+  <div class="post-meta">
+  <span class="post-date">30 Dec 2020</span>
+  <span class="post-categories">
+    
+      &bull;
+
+      
+      
+      
+
+      
+        <a href="/category/idris/">
+          Idris
+        </a>
+      
+    
+      &bull;
+
+      
+      
+      
+
+      
+        <a href="/category/jvm/">
+          JVM
+        </a>
+      
+    
+  </span>
+</div>
+
+
+  <div class="post-body">
+    <p>I am excited to announce that Idris 2 bootstrap compiler can now run on the JVM along with a JVM backend. Here is a REPL session:</p>
+
+<div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">$</span> <span class="n">idris2</span>
+     <span class="n">____</span>    <span class="n">__</span>     <span class="kr">_</span>         <span class="n">___</span>                                           
+    <span class="o">/</span>  <span class="kr">_</span><span class="o">/</span><span class="n">___</span><span class="o">/</span> <span class="o">/</span><span class="n">____</span><span class="p">(</span><span class="kr">_</span><span class="p">)</span><span class="n">____</span>   <span class="o">|</span><span class="n">__</span> <span class="nf">\</span>                                          
+    <span class="o">/</span> <span class="o">//</span> <span class="n">__</span>  <span class="o">/</span> <span class="n">___</span><span class="o">/</span> <span class="o">/</span> <span class="n">___</span><span class="o">/</span>   <span class="n">__</span><span class="o">/</span> <span class="o">/</span>     <span class="kt">Version</span> <span class="mf">0.1</span><span class="o">.</span><span class="mi">1</span><span class="o">-</span><span class="mi">786152</span><span class="n">de1</span>
+  <span class="kr">_</span><span class="o">/</span> <span class="o">//</span> <span class="o">/</span><span class="kr">_</span><span class="o">/</span> <span class="o">/</span> <span class="o">/</span>  <span class="o">/</span> <span class="p">(</span><span class="n">__</span>  <span class="p">)</span>   <span class="o">/</span> <span class="n">__</span><span class="o">/</span>      <span class="n">https</span><span class="o">://</span><span class="n">www</span><span class="o">.</span><span class="n">idris</span><span class="o">-</span><span class="n">lang</span><span class="o">.</span><span class="n">org</span>           
+ <span class="o">/</span><span class="n">___</span><span class="o">/\</span><span class="n">__</span><span class="p">,</span><span class="kr">_</span><span class="o">/</span><span class="kr">_</span><span class="o">/</span>  <span class="o">/</span><span class="kr">_</span><span class="o">/</span><span class="n">____</span><span class="o">/</span>   <span class="o">/</span><span class="n">____</span><span class="o">/</span>      <span class="kt">Type</span> <span class="o">:?</span> <span class="n">for</span> <span class="n">help</span>                     
+
+<span class="p">[</span><span class="kt">BOOTSTRAP</span> <span class="kt">VERSION</span><span class="o">:</span> <span class="kt">No</span> <span class="n">longer</span> <span class="n">developed</span><span class="p">,</span> <span class="n">except</span> <span class="n">as</span> <span class="n">a</span> <span class="n">bootstrapping</span> <span class="n">step</span><span class="o">.</span><span class="p">]</span>
+<span class="kt">Welcome</span> <span class="n">to</span> <span class="kt">Idris</span> <span class="mi">2</span> <span class="n">on</span> <span class="n">the</span> <span class="kt">JVM</span> <span class="p">(</span><span class="kt">Private</span> <span class="kt">Build</span> <span class="kt">OpenJDK</span> <span class="mi">64</span><span class="o">-</span><span class="kt">Bit</span> <span class="kt">Server</span> <span class="kt">VM</span><span class="p">,</span> <span class="mf">1.8</span><span class="o">.</span><span class="mi">0</span><span class="n">_275</span><span class="p">)</span><span class="o">.</span>  <span class="kt">Enjoy</span> <span class="n">yourself</span><span class="o">!</span>
+<span class="kt">Main</span><span class="o">&gt;</span> <span class="s">"hello world"</span>
+<span class="s">"hello world"</span>
+<span class="kt">Main</span><span class="o">&gt;</span> <span class="n">take</span> <span class="mi">10</span> <span class="p">[</span><span class="mi">25</span><span class="o">..</span><span class="p">]</span>
+<span class="p">[</span><span class="mi">25</span><span class="p">,</span> <span class="mi">26</span><span class="p">,</span> <span class="mi">27</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">29</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">33</span><span class="p">,</span> <span class="mi">34</span><span class="p">]</span>
+<span class="kt">Main</span><span class="o">&gt;</span> <span class="o">:</span><span class="n">t</span> <span class="n">map</span>
+<span class="kt">Prelude</span><span class="o">.</span><span class="n">map</span> <span class="o">:</span> <span class="kt">Functor</span> <span class="n">f</span> <span class="o">=&gt;</span> <span class="p">(</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="n">b</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">f</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="n">f</span> <span class="n">b</span>
+<span class="kt">Main</span><span class="o">&gt;</span> <span class="o">:</span><span class="n">exec</span> <span class="n">printLn</span> <span class="s">"Hello Idris 2 on the JVM - this is printed from executing JVM bytecode from memory"</span>
+<span class="s">"Hello Idris 2 on the JVM - this is printed from executing JVM bytecode from memory"</span>
+<span class="kt">Main</span><span class="o">&gt;</span> 
+</code></pre></div></div>
+<p>You may notice that the banner includes the JVM version that the Idris compiler is running on. Idris 2 for JVM can run on Java 8 or above. Since the compiler itself runs on the JVM, the last <code class="language-plaintext highlighter-rouge">:exec</code> command at line 16 above can directly interpret the generated bytecode on the compiler JVM, and the generated bytecode is loaded from memory without any file system footprint.</p>
+
+<h3 id="to-try-it-out">To try it out</h3>
+
+<p>Prerequisite: Java 8 or above</p>
+
+<ul>
+  <li>Extract the zip from <a href="https://github.com/mmhelloworld/Idris2-boot/releases/tag/v0.2.0">here</a></li>
+  <li>Add <code class="language-plaintext highlighter-rouge">idris2-boot-jvm/bin</code> from extracted directory to <code class="language-plaintext highlighter-rouge">PATH</code></li>
+  <li>Run <code class="language-plaintext highlighter-rouge">idris2</code>. That’s all!</li>
+</ul>
+
+<h3 id="features">Features</h3>
+<ul>
+  <li>Eliminate tail recursion using JVM’s GOTO</li>
+  <li>Trampoline non-self tail calls</li>
+  <li>Support file, directory, array, IORef and buffer primitives.</li>
+  <li>Analyse function dependencies to generate bytecode for only used functions from <code class="language-plaintext highlighter-rouge">main</code></li>
+  <li>Limited type inference on Idris IR to avoid boxing and typecasting in the generated bytecode</li>
+  <li>Static and instance Java FFI method calls.</li>
+  <li>Debug information (Idris source file and line numbers) in the bytecode from Idris IR</li>
+</ul>
+
+<p>Currently, the goal for this bootstrap compiler is to be able to compile current <a href="https://github.com/idris-lang/Idris2">Idris 2</a> so the items here could definitely be improved a lot and other features may be added to support the absolute minimum for building Idris 2.</p>
+
+<h3 id="example">Example</h3>
+
+<div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kr">module</span> <span class="nn">Main</span>
+
+<span class="kr">import</span> <span class="nn">System.FFI</span>
+
+<span class="c1">-- Tail call is eliminated with GOTO</span>
+<span class="n">sum</span> <span class="o">:</span> <span class="kt">Int</span> <span class="o">-&gt;</span> <span class="kt">Int</span>
+<span class="n">sum</span> <span class="n">n</span> <span class="o">=</span> <span class="n">go</span> <span class="mi">0</span> <span class="n">n</span> <span class="kr">where</span>
+  <span class="n">go</span> <span class="o">:</span> <span class="kt">Int</span> <span class="o">-&gt;</span> <span class="kt">Int</span> <span class="o">-&gt;</span> <span class="kt">Int</span>
+  <span class="n">go</span> <span class="n">acc</span> <span class="mi">0</span> <span class="o">=</span> <span class="n">acc</span>
+  <span class="n">go</span> <span class="n">acc</span> <span class="n">n</span> <span class="o">=</span> <span class="n">go</span> <span class="p">(</span><span class="n">acc</span> <span class="o">+</span> <span class="n">n</span><span class="p">)</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">mutual</span>
+  <span class="c1">-- Mutually recursive functions are trampolined</span>
+  <span class="c1">-- keeping it simple with int instead of Nat which is compiled to Java BigInteger</span>
+  <span class="n">isOdd</span> <span class="o">:</span> <span class="kt">Int</span> <span class="o">-&gt;</span> <span class="kt">Bool</span>
+  <span class="n">isOdd</span> <span class="mi">0</span> <span class="o">=</span> <span class="kt">False</span>
+  <span class="n">isOdd</span> <span class="n">n</span> <span class="o">=</span> <span class="n">isEven</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+  <span class="n">isEven</span> <span class="o">:</span> <span class="kt">Int</span> <span class="o">-&gt;</span> <span class="kt">Bool</span>
+  <span class="n">isEven</span> <span class="mi">0</span> <span class="o">=</span> <span class="kt">True</span>
+  <span class="n">isEven</span> <span class="n">n</span> <span class="o">=</span> <span class="n">isOdd</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="c1">-- Java instance method calls</span>
+<span class="o">%</span><span class="n">foreign</span> <span class="n">jvm</span> <span class="s">"java/lang/String"</span> <span class="s">".length"</span>
+<span class="n">jvmStringLength</span> <span class="o">:</span> <span class="kt">String</span> <span class="o">-&gt;</span> <span class="kt">Int</span>
+
+<span class="c1">-- Java static method calls</span>
+<span class="o">%</span><span class="n">foreign</span> <span class="n">jvm</span> <span class="s">"java/lang/Integer"</span> <span class="s">"toBinaryString"</span>
+<span class="n">intToBinaryString</span> <span class="o">:</span> <span class="kt">Int</span> <span class="o">-&gt;</span> <span class="kt">String</span>
+
+<span class="n">main</span> <span class="o">:</span> <span class="kt">IO</span> <span class="nb">()</span>
+<span class="n">main</span> <span class="o">=</span> <span class="kr">do</span>
+  <span class="n">printLn</span> <span class="o">$</span> <span class="n">sum</span> <span class="mi">5000</span>
+  <span class="n">printLn</span> <span class="o">$</span> <span class="n">isEven</span> <span class="mi">100000</span>
+  <span class="n">printLn</span> <span class="o">$</span> <span class="n">intToBinaryString</span> <span class="mi">512</span>
+  <span class="n">printLn</span> <span class="o">$</span> <span class="n">jvmStringLength</span> <span class="s">"hello"</span>
+</code></pre></div></div>
+
+<h4 id="compile">Compile</h4>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>idris2 Main.idr -o main
+</code></pre></div></div>
+<p>The classes will be compiled into <code class="language-plaintext highlighter-rouge">build/exec/main_app</code>.</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ tree build/exec/main_app/
+build/exec/main_app/
+├── Main.class
+├── Prelude
+│   ├── $col$col.class
+│   ├── Just.class
+│   ├── Nil.class
+│   ├── Nothing.class
+│   ├── Open.class
+│   ├── PrefixMinus.class
+│   └── Show$spcat$spcPrelude$dotidr$col1260$col1--1284$col1__mkShow.class
+├── Prelude.class
+└── PrimIO.class
+
+</code></pre></div></div>
+<p>It compiles down to three main modules <code class="language-plaintext highlighter-rouge">Main</code>, <code class="language-plaintext highlighter-rouge">Prelude</code> and <code class="language-plaintext highlighter-rouge">PrimIO</code>. Rest of the classes are data classes for Idris constructors like <code class="language-plaintext highlighter-rouge">Just</code>, <code class="language-plaintext highlighter-rouge">Nothing</code>, <code class="language-plaintext highlighter-rouge">Nil</code>, <code class="language-plaintext highlighter-rouge">::</code> etc.</p>
+
+<h4 id="run">Run</h4>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ java -cp /path/to/idris2-boot-jvm/lib/runtime-1.0-SNAPSHOT.jar:build/exec/main_app Main
+12502500
+True
+"1000000000"
+5
+</code></pre></div></div>
+<p>The above example demonstrates tail recursion, mutual recursion, Java FFI instance and static method calls.</p>
+
+<p><code class="language-plaintext highlighter-rouge">sum</code> a tail recursive function, would be compiled into a loop.  Here is the decompiled code for the nested <code class="language-plaintext highlighter-rouge">go</code> function inside <code class="language-plaintext highlighter-rouge">sum</code>:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kd">public</span> <span class="kd">static</span> <span class="nc">Object</span> <span class="n">$nested1201</span><span class="err">$</span><span class="mi">307</span><span class="n">$go</span><span class="o">(</span><span class="nc">Object</span> <span class="n">arg</span><span class="err">$</span><span class="mi">0</span><span class="o">,</span> <span class="kt">int</span> <span class="n">arg</span><span class="err">$</span><span class="mi">1</span><span class="o">,</span> <span class="kt">int</span> <span class="n">arg</span><span class="err">$</span><span class="mi">2</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">while</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">switch</span><span class="o">(</span><span class="n">arg</span><span class="err">$</span><span class="mi">2</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">case</span> <span class="mi">0</span><span class="o">:</span>
+                <span class="k">return</span> <span class="n">arg</span><span class="err">$</span><span class="mi">1</span><span class="o">;</span>
+            <span class="k">default</span><span class="o">:</span>
+                <span class="n">arg</span><span class="err">$</span><span class="mi">1</span> <span class="o">=</span> <span class="nc">Prelude</span><span class="o">.++</span><span class="n">_Num__Int</span><span class="o">(</span><span class="n">arg</span><span class="err">$</span><span class="mi">1</span><span class="o">,</span> <span class="n">arg</span><span class="err">$</span><span class="mi">2</span><span class="o">);</span>
+                <span class="n">arg</span><span class="err">$</span><span class="mi">2</span> <span class="o">=</span> <span class="nc">Prelude</span><span class="o">.--</span><span class="n">_Neg__Int</span><span class="o">(</span><span class="n">arg</span><span class="err">$</span><span class="mi">2</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+</code></pre></div></div>
+<p>As we can see here, the tail recursive function call is removed in the <code class="language-plaintext highlighter-rouge">default</code> block instead the arguments are updated for next iteration. The loop would continue to run until the base case is reached where the result is returned.</p>
+
+<p>For <code class="language-plaintext highlighter-rouge">isEven</code> and <code class="language-plaintext highlighter-rouge">isOdd</code>, the tail calls would be trampolined using JVM’s <code class="language-plaintext highlighter-rouge">invokedynamic</code>. Here is the decompiled bytecode.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kd">public</span> <span class="kd">static</span> <span class="nc">Object</span> <span class="nf">isOdd</span><span class="o">(</span><span class="kt">int</span> <span class="n">arg</span><span class="err">$</span><span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">switch</span><span class="o">(</span><span class="n">arg</span><span class="err">$</span><span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">case</span> <span class="mi">0</span><span class="o">:</span>
+            <span class="k">return</span> <span class="mi">1</span><span class="o">;</span>
+        <span class="k">default</span><span class="o">:</span>
+            <span class="k">return</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="nc">Runtime</span><span class="o">.</span><span class="na">createThunk</span><span class="o">(</span><span class="n">isEven</span><span class="o">(</span><span class="nc">Prelude</span><span class="o">.--</span><span class="n">_Neg__Int</span><span class="o">(</span><span class="n">arg</span><span class="err">$</span><span class="mi">0</span><span class="o">,</span> <span class="mi">1</span><span class="o">)));</span>
+            <span class="o">};</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="nc">Object</span> <span class="nf">isEven</span><span class="o">(</span><span class="kt">int</span> <span class="n">arg</span><span class="err">$</span><span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">switch</span><span class="o">(</span><span class="n">arg</span><span class="err">$</span><span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">case</span> <span class="mi">0</span><span class="o">:</span>
+            <span class="k">return</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="k">default</span><span class="o">:</span>
+            <span class="k">return</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="nc">Runtime</span><span class="o">.</span><span class="na">createThunk</span><span class="o">(</span><span class="n">isOdd</span><span class="o">(</span><span class="nc">Prelude</span><span class="o">.--</span><span class="n">_Neg__Int</span><span class="o">(</span><span class="n">arg</span><span class="err">$</span><span class="mi">0</span><span class="o">,</span> <span class="mi">1</span><span class="o">)));</span>
+            <span class="o">};</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+</code></pre></div></div>
+<p>Here since the tail call is not to itself, function call is turned into a thunk which would be eventually unwrapped in a loop.</p>
+
+<p>Now let’s look at FFI calls in the above example. <code class="language-plaintext highlighter-rouge">jvmStringLength</code> function is an example for Java FFI instance method call. It calls <code class="language-plaintext highlighter-rouge">length</code> function on Java’s <code class="language-plaintext highlighter-rouge">java.lang.String</code> instance. Similarly <code class="language-plaintext highlighter-rouge">intToBinaryString</code> calls <code class="language-plaintext highlighter-rouge">toBinaryString</code> static function on class <code class="language-plaintext highlighter-rouge">java.lang.Integer</code>. Function name starting with a dot denotes an instance method call differentiating it from a static method call. Precise types can also be passed explicitly as in the example below with argument types and return type (full code <a href="https://github.com/mmhelloworld/Idris2-boot/blob/master/libs/base/System/File.idr#L37">here</a>).</p>
+
+<div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%</span><span class="n">foreign</span> <span class="n">jvm'</span> <span class="n">fileClass</span> <span class="s">"getLine"</span> <span class="n">fileClass</span> <span class="s">"String"</span>
+<span class="n">prim__readLine</span> <span class="o">:</span> <span class="kt">FilePtr</span> <span class="o">-&gt;</span> <span class="kt">PrimIO</span> <span class="p">(</span><span class="kt">Ptr</span> <span class="kt">String</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="next-steps">Next steps</h3>
+<p>Next step would be to use this bootstrap version to compile current <a href="https://github.com/idris-lang/Idris2">Idris 2</a> and then porting the JVM backend from here which is on Idris 1 to Idris 2 so there are some interesting things ahead to work on. Meanwhile, if anyone gets a chance to use this boostrap JVM version, please share any feedback or any issues <a href="https://github.com/mmhelloworld/idris-jvm/discussions">here</a> that can help while we try to compile mainstream Idris 2 for the JVM. Thank you for reading and happy coding!</p>
+
+    
+
+
+
+<div class="post-tags">
+  
+    
+    <a href="/tags/#idris">
+    
+      <span class="icon">
+        <svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 0h24v24H0z" fill="none"/>
+    <path d="M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7v10c0 1.1.9 1.99 2 1.99L16 19c.67 0 1.27-.33 1.63-.84L22 12l-4.37-6.16z"/>
+</svg>
+      </span>&nbsp;<span class="tag-name">Idris</span>
+    </a>
+  
+    
+    <a href="/tags/#jvm">
+    
+      <span class="icon">
+        <svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 0h24v24H0z" fill="none"/>
+    <path d="M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7v10c0 1.1.9 1.99 2 1.99L16 19c.67 0 1.27-.33 1.63-.84L22 12l-4.37-6.16z"/>
+</svg>
+      </span>&nbsp;<span class="tag-name">JVM</span>
+    </a>
+  
+</div>
+  </div>
+
+  
+  <section class="comments">
+    <h2>Comments</h2>
+    
+  <div id="disqus_thread">
+    <button class="disqus-load" onClick="loadDisqusComments()">
+      Load Comments
+    </button>
+  </div>
+  <script>
+
+  /**
+  *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW
+  *  TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+  *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT:s
+  *  https://disqus.com/admin/universalcode/#configuration-variables
+  */
+  var disqus_config = function () {
+    this.page.url = "http://localhost:4000/blog/2020/12/30/idris-2-bootstrap-compiler-on-the-jvm-with-a-jvm-backend/";
+    this.page.identifier = "" ||
+                           "http://localhost:4000/blog/2020/12/30/idris-2-bootstrap-compiler-on-the-jvm-with-a-jvm-backend/";
+  }
+  function loadDisqusComments() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = '//mmhelloworld.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+  }
+  </script>
+  <noscript>
+    Please enable JavaScript to view the
+    <a href="https://disqus.com/?ref_noscript">comments powered by Disqus</a>.
+  </noscript>
+
+
+
+  </section>
+
+  <section class="related">
+  <h2>Related Posts</h2>
+  <ul class="posts-list">
+    
+      <li>
+        <h3>
+          <a href="/blog/2024/07/15/idris-jvm-0-7-0-release/">
+            Idris JVM 0.7.0 Release
+            <small>15 Jul 2024</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/blog/2021/07/24/idris-2-initial-release-0-dot-2-1-for-the-jvm/">
+            Idris 2 Initial Release 0.2.1 for the JVM
+            <small>24 Jul 2021</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/blog/2018/02/11/idris-jvm-automated-ffi-with-null-safety/">
+            Idris JVM: Automated FFI with null safety and exception handling
+            <small>11 Feb 2018</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</section>
+
+</div>
+
+    </main>
+
+    <!-- Optional footer content -->
+
+  </body>
+</html>
