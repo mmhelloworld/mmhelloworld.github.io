@@ -11,7 +11,7 @@
 
   <title>
     
-      mmhelloworld &middot; Marimuthu Blog
+      mmhelloworld &middot; The Joy of Programming!
     
   </title>
 
@@ -45,7 +45,7 @@
         mmhelloworld
       </a>
     </h1>
-    <p class="lead">Marimuthu Blog</p>
+    <p class="lead">The Joy of Programming!</p>
   </header>
   <nav id="sidebar-nav-links">
   
@@ -291,7 +291,7 @@
 
 
     
-      <p>Happy to announce <a href="https://github.com/mmhelloworld/idris-jvm/releases/tag/latest">Idris JVM 0.7.0 release</a>.
+      <p>Happy to announce <a href="https://github.com/mmhelloworld/idris-jvm/releases/tag/latest">Idris JVM 0.7.0 release</a>!
 In addition to enabling Idris 0.7.0 features for the JVM backend, this release also includes:</p>
 
 <ul>
@@ -301,9 +301,284 @@ In addition to enabling Idris 0.7.0 features for the JVM backend, this release a
   <li>Exporting type class instances and functions that make use of them to be able to be called from Java.</li>
 </ul>
 
-<p>Documentation with examples that demonstrate calling Idris functions from Java: <a href="https://idris-jvm.readthedocs.io/en/latest/ffi/calling-idris-from-java.html">link</a>.</p>
+<p>Documentation with examples that explain calling Idris functions from Java is available here: <a href="https://idris-jvm.readthedocs.io/en/latest/ffi/calling-idris-from-java.html">link</a>.</p>
 
-<p>With all of these things, we can now write a complete Spring Boot application in Idris! <a href="https://github.com/mmhelloworld/idris-spring-boot-example/blob/main/src/main/idris/Mmhelloworld/IdrisSpringBootExample/Main.idr">example</a>.</p>
+<p>Here is a complete example in Idris and Java for demonstration:</p>
+
+<div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+  <span class="kr">module</span> <span class="nn">Main</span>
+
+  <span class="kr">import</span> <span class="nn">Data.String</span>
+  <span class="kr">import</span> <span class="nn">Data.List</span>
+
+  <span class="c1">-- Define some import aliases to avoid repeating fully qualified name</span>
+  <span class="o">%</span><span class="n">export</span>
+      <span class="s">"""
+      jvm:import
+      idris/String IdrisString
+      idris/data/List IdrisList
+      idris/data/Maybe IdrisMaybe
+      idris/prelude/Show
+      helloworld/Color
+      """</span>
+  <span class="n">jvmImports</span> <span class="o">:</span> <span class="kt">List</span> <span class="kt">String</span>
+  <span class="n">jvmImports</span> <span class="o">=</span> <span class="kt">[]</span>
+
+  <span class="c1">-- Export Idris types to Java</span>
+  <span class="o">%</span><span class="n">export</span>
+      <span class="s">"""
+      jvm:export
+      IdrisList
+      IdrisMaybe
+      Show
+      Color
+      """</span>
+  <span class="n">typeExports</span> <span class="o">:</span> <span class="kt">List</span> <span class="kt">String</span>
+  <span class="n">typeExports</span> <span class="o">=</span> <span class="kt">[]</span>
+
+  <span class="c1">-- Exports Idris List's nil constructor as a static method into generated Java class aliased by `IdrisList`</span>
+  <span class="o">%</span><span class="n">export</span> <span class="s">"""
+      jvm:public static nil
+      {
+          "</span><span class="n">enclosingType</span><span class="s">": "</span><span class="kt">IdrisList</span><span class="s">",
+          "</span><span class="n">returnType</span><span class="s">": "</span><span class="kt">IdrisList</span><span class="s">"
+      }
+      """</span>
+  <span class="n">idrisNil</span> <span class="o">:</span> <span class="kt">List</span> <span class="n">a</span>
+  <span class="n">idrisNil</span> <span class="o">=</span> <span class="kt">[]</span>
+  
+  <span class="c1">-- Exports Idris List's cons constructor as a static method into generated Java class aliased by `IdrisList`</span>
+  <span class="o">%</span><span class="n">export</span> <span class="s">"""
+      jvm:public static cons
+      {
+          "</span><span class="n">enclosingType</span><span class="s">": "</span><span class="kt">IdrisList</span><span class="s">",
+          "</span><span class="n">arguments</span><span class="s">": [{"</span><span class="kr">type</span><span class="s">": "</span><span class="kt">Object</span><span class="s">"}, {"</span><span class="kr">type</span><span class="s">": "</span><span class="kt">IdrisList</span><span class="s">"}],
+          "</span><span class="n">returnType</span><span class="s">": "</span><span class="kt">IdrisList</span><span class="s">"
+      }
+      """</span>
+  <span class="n">idrisCons</span> <span class="o">:</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">List</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">List</span> <span class="n">a</span>
+  <span class="n">idrisCons</span> <span class="o">=</span> <span class="p">(</span><span class="o">::</span><span class="p">)</span>
+
+ <span class="c1">-- Exports the Show typeclass instance for Idris Int type to Java</span>
+  <span class="o">%</span><span class="n">export</span> <span class="s">"""
+      jvm:public static show
+      {
+          "</span><span class="n">enclosingType</span><span class="s">": "</span><span class="n">idris</span><span class="o">/</span><span class="kt">Int</span><span class="s">",
+          "</span><span class="n">returnType</span><span class="s">": "</span><span class="kt">Show</span><span class="s">"
+      }
+      """</span>
+  <span class="n">showInt</span> <span class="o">:</span> <span class="kt">Show</span> <span class="kt">Int</span>
+  <span class="n">showInt</span> <span class="o">=</span> <span class="o">%</span><span class="n">search</span>
+
+  <span class="o">-</span> <span class="kt">Exports</span> <span class="n">the</span> <span class="kt">Show</span> <span class="n">typeclass</span> <span class="kr">instance</span> <span class="n">for</span> <span class="kt">Idris</span> <span class="kt">String</span> <span class="kr">type</span> <span class="n">to</span> <span class="kt">Java</span>
+  <span class="o">%</span><span class="n">export</span> <span class="s">"""
+      jvm:public static show
+      {
+          "</span><span class="n">enclosingType</span><span class="s">": "</span><span class="kt">IdrisString</span><span class="s">",
+          "</span><span class="n">returnType</span><span class="s">": "</span><span class="kt">Show</span><span class="s">"
+      }
+      """</span>
+  <span class="n">showString</span> <span class="o">:</span> <span class="kt">Show</span> <span class="kt">String</span>
+  <span class="n">showString</span> <span class="o">=</span> <span class="o">%</span><span class="n">search</span>
+
+  <span class="kr">data</span> <span class="kt">Color</span> <span class="o">=</span> <span class="kt">Red</span> <span class="o">|</span> <span class="kt">Green</span> <span class="o">|</span> <span class="kt">Blue</span>
+
+  <span class="kt">Show</span> <span class="kt">Color</span> <span class="kr">where</span>
+      <span class="n">show</span> <span class="kt">Red</span> <span class="o">=</span> <span class="s">"Red"</span>
+      <span class="n">show</span> <span class="kt">Green</span> <span class="o">=</span> <span class="s">"Green"</span>
+      <span class="n">show</span> <span class="kt">Blue</span> <span class="o">=</span> <span class="s">"Blue"</span>
+
+  <span class="c1">-- Exports Color constructors as static methods to Java under class Color.</span>
+  <span class="o">%</span><span class="n">export</span> <span class="s">"""
+      jvm:public static red
+      {
+          "</span><span class="n">enclosingType</span><span class="s">": "</span><span class="kt">Color</span><span class="s">",
+          "</span><span class="n">returnType</span><span class="s">": "</span><span class="kt">Color</span><span class="s">"
+      }
+      """</span>
+  <span class="n">red</span> <span class="o">:</span> <span class="kt">Color</span>
+  <span class="n">red</span> <span class="o">=</span> <span class="kt">Red</span>
+
+  <span class="o">%</span><span class="n">export</span> <span class="s">"""
+      jvm:public static green
+      {
+          "</span><span class="n">enclosingType</span><span class="s">": "</span><span class="kt">Color</span><span class="s">",
+          "</span><span class="n">returnType</span><span class="s">": "</span><span class="kt">Color</span><span class="s">"
+      }
+      """</span>
+  <span class="n">green</span> <span class="o">:</span> <span class="kt">Color</span>
+  <span class="n">green</span> <span class="o">=</span> <span class="kt">Green</span>
+
+  <span class="o">%</span><span class="n">export</span> <span class="s">"""
+      jvm:public static blue
+      {
+          "</span><span class="n">enclosingType</span><span class="s">": "</span><span class="kt">Color</span><span class="s">",
+          "</span><span class="n">returnType</span><span class="s">": "</span><span class="kt">Color</span><span class="s">"
+      }
+      """</span>
+  <span class="n">blue</span> <span class="o">:</span> <span class="kt">Color</span>
+  <span class="n">blue</span> <span class="o">=</span> <span class="kt">Blue</span>
+
+  <span class="o">%</span><span class="n">export</span> <span class="s">"""
+      jvm:public static show
+      {
+          "</span><span class="n">enclosingType</span><span class="s">": "</span><span class="kt">Color</span><span class="s">",
+          "</span><span class="n">returnType</span><span class="s">": "</span><span class="kt">Show</span><span class="s">"
+      }
+      """</span>
+  <span class="n">exportShowColor</span> <span class="o">:</span> <span class="kt">Show</span> <span class="kt">Color</span>
+  <span class="n">exportShowColor</span> <span class="o">=</span> <span class="o">%</span><span class="n">search</span>
+
+  <span class="o">%</span><span class="n">export</span> <span class="s">"""
+      jvm:public static show
+      {
+          "</span><span class="n">enclosingType</span><span class="s">": "</span><span class="kt">Color</span><span class="s">",
+          "</span><span class="n">arguments</span><span class="s">": [{"</span><span class="kr">type</span><span class="s">": "</span><span class="kt">Color</span><span class="s">"}],
+          "</span><span class="n">returnType</span><span class="s">": "</span><span class="kt">String</span><span class="s">"
+      }
+      """</span>
+  <span class="n">showColor</span> <span class="o">:</span> <span class="kt">Color</span> <span class="o">-&gt;</span> <span class="kt">String</span>
+  <span class="n">showColor</span> <span class="o">=</span> <span class="n">show</span>
+
+  <span class="c1">-- Exports Show typeclass instance to Java for Idris List given its element's Show typeclass instance</span>
+  <span class="o">%</span><span class="n">export</span> <span class="s">"""
+      jvm:public static show
+      {
+          "</span><span class="n">enclosingType</span><span class="s">": "</span><span class="kt">IdrisList</span><span class="s">",
+          "</span><span class="n">arguments</span><span class="s">": [{"</span><span class="kr">type</span><span class="s">": "</span><span class="kt">Show</span><span class="s">"}],
+          "</span><span class="n">returnType</span><span class="s">": "</span><span class="kt">Show</span><span class="s">"
+      }
+      """</span>
+  <span class="n">exportShowList</span> <span class="o">:</span> <span class="kt">Show</span> <span class="n">a</span> <span class="o">=&gt;</span> <span class="kt">Show</span> <span class="p">(</span><span class="kt">List</span> <span class="n">a</span><span class="p">)</span>
+  <span class="n">exportShowList</span> <span class="o">=</span> <span class="o">%</span><span class="n">search</span>
+
+  <span class="o">%</span><span class="n">export</span> <span class="s">"""
+      jvm:public static just
+      {
+          "</span><span class="n">enclosingType</span><span class="s">": "</span><span class="kt">IdrisMaybe</span><span class="s">",
+          "</span><span class="n">arguments</span><span class="s">": [{"</span><span class="kr">type</span><span class="s">": "</span><span class="kt">Object</span><span class="s">"}],
+          "</span><span class="n">returnType</span><span class="s">": "</span><span class="kt">IdrisMaybe</span><span class="s">"
+      }
+      """</span>
+  <span class="n">exportJust</span> <span class="o">:</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">Maybe</span> <span class="n">a</span>
+  <span class="n">exportJust</span> <span class="o">=</span> <span class="kt">Just</span>
+
+  <span class="o">%</span><span class="n">export</span> <span class="s">"""
+      jvm:public static nothing
+      {
+          "</span><span class="n">enclosingType</span><span class="s">": "</span><span class="kt">IdrisMaybe</span><span class="s">",
+          "</span><span class="n">returnType</span><span class="s">": "</span><span class="kt">IdrisMaybe</span><span class="s">"
+      }
+      """</span>
+  <span class="n">exportNothing</span> <span class="o">:</span> <span class="kt">Maybe</span> <span class="n">a</span>
+  <span class="n">exportNothing</span> <span class="o">=</span> <span class="kt">Nothing</span>
+
+  <span class="o">%</span><span class="n">export</span> <span class="s">"""
+      jvm:public static show
+      {
+          "</span><span class="n">enclosingType</span><span class="s">": "</span><span class="kt">IdrisMaybe</span><span class="s">",
+          "</span><span class="n">arguments</span><span class="s">": [{"</span><span class="kr">type</span><span class="s">": "</span><span class="kt">Show</span><span class="s">"}],
+          "</span><span class="n">returnType</span><span class="s">": "</span><span class="kt">Show</span><span class="s">"
+      }
+      """</span>
+  <span class="n">exportShowMaybe</span> <span class="o">:</span> <span class="kt">Show</span> <span class="n">a</span> <span class="o">=&gt;</span> <span class="kt">Show</span> <span class="p">(</span><span class="kt">Maybe</span> <span class="n">a</span><span class="p">)</span>
+  <span class="n">exportShowMaybe</span> <span class="o">=</span> <span class="o">%</span><span class="n">search</span>
+
+  <span class="o">%</span><span class="n">export</span> <span class="s">"""
+      jvm:public static show
+      {
+          "</span><span class="n">enclosingType</span><span class="s">": "</span><span class="kt">Show</span><span class="s">",
+          "</span><span class="n">arguments</span><span class="s">": [{"</span><span class="kr">type</span><span class="s">": "</span><span class="kt">Show</span><span class="s">"}, {"</span><span class="kr">type</span><span class="s">": "</span><span class="kt">Object</span><span class="s">"}],
+          "</span><span class="n">returnType</span><span class="s">": "</span><span class="kt">String</span><span class="s">"
+      }
+      """</span>
+  <span class="n">exportShow</span> <span class="o">:</span> <span class="kt">Show</span> <span class="n">a</span> <span class="o">=&gt;</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">String</span>
+  <span class="n">exportShow</span> <span class="o">=</span> <span class="n">show</span>
+
+  <span class="o">%</span><span class="n">export</span> <span class="s">"""
+      jvm:public static replicate
+      {
+          "</span><span class="n">enclosingType</span><span class="s">": "</span><span class="kt">IdrisString</span><span class="s">",
+          "</span><span class="n">arguments</span><span class="s">": [{"</span><span class="kr">type</span><span class="s">": "</span><span class="kt">BigInteger</span><span class="s">"}, {"</span><span class="kr">type</span><span class="s">": "</span><span class="n">char</span><span class="s">"}],
+          "</span><span class="n">returnType</span><span class="s">": "</span><span class="kt">String</span><span class="s">"
+      }
+      """</span>
+  <span class="n">exportStringReplicate</span> <span class="o">:</span> <span class="kt">Nat</span> <span class="o">-&gt;</span> <span class="kt">Char</span> <span class="o">-&gt;</span> <span class="kt">String</span>
+  <span class="n">exportStringReplicate</span> <span class="o">=</span> <span class="kt">String</span><span class="o">.</span><span class="n">replicate</span>
+
+  <span class="n">main</span> <span class="o">:</span> <span class="kt">IO</span> <span class="nb">()</span>
+  <span class="n">main</span> <span class="o">=</span> <span class="n">pure</span> <span class="nb">()</span>
+</code></pre></div></div>
+
+<p>Java calling the Idris functions:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+    <span class="kn">package</span> <span class="nn">hello</span><span class="o">;</span>
+
+    <span class="kn">import</span> <span class="nn">helloworld.Color</span><span class="o">;</span>
+    <span class="kn">import</span> <span class="nn">idris.Int</span><span class="o">;</span>
+    <span class="kn">import</span> <span class="nn">idris.data.List</span><span class="o">;</span>
+    <span class="kn">import</span> <span class="nn">idris.data.Maybe</span><span class="o">;</span>
+    <span class="kn">import</span> <span class="nn">idris.prelude.Show</span><span class="o">;</span>
+
+    <span class="kn">import</span> <span class="nn">static</span> <span class="n">helloworld</span><span class="o">.</span><span class="na">Color</span><span class="o">.</span><span class="na">blue</span><span class="o">;</span>
+    <span class="kn">import</span> <span class="nn">static</span> <span class="n">helloworld</span><span class="o">.</span><span class="na">Color</span><span class="o">.</span><span class="na">green</span><span class="o">;</span>
+    <span class="kn">import</span> <span class="nn">static</span> <span class="n">helloworld</span><span class="o">.</span><span class="na">Color</span><span class="o">.</span><span class="na">red</span><span class="o">;</span>
+    <span class="kn">import</span> <span class="nn">static</span> <span class="n">idris</span><span class="o">.</span><span class="na">data</span><span class="o">.</span><span class="na">List</span><span class="o">.</span><span class="na">cons</span><span class="o">;</span>
+    <span class="kn">import</span> <span class="nn">static</span> <span class="n">idris</span><span class="o">.</span><span class="na">data</span><span class="o">.</span><span class="na">List</span><span class="o">.</span><span class="na">nil</span><span class="o">;</span>
+    <span class="kn">import</span> <span class="nn">static</span> <span class="n">idris</span><span class="o">.</span><span class="na">data</span><span class="o">.</span><span class="na">Maybe</span><span class="o">.</span><span class="na">just</span><span class="o">;</span>
+    <span class="kn">import</span> <span class="nn">static</span> <span class="n">idris</span><span class="o">.</span><span class="na">data</span><span class="o">.</span><span class="na">Maybe</span><span class="o">.</span><span class="na">nothing</span><span class="o">;</span>
+    <span class="kn">import</span> <span class="nn">static</span> <span class="n">idris</span><span class="o">.</span><span class="na">prelude</span><span class="o">.</span><span class="na">Show</span><span class="o">.</span><span class="na">show</span><span class="o">;</span>
+    <span class="kn">import</span> <span class="nn">static</span> <span class="n">java</span><span class="o">.</span><span class="na">math</span><span class="o">.</span><span class="na">BigInteger</span><span class="o">.</span><span class="na">TEN</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="kd">class</span> <span class="nc">Main</span> <span class="o">{</span>
+
+        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nc">List</span> <span class="n">idrisIntList</span> <span class="o">=</span> <span class="n">cons</span><span class="o">(</span><span class="mi">23</span><span class="o">,</span> <span class="n">cons</span><span class="o">(</span><span class="mi">45</span><span class="o">,</span> <span class="n">nil</span><span class="o">()));</span> <span class="c1">// Create an Idris list of integers</span>
+            <span class="nc">List</span> <span class="n">idrisStringList</span> <span class="o">=</span> <span class="n">cons</span><span class="o">(</span><span class="s">"foo"</span><span class="o">,</span> <span class="n">cons</span><span class="o">(</span><span class="s">"bar"</span><span class="o">,</span> <span class="n">nil</span><span class="o">()));</span>
+
+            <span class="c1">// Create an Idris list of Colors defined as data Color = Red | Green | Blue</span>
+            <span class="nc">List</span> <span class="n">idrisColorList</span> <span class="o">=</span> <span class="n">cons</span><span class="o">(</span><span class="n">red</span><span class="o">().</span><span class="na">toIdris</span><span class="o">(),</span> <span class="n">cons</span><span class="o">(</span><span class="n">blue</span><span class="o">().</span><span class="na">toIdris</span><span class="o">(),</span> <span class="n">nil</span><span class="o">()));</span>
+
+            <span class="c1">// Get Show instance for Idris List given a show Instance of Int</span>
+            <span class="nc">Show</span> <span class="n">intListShow</span> <span class="o">=</span> <span class="nc">List</span><span class="o">.</span><span class="na">show</span><span class="o">(</span><span class="nc">Int</span><span class="o">.</span><span class="na">show</span><span class="o">());</span>
+            <span class="nc">Show</span> <span class="n">stringListShow</span> <span class="o">=</span> <span class="nc">List</span><span class="o">.</span><span class="na">show</span><span class="o">(</span><span class="n">idris</span><span class="o">.</span><span class="na">String</span><span class="o">.</span><span class="na">show</span><span class="o">());</span>
+            <span class="nc">Show</span> <span class="n">colorShow</span> <span class="o">=</span> <span class="nc">Color</span><span class="o">.</span><span class="na">show</span><span class="o">();</span>
+            <span class="nc">Show</span> <span class="n">colorListShow</span> <span class="o">=</span> <span class="nc">List</span><span class="o">.</span><span class="na">show</span><span class="o">(</span><span class="n">colorShow</span><span class="o">);</span>
+            <span class="nc">Show</span> <span class="n">colorMaybeShow</span> <span class="o">=</span> <span class="nc">Maybe</span><span class="o">.</span><span class="na">show</span><span class="o">(</span><span class="n">colorShow</span><span class="o">);</span>
+
+            <span class="c1">// Use exported Idris Show instances to print Idris List for differnt element types</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">show</span><span class="o">(</span><span class="n">intListShow</span><span class="o">,</span> <span class="n">idrisIntList</span><span class="o">.</span><span class="na">toIdris</span><span class="o">()));</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">show</span><span class="o">(</span><span class="n">stringListShow</span><span class="o">,</span> <span class="n">idrisStringList</span><span class="o">.</span><span class="na">toIdris</span><span class="o">()));</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">show</span><span class="o">(</span><span class="n">colorListShow</span><span class="o">,</span> <span class="n">idrisColorList</span><span class="o">.</span><span class="na">toIdris</span><span class="o">()));</span>
+
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">show</span><span class="o">(</span><span class="n">colorShow</span><span class="o">,</span> <span class="n">green</span><span class="o">().</span><span class="na">toIdris</span><span class="o">()));</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="nc">Color</span><span class="o">.</span><span class="na">show</span><span class="o">(</span><span class="n">blue</span><span class="o">()));</span>
+
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">show</span><span class="o">(</span><span class="n">colorMaybeShow</span><span class="o">,</span> <span class="n">just</span><span class="o">(</span><span class="n">green</span><span class="o">().</span><span class="na">toIdris</span><span class="o">()).</span><span class="na">toIdris</span><span class="o">()));</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">show</span><span class="o">(</span><span class="n">colorMaybeShow</span><span class="o">,</span> <span class="n">nothing</span><span class="o">().</span><span class="na">toIdris</span><span class="o">()));</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">idris</span><span class="o">.</span><span class="na">String</span><span class="o">.</span><span class="na">replicate</span><span class="o">(</span><span class="no">TEN</span><span class="o">,</span> <span class="sc">'A'</span><span class="o">));</span>
+        <span class="o">}</span>
+
+    <span class="o">}</span>
+</code></pre></div></div>
+
+<p>Here is the output:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    [23, 45]
+    ["foo", "bar"]
+    [Red, Blue]
+    Green
+    Blue
+    Just Green
+    Nothing
+    AAAAAAAAAA
+
+</code></pre></div></div>
+
+<p>With all of these things, we can now write a complete Spring Boot application as well in Idris! <a href="https://github.com/mmhelloworld/idris-spring-boot-example/blob/main/src/main/idris/Mmhelloworld/IdrisSpringBootExample/Main.idr">Example here</a>.</p>
+
+<p><a href="https://idris-jvm.readthedocs.io/en/latest/ffi/calling-idris-from-java.html">Exporting</a> Idris functions and types along with <a href="https://idris-jvm.readthedocs.io/en/latest/ffi/calling-java-from-idris.html">foreign function interface</a> thus allows us to integrate Idris much easily into existing Java ecosystem.</p>
 
     
 

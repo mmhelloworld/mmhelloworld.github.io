@@ -859,6 +859,10 @@ button.disqus-load {
   margin-top: 1em;
 }
 
+#disqus_thread > iframe {
+  background: #313131;
+}
+
 /*
   Pagination
 
