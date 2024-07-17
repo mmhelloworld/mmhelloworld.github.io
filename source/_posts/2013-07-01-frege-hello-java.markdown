@@ -3,12 +3,48 @@ layout: post
 title: "Frege: Hello Java"
 date: 2013-07-10 11:00
 comments: true
-categories: [Frege, Java]
+tags: [Frege, Java]
 ---
 
 Here is a small code demonstrating Java interoperability in Frege:
 
-{% include_code Calling Java from Frege lang:haskell HelloJava.fr %}
+```haskell
+module hellojava.HelloJava where
+ 
+data LinkedList a = native java.util.LinkedList where
+    native add :: Mutable s (LinkedList a) -> a -> ST s Bool
+    native get :: Mutable s (LinkedList a) -> Int -> ST s (Maybe a) throws
+        IndexOutOfBoundsException
+    native new :: () -> STMutable s (LinkedList a)
+    
+    fromFregeList :: [a] -> STMutable s (LinkedList a)
+    fromFregeList xs = LinkedList.new () >>= loop xs where
+        loop (x:xs) jlist = LinkedList.add jlist x >> loop xs jlist
+        loop [] jlist = return jlist
+        
+plusTop :: Mutable s (LinkedList Int) -> ST s (Maybe Int)
+plusTop xs = do
+    a <- xs.get 0
+    b <- xs.get 1
+    return ((+) <$> a <*> b)
+ 
+data IndexOutOfBoundsException = native java.lang.IndexOutOfBoundsException
+derive Exceptional IndexOutOfBoundsException
+
+data Exception = native java.lang.Exception
+derive Exceptional Exception
+ 
+data NullPointerException = native java.lang.NullPointerException
+derive Exceptional NullPointerException
+ 
+pure native showThrowable toString :: Throwable -> String
+ 
+main _ = do
+    javaList <- LinkedList.fromFregeList [1, 2, 3]
+    try (\xs -> plusTop xs >>= (println . maybe "Got a null pointer" show)) javaList 
+        `catch` (\(npe :: NullPointerException) -> println $ showThrowable npe)
+        `catch` (\(exception :: Exception) -> println $ showThrowable exception)
+```
 
 We can observe the following things from the above code:
 
@@ -17,16 +53,16 @@ We can observe the following things from the above code:
 3. Using Java Exceptions in functions
 4. Handling Java exceptions
 
-###1. Making use of a Java class and its methods:
+### 1. Making use of a Java class and its methods:
 
 If a Java class is pure then without much effort, we can use that class in Frege. For example,
 
-{% codeblock lang:haskell %}
+```haskell
 data Integer = native java.math.BigInteger where
     pure  native abs                                  :: Integer -> Integer
     pure  native negate                               :: Integer -> Integer
     pure  native valueOf java.math.BigInteger.valueOf :: Long -> Integer
-{% endcodeblock %}
+```
 
 A Java class is declared with `data` declaration in Frege. The identifier after the `data` keyword
 is the corresponding type for the Java class in Frege and the qualified Java class is identified after the `native`
@@ -57,15 +93,15 @@ Here is an example for a native function not being part of a native
 declared in Frege in some module but the function that we are looking
 for is missing in the `data` declaration.
 
-{% codeblock lang:haskell %}
+```haskell
 pure native showThrowable toString :: Throwable -> String
-{% endcodeblock %}
+```
 
 Here `showThrowable` is the Frege function name for `Throwable.toString()`. Since it is an
 instance method on `Throwable`, the first argument is of type
 `Throwable` and then the formal arguments' types (in this case, none) and return type.
 
-###2. Using a Java object in a Frege function
+### 2. Using a Java object in a Frege function
 
 A native `data` declaration doesn't have to just contain the native members, it can also have
 additional Frege functions. 
@@ -78,27 +114,27 @@ In the same way, the `plusTop` function takes a mutable Java object so the param
 `Mutable s (LinkedList Int)`. Also since it consumes a mutable type, it must be in `ST` monad hence 
 the return type is `ST s (Maybe Int)` returning an `Maybe Int` in `ST`.
 
-###3. Using Java Exceptions in functions
+### 3. Using Java Exceptions in functions
 
 To use a Java Exception class, it must be first defined in a Frege
 module. It is the same as declaring native declaration for a Java class but 
 additionally we need to derive the `Exceptional` type class so that the exception can later be handled with
 `catch`.
 
-{% codeblock lang:haskell %}
+```haskell
 data IndexOutOfBoundsException = native java.lang.IndexOutOfBoundsException
 
 derive Exceptional IndexOutOfBoundsException
-{% endcodeblock %}
+```
 
 The exceptions can then be used in native declarations as in `get` function in our example:
 
-{% codeblock lang:haskell %}
+```haskell
 native get :: Mutable s (LinkedList a) -> Int -> ST s (Maybe a) throws
     IndexOutOfBoundsException
-{% endcodeblock %}
+```
 
-###4. Handling Java exceptions
+### 4. Handling Java exceptions
 
 In two ways, we can handle exceptions:
 
@@ -140,11 +176,11 @@ In two ways, we can handle exceptions:
     `java.util.LinkedList` might throw a `NullPointerException` or
     `IndexOutOfBoundsException`:
     
-    {% codeblock Using try lang:haskell %}
+    ```haskell
     try (\xs -> plusTop xs >>= (println . maybe "Got a null pointer" show)) javaList
         catch` (\(npe :: NullPointerException) -> println $ showThrowable npe)
         catch` (\(exception :: Exception) -> println $ showThrowable exception)
-    {% endcodeblock %}
+    ```
 
 Since the construction of action is deferred through a lambda
 here, `try` eliminates the issue with `catch` mentioned in the above note.

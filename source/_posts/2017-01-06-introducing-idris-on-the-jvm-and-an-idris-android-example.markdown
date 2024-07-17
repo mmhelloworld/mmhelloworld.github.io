@@ -3,7 +3,7 @@ layout: post
 title: "Introducing Idris on the JVM and an Idris Android example"
 date: 2017-01-06 22:51
 comments: true
-categories: [Idris, JVM, Java, Android]
+tags: [Idris, JVM, Java, Android]
 ---
 [Idris on the JVM!](https://github.com/mmhelloworld/idris-jvm) Yes, a dependently typed language on the JVM!
 I have been working on a [JVM bytecode backend for Idris](https://github.com/mmhelloworld/idris-jvm) for the past few months and
@@ -12,7 +12,7 @@ In this post, we will see how Idris works on the JVM and an example Android prog
 
 ## Hello World
 
-```haskell hellworld.idr
+```haskell
 module Main
 
 main : IO ()
@@ -68,7 +68,7 @@ Let's look at the following examples.
 
 ##### self-recursion example
 
-```haskell selfrecursion.idr
+```haskell
 module Main
 
 import IdrisJvm.IO
@@ -166,7 +166,7 @@ actually calling the function.
 
 ##### Mutual recursion example:
 
-```haskell mutualrecursion.idr
+```haskell
 module Main
 
 mutual
@@ -187,7 +187,7 @@ The above code also would work fine without killing the stack. Mutual recursion 
 the tail calls are delayed and compiled down to Java 8 lambdas. As the bytecode for this is bit long, here is the
 decompiled bytecode for the `evenT` function:
 
-```java Decompiled bytecode for evenT
+```java
     public static Object evenT(Object var0) {
         Object var4 = null;
         Integer var1 = null;
@@ -215,7 +215,7 @@ wrapping the function call is returned using lambda (which is compiled down to J
 
 Here is the relevant bit from bytecode for those who are interested:
 
-```java bytecode for evenT
+```
         68: getstatic     #64                 // Field java/math/BigInteger.ONE:Ljava/math/BigInteger;
         71: astore_1
         72: aload_0
@@ -248,7 +248,7 @@ To demonstrate these features, let's create an Android application In Idris.
 
 ### An Android application in Idris
 
-```haskell idrisandroid.idr
+```haskell
 module Main
 
 import IdrisJvm.IO
@@ -367,6 +367,6 @@ android project's `app/libs` directory.
 1. Change the activity class name in android manifest file to the Idris exported class name `hello.IdrisAndroidActivity`.
 1. Then run `./gradlew installDebug` from android project after starting an emulator or connected to an android device.
 1. Finally we should see our Idris code running on Android! It should look something like this:
-{% img center /images/idris-android.png %}
+![Idris Android](/images/idris-android.png)
 
 Happy coding!

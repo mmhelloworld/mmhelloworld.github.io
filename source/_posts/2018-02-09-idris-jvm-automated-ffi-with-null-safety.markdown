@@ -3,7 +3,7 @@ layout: post
 title: "Idris JVM: Automated FFI with null safety and exception handling"
 date: 2018-02-11 00:03
 comments: true
-categories: [Idris, JVM, Java]
+tags: [Idris, JVM, Java]
 ---
 ## Background
 Idris JVM backend has supported foreign function calls for some time now. For example, to invoke `parseInt` method on 

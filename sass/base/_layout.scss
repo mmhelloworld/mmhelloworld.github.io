@@ -117,7 +117,7 @@ body.sidebar-footer {
   @media only screen and (min-width: 750px) {
     aside.sidebar{ @include collapse-sidebar; }
   }
-  #content { margin-right: 0px; }
+  #content { margin-right: 0; }
   .toggle-sidebar { display: none; }
 }
 

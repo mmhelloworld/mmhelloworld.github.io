@@ -1,0 +1,11 @@
+<!-- Optional additional links to insert in sidebar nav -->
+<section>
+    <h3>Recent Posts</h3>
+    <ul id="recent_posts">
+        {% for post in site.posts limit: site.recent_posts %}
+        <li class="post">
+            <a style="font-size: 0.65rem" href="{{ root_url }}{{ post.url }}">{% if site.titlecase %}{{ post.title | titlecase }}{% else %}{{ post.title }}{% endif %}</a>
+        </li>
+        {% endfor %}
+    </ul>
+</section>

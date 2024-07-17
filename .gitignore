@@ -15,3 +15,5 @@ Gemfile.lock
 *~
 *.iml
 .idea
+_deploy.yml
+.code-highlighter-cache
