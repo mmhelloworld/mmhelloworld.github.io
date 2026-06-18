@@ -1,0 +1,15 @@
+---
+import FormattedDate from './FormattedDate.astro';
+import { tagPath } from '../utils/tags';
+
+interface Props {
+  date: Date;
+  tags?: string[];
+}
+const { date, tags = [] } = Astro.props;
+---
+<p class="post-meta">
+  <FormattedDate date={date} />
+  {tags.length > 0 && <span> &middot; </span>}
+  {tags.map((tag) => <a class="tag-pill" href={tagPath(tag)}>{tag}</a>)}
+</p>

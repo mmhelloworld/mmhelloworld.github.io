@@ -1,0 +1,15 @@
+---
+interface Props {
+  date: Date;
+}
+const { date } = Astro.props;
+// Format in UTC to match the URL day exactly.
+const formatted = date.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+  timeZone: 'UTC',
+});
+const iso = date.toISOString().slice(0, 10);
+---
+<time datetime={iso}>{formatted}</time>

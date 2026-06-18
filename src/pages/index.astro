@@ -1,0 +1,13 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PostListItem from '../components/PostListItem.astro';
+import { getSortedPosts } from '../utils/posts';
+
+const posts = await getSortedPosts();
+---
+<BaseLayout>
+  <h1>Posts</h1>
+  <ul class="post-list">
+    {posts.map((post) => <PostListItem post={post} />)}
+  </ul>
+</BaseLayout>

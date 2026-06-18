@@ -1,0 +1,184 @@
+:root {
+  --max-width: 44rem;
+  --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
+    Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
+  --font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas,
+    'Liberation Mono', monospace;
+
+  --bg: #ffffff;
+  --fg: #1a1a1a;
+  --muted: #5c5c5c;
+  --accent: #1565c0;
+  --border: #e4e4e7;
+  --code-bg: #f6f8fa;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0d1117;
+    --fg: #e6edf3;
+    --muted: #9da7b1;
+    --accent: #6cb6ff;
+    --border: #21262d;
+    --code-bg: #161b22;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: var(--font-body);
+  line-height: 1.65;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+}
+
+main {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 1.5rem 1.25rem 4rem;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  line-height: 1.25;
+  margin-top: 2rem;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Inline code */
+code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  background: var(--code-bg);
+  padding: 0.15em 0.35em;
+  border-radius: 4px;
+}
+
+/* Shiki code blocks */
+pre {
+  padding: 1rem;
+  border-radius: 8px;
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+pre code {
+  background: none;
+  padding: 0;
+  font-size: inherit;
+}
+
+/* Light/dark Shiki theme swap */
+@media (prefers-color-scheme: dark) {
+  .astro-code,
+  .astro-code span {
+    color: var(--shiki-dark) !important;
+    background-color: var(--shiki-dark-bg) !important;
+  }
+}
+
+blockquote {
+  margin-left: 0;
+  padding-left: 1rem;
+  border-left: 4px solid var(--border);
+  color: var(--muted);
+}
+
+hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 2.5rem 0;
+}
+
+/* Site header / footer */
+.site-header {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 1.5rem 1.25rem 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem 1.25rem;
+}
+.site-header .brand {
+  font-weight: 700;
+  font-size: 1.35rem;
+  color: var(--fg);
+}
+.site-header .tagline {
+  color: var(--muted);
+  font-size: 0.95rem;
+  margin-right: auto;
+}
+.site-nav {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.95rem;
+}
+
+.site-footer {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 2rem 1.25rem 3rem;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+/* Post list */
+.post-list {
+  list-style: none;
+  padding: 0;
+}
+.post-list li {
+  margin-bottom: 1.75rem;
+}
+.post-list .post-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+.post-meta {
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+.post-meta a {
+  color: var(--muted);
+}
+
+.tag-pill {
+  display: inline-block;
+  font-size: 0.8rem;
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.1rem 0.6rem;
+  margin: 0 0.25rem 0.25rem 0;
+  color: var(--muted);
+}
+
+.giscus {
+  margin-top: 3rem;
+}

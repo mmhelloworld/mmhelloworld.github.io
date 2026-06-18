@@ -1,0 +1,37 @@
+---
+import type { GetStaticPaths } from 'astro';
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostListItem from '../../components/PostListItem.astro';
+import { getSortedPosts } from '../../utils/posts';
+import { tagSlug } from '../../utils/tags';
+
+export const getStaticPaths = (async () => {
+  const posts = await getSortedPosts();
+  const byTag = new Map<string, { display: string; posts: CollectionEntry<'blog'>[] }>();
+  for (const post of posts) {
+    for (const tag of post.data.tags) {
+      const slug = tagSlug(tag);
+      if (!byTag.has(slug)) byTag.set(slug, { display: tag, posts: [] });
+      byTag.get(slug)!.posts.push(post);
+    }
+  }
+  return [...byTag.entries()].map(([slug, { display, posts }]) => ({
+    params: { tag: slug },
+    props: { display, posts },
+  }));
+}) satisfies GetStaticPaths;
+
+interface Props {
+  display: string;
+  posts: CollectionEntry<'blog'>[];
+}
+const { display, posts } = Astro.props;
+---
+<BaseLayout title={`Posts tagged "${display}"`}>
+  <h1>Posts tagged &ldquo;{display}&rdquo;</h1>
+  <ul class="post-list">
+    {posts.map((post) => <PostListItem post={post} />)}
+  </ul>
+  <p class="post-meta"><a href="/tags/">&larr; All tags</a></p>
+</BaseLayout>

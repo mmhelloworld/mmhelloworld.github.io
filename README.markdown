@@ -1,45 +1,54 @@
-## Octopress 3.0
+# mmhelloworld.github.io
 
-Note: Octopress 3.0 is in development at https://github.com/octopress/octopress
+The source for [mmhelloworld.github.io](https://mmhelloworld.github.io) — *The Joy of Programming!*
 
-## What is Octopress?
+Built with [Astro](https://astro.build) and deployed to GitHub Pages via GitHub Actions.
+(Migrated from Octopress/Jekyll; all original post URLs are preserved.)
 
-Octopress is [Jekyll](https://github.com/mojombo/jekyll) blogging at its finest.
+## Develop
 
-1. **Octopress sports a clean responsive theme** written in semantic HTML5, focused on readability and friendliness toward mobile devices.
-2. **Code blogging is easy and beautiful.** Embed code (with [Solarized](http://ethanschoonover.com/solarized) styling) in your posts from gists, jsFiddle or from your filesystem.
-3. **Third party integration is simple** with built-in support for Pinboard, Delicious, GitHub Repositories, Disqus Comments and Google Analytics.
-4. **It's easy to use.** A collection of rake tasks simplifies development and makes deploying a cinch.
-5. **Ships with great plug-ins** some original and others from the Jekyll community &mdash; tested and improved.
+```bash
+npm install
+npm run dev        # local dev server at http://localhost:4321
+npm run build      # production build into dist/
+npm run preview    # preview the production build
+npm run astro check # type-check
+```
 
-**Note**: Octopress requires a minimum Ruby version of `1.9.3-p0`.
+## Structure
 
-## Documentation
+- `src/content/blog/` — posts in Markdown. Front matter: `title`, `date` (bare `YYYY-MM-DD`), `tags`.
+- `src/pages/blog/[...slug].astro` — generates the canonical `/blog/YYYY/MM/DD/title/` URLs from
+  each post's `date` + filename. A build-time assertion fails the build if any existing URL would
+  change.
+- `src/pages/atom.xml.js` — RSS feed at `/atom.xml`.
+- `src/layouts/`, `src/components/`, `src/styles/global.css` — site chrome and styling.
+- `public/` — static assets served at the site root (`/images`, `/downloads`, `favicon.png`).
+- `.github/workflows/deploy.yml` — builds and publishes to GitHub Pages on push to `master`.
 
-Check out [Octopress.org](http://octopress.org/docs) for guides and documentation.
-It should all apply to our current stable version (found in the `master`
-branch). If this is not the case, [please submit a
-fix to our docs repo](https://github.com/octopress/docs).
+## Adding a post
 
-## Contributing
+Create `src/content/blog/my-post-title.md`:
 
-[![Build Status](https://travis-ci.org/imathis/octopress.svg?branch=master)](https://travis-ci.org/imathis/octopress)
+```markdown
+---
+title: "My Post Title"
+date: 2026-01-15
+tags: [Idris, JVM]
+---
 
-We love to see people contributing to Octopress, whether it's a bug report, feature suggestion or a pull request. At the moment, we try to keep the core slick and lean, focusing on basic blogging needs, so some of your suggestions might not find their way into Octopress. For those ideas, we started a [list of 3rd party plug-ins](https://github.com/imathis/octopress/wiki/3rd-party-plugins), where you can link your own Octopress plug-in repositories. For the future, we're thinking about ways to easier add them into our main releases.
+Post body in Markdown…
+```
 
+The URL becomes `/blog/2026/01/15/my-post-title/`. After adding a post, add its URL to
+`CANONICAL_PATHS` in `src/pages/blog/[...slug].astro` (the assertion enforces the full set).
 
-## License
-(The MIT License)
+## Comments
 
-Copyright © 2009-2013 Brandon Mathis
+Comments use [giscus](https://giscus.app). Set the real `repoId`/`categoryId` in `src/consts.ts`
+(comments are hidden until configured).
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the ‘Software’), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+## Deployment
 
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED ‘AS IS’, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-
-#### If you want to be awesome.
-- Proudly display the 'Powered by Octopress' credit in the footer.
-- [Add your site to the Wiki](https://github.com/imathis/octopress/wiki/Octopress-Sites/_edit) so we can watch the community grow.
+On push to `master`, GitHub Actions builds the site and deploys it to GitHub Pages.
+Repo **Settings → Pages → Source** must be set to **GitHub Actions**.

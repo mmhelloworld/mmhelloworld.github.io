@@ -1,0 +1,14 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import PostMeta from './PostMeta.astro';
+import { entryPath } from '../utils/permalink';
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+const { post } = Astro.props;
+---
+<li>
+  <a class="post-title" href={entryPath(post)}>{post.data.title}</a>
+  <PostMeta date={post.data.date} tags={post.data.tags} />
+</li>
