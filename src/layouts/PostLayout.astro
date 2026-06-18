@@ -1,22 +1,57 @@
 ---
-import type { CollectionEntry } from 'astro:content';
 import BaseLayout from './BaseLayout.astro';
-import PostMeta from '../components/PostMeta.astro';
-import Giscus from '../components/Giscus.astro';
+import TableOfContents from '../components/TableOfContents.astro';
+import Comment from '../components/Comment.astro';
+interface MarkdownHeading {
+  depth: number;
+  slug: string;
+  text: string;
+}
 
 interface Props {
-  post: CollectionEntry<'blog'>;
+  title: string;
+  description?: string;
+  headings: MarkdownHeading[];
+  cover?: string;
 }
-const { post } = Astro.props;
-const { title, date, tags } = post.data;
+
+const {title, description, headings, cover} = Astro.props;
 ---
-<BaseLayout title={title} description={title}>
-  <article>
-    <h1>{title}</h1>
-    <PostMeta date={date} tags={tags} />
-    <div class="post-content">
-      <slot />
+
+<BaseLayout title={title} description={description} ogType="article" ogImage={cover}>
+  {
+    cover && (
+      <div class="relative w-full h-64 sm:h-80 lg:h-96 overflow-hidden -mt-16 mb-8">
+        <img
+          src={cover}
+          alt={title}
+          class="w-full h-full object-cover"
+          loading="eager"
+        />
+        <div class="absolute inset-0 bg-gradient-to-t from-white dark:from-[#121212] via-white/40 dark:via-[#121212]/40 to-transparent"></div>
+      </div>
+    )
+  }
+  <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-col lg:flex-row gap-8 py-8">
+      {
+        headings && headings.length > 0 && (
+          <aside class="w-full lg:w-56 shrink-0 order-1">
+            <div class="sticky top-24">
+              <TableOfContents headings={headings}/>
+            </div>
+          </aside>
+        )
+      }
+      <div class="flex-1 min-w-0 order-2">
+        <article class="prose max-w-none">
+          <slot/>
+        </article>
+        <div class="mt-10 pt-8 border-t border-gray-100 dark:border-gray-800">
+          <Comment />
+        </div>
+      </div>
+      <div class="hidden lg:block w-56 shrink-0 order-3"></div>
     </div>
-  </article>
-  <Giscus />
+  </div>
 </BaseLayout>

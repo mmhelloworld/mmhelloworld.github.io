@@ -1,7 +1,8 @@
 {
   "name": "mmhelloworld.github.io",
+  "version": "1.0.0",
+  "description": "mmhelloworld blog — The Joy of Programming! (Astro + Sify theme)",
   "type": "module",
-  "version": "0.0.1",
   "private": true,
   "scripts": {
     "dev": "astro dev",
@@ -9,13 +10,21 @@
     "preview": "astro preview",
     "astro": "astro"
   },
+  "license": "MIT",
   "dependencies": {
-    "@astrojs/rss": "^4.0.11",
+    "@astrojs/mdx": "^6.0.0",
+    "@astrojs/rss": "^4.0.7",
     "@astrojs/sitemap": "^3.2.1",
-    "astro": "^5.7.0"
+    "@tailwindcss/postcss": "^4.3.0",
+    "@tailwindcss/vite": "^4.3.0",
+    "astro": "^6.4.0",
+    "rehype-katex": "^7.0.1",
+    "remark-math": "^6.0.0",
+    "tailwindcss": "^4.0.0"
   },
   "devDependencies": {
-    "@astrojs/check": "^0.9.9",
-    "typescript": "^5.9.3"
+    "@tailwindcss/typography": "^0.5.16",
+    "katex": "^0.17.0",
+    "typescript": "^5.5.0"
   }
 }

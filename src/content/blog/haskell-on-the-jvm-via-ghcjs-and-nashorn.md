@@ -1,5 +1,6 @@
 ---
 title: "Haskell on the JVM via GHCJS and Nashorn"
+description: "Currently there are 2 ways we can write Haskell on the JVM:"
 date: 2016-02-27
 tags: [Haskell, JVM, Nashorn, GHCJS]
 ---

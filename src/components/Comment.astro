@@ -1,14 +1,19 @@
 ---
 import { GISCUS } from '../consts';
 
-// Render comments only when giscus has been configured with real IDs.
+interface Props {
+  class?: string;
+}
+const { class: className } = Astro.props;
+
+// Render comments only once giscus has real IDs configured (see src/consts.ts).
 const configured =
   GISCUS.repoId !== 'REPLACE_FROM_GISCUS_APP' &&
   GISCUS.categoryId !== 'REPLACE_FROM_GISCUS_APP';
 ---
 {
   configured && (
-    <section class="giscus" aria-label="Comments">
+    <section class:list={['giscus not-prose', className]} aria-label="Comments">
       <script
         is:inline
         src="https://giscus.app/client.js"

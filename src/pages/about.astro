@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE_AUTHOR } from '../consts';
+---
+
+<BaseLayout title="About">
+  <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-8">
+    <article class="prose max-w-none">
+      <h1>About</h1>
+      <p>
+        Hi, I'm {SITE_AUTHOR}. This is my personal blog, where I write about
+        programming languages and the JVM &mdash; with a particular focus on
+        Idris, Frege, and Haskell.
+      </p>
+      <p>
+        Much of my work centers on running functional languages on the JVM,
+        including the Idris JVM backend, which compiles Idris to JVM bytecode.
+        Here I share notes, experiments, and write-ups from those projects, plus
+        whatever else I happen to be exploring along the way.
+      </p>
+      <h2>Contact</h2>
+      <p>You can find me and my projects on GitHub:</p>
+      <ul>
+        <li><a href="https://github.com/mmhelloworld">GitHub</a></li>
+      </ul>
+    </article>
+  </div>
+</BaseLayout>

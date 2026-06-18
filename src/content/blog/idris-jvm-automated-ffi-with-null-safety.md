@@ -1,5 +1,6 @@
 ---
 title: "Idris JVM: Automated FFI with null safety and exception handling"
+description: "Idris JVM backend has supported foreign function calls for some time now. For example, to invoke parseInt method on java.lang.Integer class,"
 date: 2018-02-11
 tags: [Idris, JVM, Java]
 ---

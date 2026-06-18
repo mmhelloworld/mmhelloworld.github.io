@@ -1,16 +1,21 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 
-const blog = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './src/content/blog' }),
+const blogCollection = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/blog' }),
   schema: z.object({
     title: z.string(),
-    // Bare YYYY-MM-DD in front matter -> parsed as UTC midnight by z.coerce.date().
-    // The post URL day is derived with getUTC* accessors (see src/utils/permalink.ts),
-    // so it is stable regardless of the build machine's timezone.
-    date: z.coerce.date(),
+    description: z.string().optional(),
+    date: z.coerce.date().default(() => new Date()),
+    updated: z.coerce.date().optional(),
     tags: z.array(z.string()).default([]),
+    category: z.string().optional(),
+    cover: z.string().optional(),
+    pinned: z.boolean().default(false),
+    draft: z.boolean().default(false),
   }),
 });
 
-export const collections = { blog };
+export const collections = {
+  blog: blogCollection,
+};

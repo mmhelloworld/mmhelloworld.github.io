@@ -1,0 +1,43 @@
+---
+import { getCollection } from 'astro:content';
+import BlogLayout from '../../layouts/BlogLayout.astro';
+import PostList from '../../components/PostList.astro';
+import Pagination from '../../components/Pagination.astro';
+import { PAGE_SIZE } from '../../consts';
+import { resolveCover } from '../_imageStore';
+
+export async function getStaticPaths() {
+  const allPosts = await getCollection('blog');
+  const totalPages = Math.ceil(allPosts.length / PAGE_SIZE);
+  const pages = Array.from({ length: totalPages - 1 }, (_, i) => i + 2);
+  return pages.map((page) => ({
+    params: { page: String(page) },
+  }));
+}
+
+const { page: pageParam } = Astro.params;
+const currentPage = Number(pageParam);
+
+const allPosts = await getCollection('blog');
+const sorted = allPosts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+const totalPages = Math.ceil(sorted.length / PAGE_SIZE);
+const start = (currentPage - 1) * PAGE_SIZE;
+const paginatedPosts = sorted.slice(start, start + PAGE_SIZE);
+
+const postData = paginatedPosts.map((p) => ({
+  ...p,
+  slug: p.id,
+  data: {
+    ...p.data,
+    cover: resolveCover('blog', p.id, p.data.cover),
+  },
+}));
+---
+
+<BlogLayout title={`Page ${currentPage}`}>
+  <h1 class="text-2xl font-bold mb-6 text-gray-900 dark:text-gray-100">
+    Page {currentPage}
+  </h1>
+  <PostList posts={postData} />
+  <Pagination currentPage={currentPage} totalPages={totalPages} baseUrl="/" />
+</BlogLayout>

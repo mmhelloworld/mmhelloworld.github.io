@@ -1,0 +1,93 @@
+---
+import PostCard from './PostCard.astro';
+
+interface Post {
+  id: string;
+  slug: string;
+  body: string;
+  data: {
+    title: string;
+    description?: string;
+    date: Date;
+    tags?: string[];
+    category?: string;
+    cover?: string;
+    pinned?: boolean;
+    draft?: boolean;
+  };
+}
+
+interface Props {
+  posts: Post[];
+  showPinned?: boolean;
+  routePrefix?: string;
+}
+
+const { posts, showPinned = false, routePrefix = '/post/' } = Astro.props;
+
+const pinnedPosts = posts.filter((p) => p.data.pinned);
+const normalPosts = posts.filter((p) => !p.data.pinned);
+---
+
+{
+  showPinned && pinnedPosts.length > 0 && (
+    <section class="mb-10">
+      <h2 class="text-xl font-bold mb-6 flex items-center gap-2">
+        <span class="w-1 h-6 bg-primary rounded-full inline-block"></span>
+        Pinned Posts
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {pinnedPosts.map((post) => (
+          <PostCard
+            title={post.data.title}
+            description={post.data.description}
+            date={post.data.date}
+            slug={post.slug}
+            tags={post.data.tags}
+            category={post.data.category}
+            cover={post.data.cover}
+            body={post.body}
+            pinned={true}
+            draft={post.data.draft}
+            routePrefix={routePrefix}
+          />
+        ))}
+      </div>
+    </section>
+  )
+}
+
+{
+  normalPosts.length > 0 && (
+    <section>
+      {!showPinned && pinnedPosts.length === 0 && (
+        <h2 class="text-xl font-bold mb-6 flex items-center gap-2">
+          <span class="w-1 h-6 bg-primary rounded-full inline-block"></span>
+          All Posts
+        </h2>
+      )}
+      {showPinned && normalPosts.length > 0 && (
+        <h2 class="text-xl font-bold mb-6 flex items-center gap-2">
+          <span class="w-1 h-6 bg-primary rounded-full inline-block"></span>
+          All Posts
+        </h2>
+      )}
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {normalPosts.map((post) => (
+          <PostCard
+            title={post.data.title}
+            description={post.data.description}
+            date={post.data.date}
+            slug={post.slug}
+            tags={post.data.tags}
+            category={post.data.category}
+            cover={post.data.cover}
+            body={post.body}
+            draft={post.data.draft}
+            routePrefix={routePrefix}
+          />
+        ))}
+      </div>
+    </section>
+  )
+}

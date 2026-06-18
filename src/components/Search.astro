@@ -1,0 +1,170 @@
+<div id="search-modal" class="fixed inset-0 z-[100] hidden" aria-hidden="true">
+  <div id="search-backdrop" class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
+  <div class="absolute top-[15%] left-1/2 -translate-x-1/2 w-full max-w-xl">
+    <div class="bg-white dark:bg-[var(--color-card-dark)] rounded-2xl shadow-2xl overflow-hidden mx-4">
+      <div class="flex items-center gap-3 px-4 py-3 border-b border-gray-100 dark:border-gray-700">
+        <svg class="w-5 h-5 text-gray-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+        </svg>
+        <input
+          id="search-input"
+          type="text"
+          placeholder="Search posts..."
+          class="flex-1 bg-transparent border-none outline-none text-sm text-gray-900 dark:text-gray-100 placeholder:text-gray-400"
+          autocomplete="off"
+        />
+        <button id="search-close" class="p-1 rounded-lg text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors" aria-label="Close search">
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      <div id="search-results" class="max-h-80 overflow-y-auto p-2">
+        <div class="px-3 py-8 text-center text-sm text-gray-400">Type a keyword to search posts</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  let index: any[] | null = null;
+
+  async function loadIndex() {
+    if (index) return;
+    try {
+      const res = await fetch('/search-index.json');
+      index = await res.json();
+      const input = document.getElementById('search-input') as HTMLInputElement;
+      if (input?.value) search(input.value);
+    } catch {
+      index = [];
+    }
+  }
+
+  function openSearch() {
+    const modal = document.getElementById('search-modal');
+    if (!modal) return;
+    modal.classList.remove('hidden');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => {
+      document.getElementById('search-input')?.focus();
+    }, 100);
+    loadIndex();
+  }
+
+  function closeSearch() {
+    const modal = document.getElementById('search-modal');
+    if (!modal) return;
+    modal.classList.add('hidden');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    const input = document.getElementById('search-input') as HTMLInputElement;
+    if (input) input.value = '';
+    const results = document.getElementById('search-results');
+    if (results) results.innerHTML = '<div class="px-3 py-8 text-center text-sm text-gray-400">Type a keyword to search posts</div>';
+  }
+
+  function search(query: string) {
+    const results = document.getElementById('search-results');
+    if (!results) return;
+
+    if (!index) {
+      results.innerHTML = '<div class="px-3 py-8 text-center text-sm text-gray-400">Loading...</div>';
+      return;
+    }
+
+    if (!query.trim()) {
+      results.innerHTML = '<div class="px-3 py-8 text-center text-sm text-gray-400">Type a keyword to search posts</div>';
+      return;
+    }
+
+    const q = query.toLowerCase().trim();
+    const terms = q.split(/\s+/);
+
+    const filtered = index.filter((item: any) => {
+      const haystack = [item.title, item.description, item.category, item.body, ...(item.tags || [])].join(' ').toLowerCase();
+      return terms.every((term) => haystack.includes(term));
+    }).slice(0, 20);
+
+    if (filtered.length === 0) {
+      results.innerHTML = '<div class="px-3 py-8 text-center text-sm text-gray-400">No results found</div>';
+      return;
+    }
+
+    const highlightRe = new RegExp(`(${terms.map(t => escapeRegex(t)).join('|')})`, 'gi');
+
+    results.innerHTML = filtered.map((item: any) => {
+      const snippet = buildSnippet(item, terms);
+      return `
+      <a href="/post/${item.slug}" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors group">
+        <div class="flex-1 min-w-0">
+          <div class="text-sm font-medium text-gray-900 dark:text-gray-100 group-hover:text-primary transition-colors line-clamp-1">${highlight(item.title, highlightRe)}</div>
+          ${snippet ? `<div class="text-xs text-gray-400 dark:text-gray-500 mt-0.5 line-clamp-2">${highlight(snippet, highlightRe)}</div>` : ''}
+          <div class="flex items-center gap-2 mt-0.5">
+            ${item.category ? `<span class="text-xs text-primary/70">${escapeHtml(item.category)}</span>` : ''}
+            ${item.category ? '<span class="w-px h-2.5 bg-gray-300 dark:bg-gray-600"></span>' : ''}
+            <span class="text-xs text-gray-400 dark:text-gray-500">Post</span>
+          </div>
+        </div>
+        <svg class="w-4 h-4 text-gray-300 dark:text-gray-600 shrink-0 mt-1 group-hover:text-primary transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+        </svg>
+      </a>
+    `}).join('');
+  }
+
+  function buildSnippet(item: any, terms: string[]) {
+    const text = (item.body || item.description || '');
+    if (!text) return '';
+    const lower = text.toLowerCase();
+    for (const term of terms) {
+      const idx = lower.indexOf(term);
+      if (idx !== -1) {
+        const start = Math.max(0, idx - 20);
+        const end = Math.min(text.length, idx + term.length + 40);
+        const snippet = text.slice(start, end);
+        return (start > 0 ? '...' : '') + snippet + (end < text.length ? '...' : '');
+      }
+    }
+    return '';
+  }
+
+  function highlight(text: string, re: RegExp) {
+    return escapeHtml(text).replace(re, '<mark class="bg-primary/20 text-primary rounded-sm px-0.5">$1</mark>');
+  }
+
+  function escapeRegex(str: string) {
+    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+
+  function escapeHtml(text: string) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
+  function onInput(e: Event) {
+    search((e.target as HTMLInputElement).value);
+  }
+
+  function setup() {
+    const input = document.getElementById('search-input') as HTMLInputElement;
+    if (input) {
+      input.removeEventListener('input', onInput);
+      input.addEventListener('input', onInput);
+    }
+
+    const trigger = document.getElementById('search-trigger');
+    if (trigger) {
+      trigger.removeEventListener('click', openSearch);
+      trigger.addEventListener('click', openSearch);
+    }
+
+    document.getElementById('search-close')?.addEventListener('click', closeSearch);
+    document.getElementById('search-backdrop')?.addEventListener('click', closeSearch);
+  }
+
+  setup();
+  document.addEventListener('astro:after-swap', setup);
+</script>

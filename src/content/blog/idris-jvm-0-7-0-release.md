@@ -1,5 +1,6 @@
 ---
 title: "Idris JVM 0.7.0 Release"
+description: "Happy to announce Idris JVM 0.7.0 release! In addition to enabling Idris 0.7.0 features for the JVM backend, this release also includes:"
 date: 2024-07-15
 tags: [Idris, JVM, Java]
 ---

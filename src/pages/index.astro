@@ -1,13 +1,30 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import PostListItem from '../components/PostListItem.astro';
-import { getSortedPosts } from '../utils/posts';
+import { getCollection } from 'astro:content';
+import BlogLayout from '../layouts/BlogLayout.astro';
+import Hero from '../components/Hero.astro';
+import PostList from '../components/PostList.astro';
+import Pagination from '../components/Pagination.astro';
+import { PAGE_SIZE } from '../consts';
+import { resolveCover } from './_imageStore';
 
-const posts = await getSortedPosts();
+const allPosts = await getCollection('blog');
+const sorted = allPosts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const totalPages = Math.ceil(sorted.length / PAGE_SIZE);
+const paginatedPosts = sorted.slice(0, PAGE_SIZE);
+
+const postData = paginatedPosts.map((p) => ({
+  ...p,
+  slug: p.id,
+  data: {
+    ...p.data,
+    cover: resolveCover('blog', p.id, p.data.cover),
+  },
+}));
 ---
-<BaseLayout>
-  <h1>Posts</h1>
-  <ul class="post-list">
-    {posts.map((post) => <PostListItem post={post} />)}
-  </ul>
-</BaseLayout>
+
+<BlogLayout>
+  <Hero />
+  <PostList posts={postData} showPinned />
+  <Pagination currentPage={1} totalPages={totalPages} baseUrl="/" />
+</BlogLayout>

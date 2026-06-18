@@ -1,52 +1,127 @@
 ---
-import BaseHead from '../components/BaseHead.astro';
-import {
-  SITE_TITLE,
-  SITE_TAGLINE,
-  SITE_DESCRIPTION,
-  AUTHOR,
-  GITHUB_USER,
-  TWITTER_USER,
-} from '../consts';
+import { ClientRouter } from 'astro:transitions';
+import { SITE_TITLE, SITE_AUTHOR, SITE_DESCRIPTION } from '../consts';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
 import '../styles/global.css';
 
 interface Props {
   title?: string;
   description?: string;
+  image?: string;
+  ogType?: string;
 }
 
-const { title, description = SITE_DESCRIPTION } = Astro.props;
-const pageTitle = title ? `${title} · ${SITE_TITLE}` : `${SITE_TITLE} — ${SITE_TAGLINE}`;
-const year = new Date().getUTCFullYear();
+const {
+  title,
+  description = SITE_DESCRIPTION,
+  image,
+  ogType = 'website',
+} = Astro.props;
+
+const pageTitle = title ? `${title} - ${SITE_TITLE}` : SITE_TITLE;
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
-    <BaseHead title={pageTitle} description={description} />
-  </head>
-  <body>
-    <header class="site-header">
-      <a class="brand" href="/">{SITE_TITLE}</a>
-      <span class="tagline">{SITE_TAGLINE}</span>
-      <nav class="site-nav">
-        <a href="/">Home</a>
-        <a href="/tags/">Tags</a>
-        <a href="/atom.xml">Feed</a>
-      </nav>
-    </header>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
 
-    <main>
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content={SITE_AUTHOR} />
+    <meta name="robots" content="index, follow" />
+
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:description" content={description} />
+    {image && <meta property="og:image" content={image} />}
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    {image && <meta name="twitter:image" content={image} />}
+
+    <link rel="alternate" type="application/rss+xml" title={SITE_TITLE} href="/rss.xml" />
+
+    <script is:inline>
+      (function() {
+        function getTheme() {
+          if (localStorage.theme === 'dark') return 'dark';
+          if (localStorage.theme === 'light') return 'light';
+          return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+
+        function applyTheme(theme) {
+          var root = document.documentElement;
+          root.classList.toggle('dark', theme === 'dark');
+          root.dataset.theme = theme;
+        }
+
+        applyTheme(getTheme());
+
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function() {
+          if (!('theme' in localStorage)) {
+            applyTheme(getTheme());
+          }
+        });
+
+        document.addEventListener('astro:after-swap', function() {
+          applyTheme(getTheme());
+        });
+
+        window.__applyTheme = applyTheme;
+        window.__getTheme = getTheme;
+      })();
+    </script>
+
+    <slot name="head" />
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <ClientRouter />
+    <Header />
+    <main class="flex-1">
       <slot />
     </main>
+    <Footer />
 
-    <footer class="site-footer">
-      <p>
-        &copy; {year} {AUTHOR} &middot;
-        <a href={`https://github.com/${GITHUB_USER}`}>GitHub</a> &middot;
-        <a href={`https://twitter.com/${TWITTER_USER}`}>Twitter</a> &middot;
-        <a href="/atom.xml">RSS</a>
-      </p>
-    </footer>
+    <script>
+      function initCopyButtons() {
+        document.querySelectorAll('pre').forEach((pre) => {
+          if (pre.parentElement?.classList.contains('code-block-wrapper')) return;
+
+          const copyBtn = document.createElement('button');
+          copyBtn.className = 'copy-btn';
+          copyBtn.title = 'Copy code';
+          copyBtn.innerHTML =
+            '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+
+          copyBtn.addEventListener('click', async () => {
+            const code = pre.querySelector('code')?.textContent || pre.textContent || '';
+            await navigator.clipboard.writeText(code);
+            copyBtn.classList.add('copied');
+            copyBtn.innerHTML =
+              '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+            setTimeout(() => {
+              copyBtn.classList.remove('copied');
+              copyBtn.innerHTML =
+                '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+            }, 2000);
+          });
+
+          const wrapper = document.createElement('div');
+          wrapper.className = 'code-block-wrapper';
+          pre.parentNode?.insertBefore(wrapper, pre);
+          wrapper.appendChild(pre);
+          wrapper.appendChild(copyBtn);
+        });
+      }
+
+      initCopyButtons();
+      document.addEventListener('astro:after-swap', initCopyButtons);
+    </script>
   </body>
 </html>
