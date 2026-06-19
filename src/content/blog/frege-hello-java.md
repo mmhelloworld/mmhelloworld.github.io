@@ -3,6 +3,7 @@ title: "Frege: Hello Java"
 description: "Here is a small code demonstrating Java interoperability in Frege:"
 date: 2013-07-10
 tags: [Frege, Java]
+categories: [Programming]
 ---
 
 Here is a small code demonstrating Java interoperability in Frege:

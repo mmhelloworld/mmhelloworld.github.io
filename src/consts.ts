@@ -16,6 +16,7 @@ export const NAV_ITEMS = [
 
 export const SOCIAL_LINKS = [
   { name: 'GitHub', href: 'https://github.com/mmhelloworld', icon: 'github' },
+  { name: 'LinkedIn', href: 'https://www.linkedin.com/in/marimuthu-madasamy/', icon: 'linkedin' },
   { name: 'RSS', href: '/rss.xml', icon: 'rss' },
 ];
 

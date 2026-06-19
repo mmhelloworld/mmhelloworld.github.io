@@ -42,22 +42,6 @@ function formatDate(d: Date) {
   transition:animate="fade"
 >
   <a href={`${routePrefix}${slug}`} class="block">
-    {cover ? (
-      <div class="aspect-[2/1] overflow-hidden">
-        <img
-          src={cover}
-          alt={title}
-          class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-          loading="lazy"
-        />
-      </div>
-    ) : (
-      <div class="aspect-[2/1] bg-gradient-to-br from-primary/10 via-primary/5 to-transparent flex items-center justify-center overflow-hidden">
-        <span class="text-4xl font-bold text-primary/20 group-hover:text-primary/30 transition-colors duration-500">
-          {title.charAt(0)}
-        </span>
-      </div>
-    )}
 
     <div class="p-5">
       <div class="flex items-center gap-2 mb-2">

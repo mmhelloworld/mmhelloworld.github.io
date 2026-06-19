@@ -1,7 +1,7 @@
 {
   "name": "mmhelloworld.github.io",
   "version": "1.0.0",
-  "description": "mmhelloworld blog — The Joy of Programming! (Astro + Sify theme)",
+  "description": "mmhelloworld blog — The Joy of Programming!",
   "type": "module",
   "private": true,
   "scripts": {

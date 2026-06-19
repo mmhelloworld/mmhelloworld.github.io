@@ -3,6 +3,7 @@ title: "Introducing Idris on the JVM and an Idris Android example"
 description: "Idris on the JVM! Yes, a dependently typed language on the JVM! I have been working on a JVM bytecode backend for Idris for the past few months and it is…"
 date: 2017-01-06
 tags: [Idris, JVM, Java, Android]
+categories: [Programming]
 ---
 
 [Idris on the JVM!](https://github.com/mmhelloworld/idris-jvm) Yes, a dependently typed language on the JVM!

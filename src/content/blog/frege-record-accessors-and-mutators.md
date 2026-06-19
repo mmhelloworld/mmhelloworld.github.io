@@ -3,6 +3,7 @@ title: "Frege: Record accessors and mutators"
 description: "Frege has built-in mechanism to access and mutate (non-destructive) record fields."
 date: 2014-03-15
 tags: [Frege]
+categories: [Programming]
 ---
 
 Frege has built-in mechanism to access and mutate (non-destructive) record fields.

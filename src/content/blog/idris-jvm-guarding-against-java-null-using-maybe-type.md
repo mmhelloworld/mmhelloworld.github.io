@@ -3,6 +3,7 @@ title: "Idris JVM: Guarding against Java null using Maybe type"
 description: "Idris JVM now helps avoiding nulls getting into Idris from FFI calls using Maybe type. FFI declarations can have Maybe type in any argument position or in…"
 date: 2017-01-10
 tags: [Idris, JVM, Java]
+categories: [Programming]
 ---
 
 Idris JVM now helps avoiding nulls getting into Idris from FFI calls using `Maybe` type.
