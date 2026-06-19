@@ -1,9 +1,16 @@
+import { readFileSync } from 'node:fs';
 import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
+
+// Idris 2 TextMate grammar (MIT, from j-nava/idris2-vscode). Shiki has no
+// built-in Idris grammar, so register this one and expose it as `idris`/`idris2`.
+const idris2Grammar = JSON.parse(
+  readFileSync(new URL('./src/grammars/idris2.tmLanguage.json', import.meta.url), 'utf-8')
+);
 
 // Preserve the old Jekyll/Octopress permalinks: redirect each historical
 // /blog/YYYY/MM/DD/slug/ URL to its new Sify /post/slug location.
@@ -42,6 +49,7 @@ export default defineConfig({
     shikiConfig: {
       theme: 'github-dark',
       wrap: true,
+      langs: [{ ...idris2Grammar, name: 'idris2', aliases: ['idris'] }],
     },
   },
 });

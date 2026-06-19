@@ -10,7 +10,7 @@ categories: [Programming]
 Idris JVM backend has supported foreign function calls for some time now. For example, to invoke `parseInt` method on 
 `java.lang.Integer` class,
 
-```haskell
+```idris
 invokeStatic (Class "java/lang/Integer") "parseInt" (String -> JVM_IO Int) "234" 
 ```
 
@@ -42,7 +42,7 @@ Before we look at some examples, first let's declare some class names as we are 
 we don't want to duplicate.
 
 
-```haskell
+```idris
 stringClass: String
 stringClass = "java/lang/String"
 
@@ -79,7 +79,7 @@ integerClass = "java/lang/Integer"
 
 And "import" some methods:
 
-```haskell
+```idris
 jdkimport [
     (systemClass, ["getProperty", "setProperty"]),
     (stringClass, ["substring", "CASE_INSENSITIVE_ORDER", "valueOf"]),
@@ -112,7 +112,7 @@ actually make FFI calls in the new way.
 ## Examples
 #### 1. Safe static method call
 
-```haskell
+```idris
 main : JVM_IO ()
 main = do
   exceptionOrInt <- (integerClass <.> "parseInt") "1234"
@@ -127,7 +127,7 @@ function, it will be a compilation error!
 
 #### 2. Unsafe static method call
 
-```haskell
+```idris
   do
     number <- (integerClass <.!> "parseInt") "23"
     printLn number
@@ -141,7 +141,7 @@ calls but as the name indicates, it would fail at runtime if null is returned or
 We can pick which overloaded variant we want to use by passing appropriate types to the foreign function and 
 the FFI call will automatically have corresponding types.
 
-```haskell
+```idris
 printLn !((stringClass <.!> "valueOf(double)") 2.5)
 printLn !((stringClass <.!> "valueOf(char)") 'H')
 ```
@@ -149,7 +149,7 @@ The first function takes an Idris `Double` and the second function takes Idris `
 functions to resolve overloading are JVM types.
 
 #### 4. Safe instance method
-```haskell
+```idris
   do
     s <- (stringClass <.> "substring(int)") "Foobar" 1
     putStrLn !(either throw (pure . show) s) 
@@ -165,7 +165,7 @@ overall type is in `Either`.
 
 #### 5. Exception handling
 
-```haskell
+```idris
 do
   propValue <- try ((systemClass <.> "getProperty(?java/lang/String)") Nothing) [
     ([catch IllegalArgumentExceptionClass, catch NullPointerExceptionClass], \t =>
@@ -189,7 +189,7 @@ for all non fatal errors similar to Scala's
 
 #### 6. Constructors
 
-```haskell
+```idris
 do
   arrayList1 <- (arrayListClass <.> "<init>(int)") 10
   putStrLn !(either throw toString arrayList1)
@@ -203,7 +203,7 @@ specifying the foreign type. Constructors can also be invoked in a safe or unsaf
 null, when invoked in a safe way, the result type will only be in `Either` and not wrapped in a `Maybe`.
 
 #### 7. Fields
-```haskell
+```idris
 do
   -- static field getter
   caseInsensitiveComparator <- stringClass <.#!> "CASE_INSENSITIVE_ORDER"

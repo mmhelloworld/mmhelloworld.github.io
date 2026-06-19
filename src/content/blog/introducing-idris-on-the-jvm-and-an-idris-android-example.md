@@ -13,7 +13,7 @@ In this post, we will see how Idris works on the JVM and an example Android prog
 
 ## Hello World
 
-```haskell
+```idris
 module Main
 
 main : IO ()
@@ -69,7 +69,7 @@ Let's look at the following examples.
 
 ##### self-recursion example
 
-```haskell
+```idris
 module Main
 
 import IdrisJvm.IO
@@ -167,7 +167,7 @@ actually calling the function.
 
 ##### Mutual recursion example:
 
-```haskell
+```idris
 module Main
 
 mutual
@@ -249,7 +249,7 @@ To demonstrate these features, let's create an Android application In Idris.
 
 ### An Android application in Idris
 
-```haskell
+```idris
 module Main
 
 import IdrisJvm.IO

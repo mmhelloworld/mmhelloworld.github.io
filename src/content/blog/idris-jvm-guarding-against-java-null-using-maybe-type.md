@@ -12,7 +12,7 @@ FFI declarations can have `Maybe` type in any argument position or in the return
 ## Handling `null` from FFI call
 
 
-``` haskell
+```idris
 getProperty : String -> JVM_IO (Maybe String)
 getProperty = invokeStatic SystemClass "getProperty" (String -> JVM_IO (Maybe String))
 ```
@@ -25,7 +25,7 @@ otherwise the value is wrapped in `Just`.
 
 ###### Example
 
-```haskell
+```idris
 module Main
 
 import IdrisJvm.IO
@@ -48,7 +48,7 @@ Just "hello"
 
 ## Passing `Maybe` values for nullable values in FFI calls
 
-``` haskell
+```idris
 module Main
 
 import IdrisJvm.IO

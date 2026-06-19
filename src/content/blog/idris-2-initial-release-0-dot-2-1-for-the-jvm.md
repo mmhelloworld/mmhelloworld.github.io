@@ -27,7 +27,7 @@ There is now an initial version for Idris 2 - 0.2.1 for the JVM. This is compile
 * Copy `.idris2` directory containing Idris 0.2.1 packages into your home directory.
 
 ## To compile and run:
-```haskell
+```idris
 module Main
 
 data Tree a = Leaf

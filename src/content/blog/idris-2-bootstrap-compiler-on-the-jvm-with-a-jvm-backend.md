@@ -8,7 +8,7 @@ categories: [Programming]
 
 I am excited to announce that Idris 2 bootstrap compiler can now run on the JVM along with a JVM backend. Here is a REPL session:
 
-```haskell
+```idris
 $ idris2
      ____    __     _         ___                                           
     /  _/___/ /____(_)____   |__ \                                          
@@ -51,7 +51,7 @@ Currently, the goal for this bootstrap compiler is to be able to compile current
 
 ### Example
 
-```haskell
+```idris
 module Main
 
 import System.FFI
@@ -169,7 +169,7 @@ Here since the tail call is not to itself, function call is turned into a thunk 
 
 Now let's look at FFI calls in the above example. `jvmStringLength` function is an example for Java FFI instance method call. It calls `length` function on Java's `java.lang.String` instance. Similarly `intToBinaryString` calls `toBinaryString` static function on class `java.lang.Integer`. Function name starting with a dot denotes an instance method call differentiating it from a static method call. Precise types can also be passed explicitly as in the example below with argument types and return type (full code [here](https://github.com/mmhelloworld/Idris2-boot/blob/master/libs/base/System/File.idr#L37)).
 
-```haskell
+```idris
 %foreign jvm' fileClass "getLine" fileClass "String"
 prim__readLine : FilePtr -> PrimIO (Ptr String)
 ```

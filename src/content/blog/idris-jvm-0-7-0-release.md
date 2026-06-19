@@ -18,7 +18,7 @@ Documentation with examples that explain calling Idris functions from Java is av
 
 Here is a complete example in Idris and Java for demonstration:
 
-```haskell
+```idris
 
   module Main
 
