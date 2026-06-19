@@ -36,7 +36,7 @@ const allTags = Array.from(tagMap.entries()).sort((a, b) => b[1] - a[1]);
 
 const TAG_LIMIT = 15;
 
-// Group posts by year for the sidebar archive tree (newest year first; posts
+// Group posts by year for the sidebar posts tree (newest year first; posts
 // within a year stay newest-first since sortedPosts is already date-desc).
 const postsByYear = new Map<number, typeof sortedPosts>();
 for (const post of sortedPosts) {
