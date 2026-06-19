@@ -5,14 +5,14 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --color-primary: #e9536a;
-  --color-primary-light: #f2a0ae;
-  --color-primary-dark: #c53050;
+  --color-primary: #3b82f6;
+  --color-primary-light: #60a5fa;
+  --color-primary-dark: #2563eb;
 
   --color-bg-light: #f5f5f5;
-  --color-bg-dark: #1a1a2e;
+  --color-bg-dark: #0a0a0a;
   --color-card-light: #ffffff;
-  --color-card-dark: #1e2a45;
+  --color-card-dark: #161616;
 
   --font-family-sans: 'Inter', 'Noto Sans SC', -apple-system, 'Segoe UI',
     Roboto, sans-serif;
@@ -30,10 +30,10 @@
 
 :root.dark {
   --color-text: #e8e8e8;
-  --color-text-secondary: #999999;
-  --color-bg: #1a1a2e;
-  --color-card: #1e2a45;
-  --color-border: #2a2a4a;
+  --color-text-secondary: #9ca3af;
+  --color-bg: #0a0a0a;
+  --color-card: #161616;
+  --color-border: #2a2a2a;
   color-scheme: dark;
 }
 
@@ -79,7 +79,7 @@ html {
   --tw-prose-counters: var(--color-text-secondary);
   --tw-prose-bullets: var(--color-primary);
   --tw-prose-hr: var(--color-border);
-  --tw-prose-pre-bg: #1e1e2e;
+  --tw-prose-pre-bg: #161616;
   --tw-prose-th-borders: var(--color-border);
   --tw-prose-td-borders: var(--color-border);
   max-width: none;

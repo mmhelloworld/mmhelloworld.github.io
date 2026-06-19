@@ -52,7 +52,8 @@ const pageTitle = title ? `${title} - ${SITE_TITLE}` : SITE_TITLE;
         function getTheme() {
           if (localStorage.theme === 'dark') return 'dark';
           if (localStorage.theme === 'light') return 'light';
-          return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+          // Default to the black-based dark theme unless the user explicitly picks light.
+          return 'dark';
         }
 
         function applyTheme(theme) {
