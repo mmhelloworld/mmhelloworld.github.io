@@ -28,7 +28,7 @@ npm run preview    # preview the production build
 - `src/consts.ts` — site metadata, nav, social links, and giscus config.
 - `src/components/`, `src/layouts/`, `src/styles/global.css` — theme (Tailwind v4).
 - `public/` — static assets served at the site root (`/images`, `/downloads`, favicons).
-- `.github/workflows/deploy.yml` — builds and publishes to GitHub Pages on push to `master`.
+- `.github/workflows/deploy.yml` — builds and publishes to GitHub Pages on push to `main`.
 
 ## Adding a post
 
@@ -54,5 +54,7 @@ in `src/consts.ts` (comments stay hidden until configured). Old Disqus threads a
 
 ## Deployment
 
-On push to `master`, GitHub Actions builds the site and deploys it to GitHub Pages.
+On push to `main`, GitHub Actions builds the site and deploys it to GitHub Pages.
 Repo **Settings → Pages → Source** must be set to **GitHub Actions**.
+
+The previous Octopress-generated site is preserved on the `octopress-legacy` branch for reference.
