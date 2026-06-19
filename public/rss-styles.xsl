@@ -105,7 +105,7 @@
           <p><xsl:value-of select="/rss/channel/description" /></p>
           <div class="pill">RSS Feed</div>
           <div class="meta">
-            <xsl:value-of select="count(/rss/channel/item)" /> 篇文章 •
+            <xsl:value-of select="count(/rss/channel/item)" /> posts •
             <xsl:value-of select="/rss/channel/lastBuildDate" />
           </div>
         </div>
@@ -130,21 +130,21 @@
               </div>
             </xsl:if>
             <div class="link-row">
-              <a href="{link}">阅读全文 →</a>
+              <a href="{link}">Read more →</a>
             </div>
           </div>
         </xsl:for-each>
 
         <div class="footer">
           <p>
-            <xsl:value-of select="count(/rss/channel/item)" /> 篇文章 ·
+            <xsl:value-of select="count(/rss/channel/item)" /> posts ·
             <a>
               <xsl:attribute name="href"><xsl:value-of select="/rss/channel/link" /></xsl:attribute>
               <xsl:value-of select="/rss/channel/title" />
             </a>
           </p>
           <p style="margin-top:6px">
-            通过 <a href="https://aboutfeeds.com" target="_blank" rel="noopener">RSS 阅读器</a> 订阅本博客
+            Subscribe with an <a href="https://aboutfeeds.com" target="_blank" rel="noopener">RSS reader</a>
           </p>
         </div>
       </body>

@@ -1,16 +1,10 @@
 ---
 import {getCollection} from 'astro:content';
-import {SITE_TITLE, NAV_ITEMS} from '../consts';
-import {getWordCount} from '../utils/readingTime';
+import {NAV_ITEMS} from '../consts';
 import {SITE_AUTHOR} from "../consts.ts";
 
 const allBlogPosts = await getCollection('blog');
 const totalArticles = allBlogPosts.length;
-
-let totalWords = 0;
-for (const post of allBlogPosts) {
-  totalWords += getWordCount(post.body || '');
-}
 
 const currentYear = new Date().getFullYear();
 const startYear = 2013;
@@ -19,18 +13,12 @@ const startYear = 2013;
 <footer class="border-t border-gray-200/50 dark:border-gray-700/50 mt-16">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
         <div class="flex flex-wrap items-center justify-center gap-6 text-sm text-gray-400 dark:text-gray-500 mb-6">
-            <span>{Math.round(totalWords / 1000)}k words</span>
-            <span class="w-px h-3 bg-gray-300 dark:bg-gray-600"></span>
             <span>{totalArticles} posts</span>
         </div>
 
         <div class="flex flex-col sm:flex-row items-center justify-center gap-4 text-sm text-gray-500 dark:text-gray-400">
             <span>&copy; {startYear}{currentYear > startYear ? ` - ${currentYear}` : ''} <a
                     class="text-primary hover:underline" href="https://github.com/mmhelloworld">{SITE_AUTHOR}</a></span>
-            <span class="hidden sm:inline text-gray-300 dark:text-gray-600">|</span>
-            <span>
-        Powered by <a href="https://astro.build" class="text-primary hover:underline">Astro</a> & <a href="https://tailwindcss.com/" class="text-cyan-500 hover:underline">Tailwind</a>, theme <a href="https://github.com/santisify/astro-theme-sify" class="hover:underline">Sify</a>
-      </span>
         </div>
 
         <div class="flex items-center justify-center gap-4 mt-4 text-xs text-gray-400 dark:text-gray-500">

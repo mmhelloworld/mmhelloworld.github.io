@@ -6,14 +6,12 @@ import {getWordCount, getReadingTime} from '../utils/readingTime';
 const allBlogPosts = await getCollection('blog');
 const sorted = allBlogPosts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 
-let totalWords = 0;
 let totalMinutes = 0;
 
 const categorySet = new Set<string>();
 const tagSet = new Set<string>();
 
 for (const post of sorted) {
-    totalWords += getWordCount(post.body || '');
     totalMinutes += getReadingTime(post.body || '');
     if (post.data.category) {
         const rootCat = post.data.category.split('/')[0];
