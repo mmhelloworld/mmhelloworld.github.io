@@ -1,10 +1,9 @@
 import { buildFeed, withStylesheet } from '../utils/feed';
 
-// RSS 2.0 alias of the primary Atom feed (/atom.xml).
 export async function GET(context: { site: URL }) {
   const feed = await buildFeed(context.site);
-  const xml = withStylesheet(feed.rss2(), '/rss-styles.xsl');
+  const xml = withStylesheet(feed.atom1(), '/atom-styles.xsl');
   return new Response(xml, {
-    headers: { 'Content-Type': 'application/rss+xml; charset=utf-8' },
+    headers: { 'Content-Type': 'application/atom+xml; charset=utf-8' },
   });
 }

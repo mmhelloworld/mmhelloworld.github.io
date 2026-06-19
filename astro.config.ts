@@ -31,8 +31,6 @@ const OLD_TO_NEW: Record<string, string> = {
   '/blog/2021/07/24/idris-2-initial-release-0-dot-2-1-for-the-jvm/':
     '/post/idris-2-initial-release-0-dot-2-1-for-the-jvm',
   '/blog/2024/07/15/idris-jvm-0-7-0-release/': '/post/idris-jvm-0-7-0-release',
-  // Old Jekyll feed path -> Sify feed path.
-  '/atom.xml': '/rss.xml',
 };
 
 export default defineConfig({

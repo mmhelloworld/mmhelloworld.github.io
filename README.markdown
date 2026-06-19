@@ -20,8 +20,11 @@ npm run preview    # preview the production build
   (bare `YYYY-MM-DD`), `tags`, optional `category`/`cover`/`draft`.
 - `src/pages/post/[...slug].astro` — posts are served at `/post/<slug>` (slug = filename).
 - `astro.config.ts` — `redirects` maps every old Jekyll URL (`/blog/YYYY/MM/DD/title/`) to its new
-  `/post/<slug>` location, and `/atom.xml` to `/rss.xml`, so existing links and feeds keep working.
-- `src/pages/rss.xml.ts` — RSS feed at `/rss.xml`.
+  `/post/<slug>` location, so existing links keep working.
+- Feeds: `/atom.xml` (Atom, primary — the original Jekyll feed path) and `/rss.xml` (RSS alias),
+  both with full post content, built from one source in `src/utils/feed.ts`
+  (`src/pages/atom.xml.ts` / `rss.xml.ts`). Browser-view stylesheets: `public/atom-styles.xsl`,
+  `public/rss-styles.xsl`.
 - `src/consts.ts` — site metadata, nav, social links, and giscus config.
 - `src/components/`, `src/layouts/`, `src/styles/global.css` — theme (Tailwind v4).
 - `public/` — static assets served at the site root (`/images`, `/downloads`, favicons).
