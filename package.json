@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.16",
-    "katex": "^0.17.0",
+    "katex": "^0.18.2",
     "typescript": "^5.5.0"
   }
 }
